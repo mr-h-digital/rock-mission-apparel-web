@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { PRODUCTS } from '../data/products.js'
 import ProductCard from '../components/ProductCard.jsx'
+import logoFull from '../assets/logos/kingdom-drip-logo.png'
 
 export default function Home() {
   const featured = PRODUCTS.slice(0, 4)
@@ -9,6 +10,12 @@ export default function Home() {
     <div>
       <section className="relative overflow-hidden border-b border-apparel-border bg-hero-radial">
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-4 py-24 sm:px-6 sm:py-32">
+          <img
+            src={logoFull}
+            alt="Kingdom Drip"
+            className="h-14 w-auto rounded-lg border border-apparel-border/70 bg-apparel-bg/40 p-1.5 sm:h-16"
+            loading="eager"
+          />
           <span className="rounded-full border border-apparel-teal/40 bg-apparel-panel px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-apparel-teal">
             Cape Town · South Africa
           </span>
