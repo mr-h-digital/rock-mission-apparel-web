@@ -29,11 +29,16 @@ inline notice until it's connected to a live API.
 
 ## Deploy
 
-```bash
-npm run deploy   # builds and publishes dist/ to the gh-pages branch
-```
+Hosted on **Netlify** (not GitHub Pages — GitHub's Pages terms prohibit using it for a site "primarily directed at
+facilitating commercial transactions," which this is). Netlify's free tier explicitly permits commercial use.
 
-Point a custom subdomain (e.g. `shop.rockmission.co.za`) at GitHub Pages, same pattern as `learn.rockmission.co.za`.
+Connect the repo in Netlify ("Add new site → Import from GitHub"); it auto-detects the Vite build via
+`netlify.toml` (build command `npm run build`, publish directory `dist`), including the SPA redirect rule so
+client-side routes like `/shop` or `/checkout` don't 404 on a direct visit or refresh. Every push to the connected
+branch triggers a new deploy automatically — no manual deploy step needed.
+
+Point the custom subdomain (`shop.rockmission.co.za`) at the site in Netlify's domain settings, then add the DNS
+record Netlify gives you at wherever `rockmission.co.za`'s DNS is managed.
 
 ## Catalog
 
