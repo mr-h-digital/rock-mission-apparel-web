@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# React Router client-side routes (e.g. /shop, /product/:id, /checkout) don't
+# exist as real files, so without this, a direct visit or refresh on any of
+# them would 404 - Netlify needs to be told to always serve index.html and
+# let the SPA's router take over.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
