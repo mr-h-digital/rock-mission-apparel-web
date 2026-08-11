@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input {
+    @apply w-full rounded-lg border border-apparel-border bg-apparel-bg px-4 py-3 text-sm text-apparel-cream placeholder:text-apparel-muted focus:border-apparel-teal focus:outline-none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0c0e16;
+}
+
+::selection {
+  background: #ff2fa5;
+  color: #0c0e16;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee-scroll 22s linear infinite;
+}
+
+.text-outline {
+  -webkit-text-stroke: 2px rgba(247, 251, 255, 0.35);
+  color: transparent;
+}
