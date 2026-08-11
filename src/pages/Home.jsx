@@ -76,7 +76,7 @@ export default function Home() {
               Every Purchase Is An Outreach Project.
             </h2>
             <p className="mt-4 text-apparel-muted">
-              Rock Mission Apparel exists because clothes shouldn't be silent. We design faith-forward streetwear
+                Kingdom Drip exists because clothes shouldn't be silent. We design faith-forward streetwear
               that's actually cool to wear — and every rand of profit goes straight back into Rock Mission
               Ministries' work on the Cape Flats: feeding families, mentoring youth, and sharing the Gospel where
               it's needed most.

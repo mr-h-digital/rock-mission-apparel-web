@@ -1,4 +1,4 @@
-# Rock Mission Apparel — Storefront
+# Kingdom Drip — Storefront
 
 Bold, faith-based streetwear storefront for **Rock Mission Ministries**. Hoodies, tees, hats and accessories for a
 generation unashamed of the Gospel — every purchase funds the ministry's outreach on the Cape Flats, Cape Town.
