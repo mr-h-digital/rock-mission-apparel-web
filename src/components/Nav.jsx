@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
+import logoWhiteText from '../assets/logos/kingdom-drip-logo-transparent-bg-white-text.png'
 
 const linkClass = ({ isActive }) =>
   `text-sm font-semibold tracking-wide uppercase transition-colors ${
@@ -22,8 +23,13 @@ export default function Nav() {
         </div>
       </div>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-        <Link to="/" className="font-display text-2xl tracking-wide">
-          KINGDOM<span className="text-apparel-pink">.</span>DRIP
+        <Link to="/" className="inline-flex items-center" aria-label="Kingdom Drip Home">
+          <img
+            src={logoWhiteText}
+            alt="Kingdom Drip"
+            className="h-10 w-auto sm:h-12"
+            loading="eager"
+          />
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
           <NavLink to="/" end className={linkClass}>Home</NavLink>

@@ -1,12 +1,12 @@
+import logoWhiteText from '../assets/logos/kingdom-drip-logo-transparent-bg-white-text.png'
+
 export default function Footer() {
   return (
     <footer className="border-t border-apparel-border bg-apparel-panel">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-2">
-            <div className="font-display text-2xl tracking-wide">
-              KINGDOM<span className="text-apparel-pink">.</span>DRIP
-            </div>
+            <img src={logoWhiteText} alt="Kingdom Drip" className="h-10 w-auto" loading="lazy" />
             <p className="mt-3 max-w-sm text-sm text-apparel-muted">
               Bold, faith-based streetwear built for a generation unashamed of the Gospel. Kingdom Drip is run by
               Rock Mission Ministries, a registered non-profit — proceeds fund outreach across the Cape Flats,
