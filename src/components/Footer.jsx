@@ -4,11 +4,13 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-2">
-            <div className="font-display text-2xl tracking-wide">
-              ROCK<span className="text-apparel-pink">.</span>APPAREL
-            </div>
+            <img
+              src="/brand/kingdom-drip-logo-transparent-bg-white-text.png"
+              alt="Kingdom Drip"
+              className="h-12 w-auto"
+            />
             <p className="mt-3 max-w-sm text-sm text-apparel-muted">
-              Bold, faith-based streetwear built for a generation unashamed of the Gospel. Rock Mission Apparel is
+              Bold, faith-based streetwear built for a generation unashamed of the Gospel. Kingdom Drip is
               run by Rock Mission Ministries, a registered non-profit — proceeds fund outreach across the Cape
               Flats, Cape Town.
             </p>
@@ -32,7 +34,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-apparel-border pt-6 text-xs text-apparel-muted sm:flex-row">
-          <span>© {new Date().getFullYear()} Rock Mission Apparel — a Rock Mission Ministries NPC project, Cape Town, South Africa</span>
+          <span>© {new Date().getFullYear()} Kingdom Drip — a Rock Mission Ministries NPC project, Cape Town, South Africa</span>
         </div>
       </div>
     </footer>
