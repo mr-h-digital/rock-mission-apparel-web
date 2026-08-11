@@ -1,7 +1,8 @@
 # Kingdom Drip — Storefront
 
-Bold, faith-based streetwear storefront for **Rock Mission Ministries**. Hoodies, tees, hats and accessories for a
-generation unashamed of the Gospel — every purchase funds the ministry's outreach on the Cape Flats, Cape Town.
+Bold, faith-based streetwear storefront for **Rock Mission Ministries**, trading as **Kingdom Drip**. Hoodies,
+tees, hats and accessories for a generation unashamed of the Gospel — every purchase funds the ministry's
+outreach on the Cape Flats, Cape Town.
 
 Built with React + Vite + Tailwind CSS, mirroring the tooling used in
 [`rock-mission-learn-web`](https://github.com/mr-h-digital/rock-mission-learn-web).

@@ -13,10 +13,9 @@ export default function Home() {
             Cape Town · South Africa
           </span>
           <h1 className="font-display text-6xl leading-[0.95] tracking-wide sm:text-8xl">
-            WEAR YOUR<br />
-            <span className="bg-grad-drop bg-clip-text text-transparent">FAITH.</span><br />
-            FUND THE<br />
-            <span className="text-outline">MISSION.</span>
+            GOT THAT<br />
+            <span className="bg-grad-drop bg-clip-text text-transparent">KINGDOM</span><br />
+            <span className="text-outline">DRIP.</span>
           </h1>
           <p className="max-w-xl text-lg text-apparel-muted">
             Bold, modern streetwear for a generation unashamed of the Gospel. Every hoodie, tee, cap and sticker
@@ -76,7 +75,7 @@ export default function Home() {
               Every Purchase Is An Outreach Project.
             </h2>
             <p className="mt-4 text-apparel-muted">
-                Kingdom Drip exists because clothes shouldn't be silent. We design faith-forward streetwear
+              Kingdom Drip exists because clothes shouldn't be silent. We design faith-forward streetwear
               that's actually cool to wear — and every rand of profit goes straight back into Rock Mission
               Ministries' work on the Cape Flats: feeding families, mentoring youth, and sharing the Gospel where
               it's needed most.
