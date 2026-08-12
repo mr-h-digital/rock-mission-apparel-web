@@ -99,17 +99,17 @@ export default function Nav() {
           >
             <span className="sr-only">Toggle menu</span>
             <span
-              className={`absolute h-0.5 w-5 bg-current transition-transform duration-300 ${
+              className={`absolute h-0.5 w-5 bg-current transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                 isMobileMenuOpen ? 'translate-y-0 rotate-45' : '-translate-y-1.5 rotate-0'
               }`}
             />
             <span
-              className={`absolute h-0.5 w-5 bg-current transition-opacity duration-200 ${
+              className={`absolute h-0.5 w-5 bg-current transition-opacity duration-250 ease-out ${
                 isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
               }`}
             />
             <span
-              className={`absolute h-0.5 w-5 bg-current transition-transform duration-300 ${
+              className={`absolute h-0.5 w-5 bg-current transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                 isMobileMenuOpen ? 'translate-y-0 -rotate-45' : 'translate-y-1.5 rotate-0'
               }`}
             />
@@ -143,13 +143,13 @@ export default function Nav() {
         onClick={closeMobileMenu}
       >
         <div
-          className={`absolute inset-0 bg-apparel-bg/95 backdrop-blur-lg transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-apparel-bg/95 backdrop-blur-lg transition-opacity duration-400 ease-out ${
             isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
         />
         <div
-          className={`relative flex h-full flex-col px-6 pb-10 pt-24 transition-all duration-300 ${
-            isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0'
+          className={`relative flex h-full flex-col px-6 pb-10 pt-24 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           }`}
           onClick={(event) => event.stopPropagation()}
         >
@@ -159,10 +159,10 @@ export default function Nav() {
                 key={link.to}
                 to={link.to}
                 end={link.end}
-                className={`text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-300 ${
-                  isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
+                className={`text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
                 }`}
-                style={{ transitionDelay: `${index * 70}ms` }}
+                style={{ transitionDelay: isMobileMenuOpen ? `${index * 85}ms` : '0ms' }}
                 onClick={closeMobileMenu}
               >
                 {link.label}
@@ -172,10 +172,10 @@ export default function Nav() {
               href="https://rockmission.co.za"
               target="_blank"
               rel="noopener noreferrer"
-              className={`text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-300 ${
-                isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
+              className={`text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
               }`}
-              style={{ transitionDelay: '210ms' }}
+              style={{ transitionDelay: isMobileMenuOpen ? '255ms' : '0ms' }}
               onClick={closeMobileMenu}
             >
               The Mission
