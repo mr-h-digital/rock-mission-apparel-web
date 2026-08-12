@@ -20,6 +20,8 @@ export default function Footer() {
               <li><a href="/shop?category=Hoodies" className="hover:text-apparel-cream">Hoodies</a></li>
               <li><a href="/shop?category=Tees" className="hover:text-apparel-cream">Tees</a></li>
               <li><a href="/shop?category=Hats" className="hover:text-apparel-cream">Hats</a></li>
+              <li><a href="/sign-in" className="hover:text-apparel-cream">Sign In</a></li>
+              <li><a href="/sign-up" className="hover:text-apparel-cream">Create Account</a></li>
             </ul>
           </div>
           <div>
