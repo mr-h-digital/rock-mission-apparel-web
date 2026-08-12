@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { getProductById } from '../data/products.js'
+import { useProducts } from './ProductsContext.jsx'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'rm-apparel-cart'
@@ -9,6 +10,7 @@ function lineKey(productId, size, color) {
 }
 
 export function CartProvider({ children }) {
+  const { products } = useProducts()
   const [lines, setLines] = useState(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
@@ -51,12 +53,12 @@ export function CartProvider({ children }) {
     () =>
       lines
         .map((l) => {
-          const product = getProductById(l.productId)
+          const product = products.find((p) => p.id === l.productId) || getProductById(l.productId)
           if (!product) return null
           return { ...l, product }
         })
         .filter(Boolean),
-    [lines],
+    [lines, products],
   )
 
   const itemCount = useMemo(() => items.reduce((sum, i) => sum + i.qty, 0), [items])

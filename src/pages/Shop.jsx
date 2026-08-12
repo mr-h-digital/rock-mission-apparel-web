@@ -1,18 +1,19 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { CATEGORIES, PRODUCTS } from '../data/products.js'
 import ProductCard from '../components/ProductCard.jsx'
 import CategoryChips from '../components/CategoryChips.jsx'
 import SeoHead from '../components/SeoHead.jsx'
+import { useProducts } from '../context/ProductsContext.jsx'
 
 export default function Shop() {
+  const { products, categories, loading, error } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
   const urlCategory = searchParams.get('category')
-  const [active, setActive] = useState(CATEGORIES.includes(urlCategory) ? urlCategory : null)
+  const [active, setActive] = useState(categories.includes(urlCategory) ? urlCategory : null)
 
   const filtered = useMemo(
-    () => (active ? PRODUCTS.filter((p) => p.category === active) : PRODUCTS),
-    [active],
+    () => (active ? products.filter((p) => p.category === active) : products),
+    [active, products],
   )
 
   function handleChange(category) {
@@ -33,8 +34,10 @@ export default function Shop() {
         <h1 className="mt-2 font-display text-5xl tracking-wide sm:text-6xl">Shop</h1>
       </div>
       <div className="mb-8">
-        <CategoryChips categories={CATEGORIES} active={active} onChange={handleChange} />
+        <CategoryChips categories={categories} active={active} onChange={handleChange} />
       </div>
+      {loading && <p className="mb-6 text-sm text-apparel-muted">Loading products...</p>}
+      {error && <p className="mb-6 text-sm font-semibold text-apparel-pink">{error}</p>}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {filtered.map((p) => (
           <ProductCard key={p.id} product={p} />

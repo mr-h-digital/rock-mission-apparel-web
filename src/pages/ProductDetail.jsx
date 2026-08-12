@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProductById } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
+import { useProducts } from '../context/ProductsContext.jsx'
 import { ART_CLASSES } from '../lib/artClasses.js'
 import SeoHead from '../components/SeoHead.jsx'
 
@@ -10,7 +11,8 @@ const SITE_URL = 'https://shop.rockmission.co.za'
 export default function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const product = getProductById(id)
+  const { products } = useProducts()
+  const product = products.find((p) => p.id === id) || getProductById(id)
   const { addItem } = useCart()
 
   const [size, setSize] = useState(product?.sizes[0] ?? '')
@@ -88,11 +90,17 @@ export default function ProductDetail() {
         ← Back to Shop
       </Link>
       <div className="mt-6 grid gap-10 md:grid-cols-2">
-        <div className={`flex aspect-square items-center justify-center rounded-3xl ${ART_CLASSES[product.art]} p-10`}>
-          <span className="text-center font-display text-6xl leading-none tracking-wide text-apparel-bg drop-shadow-sm">
-            {product.word}
-          </span>
-        </div>
+        {product.imageUrl ? (
+          <div className="overflow-hidden rounded-3xl border border-apparel-border bg-apparel-panel">
+            <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover" />
+          </div>
+        ) : (
+          <div className={`flex aspect-square items-center justify-center rounded-3xl ${ART_CLASSES[product.art] || 'bg-grad-drop'} p-10`}>
+            <span className="text-center font-display text-6xl leading-none tracking-wide text-apparel-bg drop-shadow-sm">
+              {product.word}
+            </span>
+          </div>
+        )}
         <div>
           <span className="text-xs font-bold uppercase tracking-widest text-apparel-teal">{product.category}</span>
           <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">{product.name}</h1>

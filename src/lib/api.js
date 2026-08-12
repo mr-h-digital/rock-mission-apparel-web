@@ -7,6 +7,7 @@ const AUTH_UPDATE_PROFILE_PATH = import.meta.env.VITE_AUTH_UPDATE_PROFILE_PATH |
 const AUTH_FORGOT_PASSWORD_PATH = import.meta.env.VITE_AUTH_FORGOT_PASSWORD_PATH || '/api/auth/forgot-password'
 const AUTH_RESET_PASSWORD_PATH = import.meta.env.VITE_AUTH_RESET_PASSWORD_PATH || '/api/auth/reset-password'
 const AUTH_FORGOT_USERNAME_PATH = import.meta.env.VITE_AUTH_FORGOT_USERNAME_PATH || '/api/auth/forgot-username'
+const ADMIN_PRODUCTS_PATH = import.meta.env.VITE_ADMIN_PRODUCTS_PATH || '/api/admin/products'
 
 function getErrorMessage(status, fallback, bodyText) {
   if (bodyText) return bodyText
@@ -217,4 +218,108 @@ export async function getOrderStatus(orderId) {
   }
 
   return res.json()
+}
+
+export async function listProducts() {
+  if (!API_URL) {
+    throw new Error('Products are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}/api/products`, { method: 'GET' })
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to load products', text))
+  }
+  return res.json()
+}
+
+export async function getProduct(productId) {
+  if (!API_URL) {
+    throw new Error('Products are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}/api/products/${productId}`, { method: 'GET' })
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to load product', text))
+  }
+  return res.json()
+}
+
+export async function listAdminProducts(token) {
+  if (!API_URL || !token) {
+    throw new Error('Admin products are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${ADMIN_PRODUCTS_PATH}`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to load admin products', text))
+  }
+
+  return res.json()
+}
+
+export async function createAdminProduct(token, payload) {
+  if (!API_URL || !token) {
+    throw new Error('Admin products are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${ADMIN_PRODUCTS_PATH}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to create product', text))
+  }
+
+  return res.json()
+}
+
+export async function updateAdminProduct(token, productId, payload) {
+  if (!API_URL || !token) {
+    throw new Error('Admin products are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${ADMIN_PRODUCTS_PATH}/${productId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to update product', text))
+  }
+
+  return res.json()
+}
+
+export async function deleteAdminProduct(token, productId) {
+  if (!API_URL || !token) {
+    throw new Error('Admin products are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${ADMIN_PRODUCTS_PATH}/${productId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to delete product', text))
+  }
 }
