@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -27,6 +27,24 @@ export default function Checkout() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const formRef = useRef(null)
+
+  useEffect(() => {
+    if (!user) return
+
+    setForm((prev) => ({
+      ...prev,
+      firstName: user.firstName || prev.firstName,
+      lastName: user.lastName || prev.lastName,
+      email: user.email || prev.email,
+      phone: user.phone || prev.phone,
+      addressLine1: user.addressLine1 || prev.addressLine1,
+      addressLine2: user.addressLine2 || prev.addressLine2,
+      city: user.city || prev.city,
+      province: user.province || prev.province,
+      postalCode: user.postalCode || prev.postalCode,
+      country: user.country || prev.country,
+    }))
+  }, [user])
 
   if (items.length === 0) {
     return <Navigate to="/cart" replace />

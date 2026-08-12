@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { getCurrentUser, loginUser, registerUser } from '../lib/api.js'
+import { getCurrentUser, loginUser, registerUser, updateCurrentUser } from '../lib/api.js'
 
 const STORAGE_KEY = 'kingdomdrip.auth'
 
@@ -82,6 +82,18 @@ export function AuthProvider({ children }) {
     return next
   }
 
+  async function saveProfile(payload) {
+    if (!token) throw new Error('You must be signed in to update profile details.')
+
+    const updatedUser = await updateCurrentUser(token, payload)
+    setAuth((prev) => {
+      const next = { token: prev.token, user: updatedUser }
+      persistAuth(next)
+      return next
+    })
+    return updatedUser
+  }
+
   function signOut() {
     setAuth({ token: null, user: null })
     persistAuth(null)
@@ -94,6 +106,7 @@ export function AuthProvider({ children }) {
     isAuthenticated: Boolean(token),
     signUp,
     signIn,
+    saveProfile,
     signOut,
   }), [token, user, loading])
 
