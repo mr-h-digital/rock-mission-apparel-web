@@ -11,6 +11,9 @@ import OrderCancel from './pages/OrderCancel.jsx'
 import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Account from './pages/Account.jsx'
+import ForgotPassword from './pages/ForgotPassword.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
+import RecoverUsername from './pages/RecoverUsername.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 export default function App() {
@@ -28,6 +31,9 @@ export default function App() {
           <Route path="/order/cancel" element={<OrderCancel />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/recover-username" element={<RecoverUsername />} />
           <Route
             path="/account"
             element={(

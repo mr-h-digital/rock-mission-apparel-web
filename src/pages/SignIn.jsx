@@ -118,6 +118,14 @@ export default function SignIn() {
               Caps Lock is on
             </p>
           )}
+          <div className="mt-3 flex flex-wrap items-center gap-4 text-xs font-semibold uppercase tracking-wider">
+            <Link to="/forgot-password" className="text-apparel-teal hover:text-apparel-cream hover:underline">
+              Forgot password?
+            </Link>
+            <Link to="/recover-username" className="text-apparel-teal hover:text-apparel-cream hover:underline">
+              Recover username
+            </Link>
+          </div>
         </div>
 
         {error && <p className="text-sm font-semibold text-apparel-pink">{error}</p>}

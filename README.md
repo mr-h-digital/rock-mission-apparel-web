@@ -37,6 +37,9 @@ under `VITE_API_URL`:
 - `POST /api/auth/register`
 - `POST /api/auth/login`
 - `GET /api/auth/me` (Bearer token)
+- `POST /api/auth/forgot-password` (request reset link/token)
+- `POST /api/auth/reset-password` (set a new password)
+- `POST /api/auth/forgot-username` (optional: recover username/login ID)
 
 Expected auth response shape from register/login:
 
@@ -57,6 +60,9 @@ If your Railway API uses different paths, set:
 - `VITE_AUTH_REGISTER_PATH`
 - `VITE_AUTH_LOGIN_PATH`
 - `VITE_AUTH_ME_PATH`
+- `VITE_AUTH_FORGOT_PASSWORD_PATH`
+- `VITE_AUTH_RESET_PASSWORD_PATH`
+- `VITE_AUTH_FORGOT_USERNAME_PATH`
 
 ## Deploy
 
