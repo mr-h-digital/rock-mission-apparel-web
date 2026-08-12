@@ -29,6 +29,7 @@ body {
 .marquee-track {
   display: inline-flex;
   white-space: nowrap;
+  width: max-content;
   animation: marquee-scroll 22s linear infinite;
 }
 
