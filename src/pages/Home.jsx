@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
-import { PRODUCTS } from '../data/products.js'
 import ProductCard from '../components/ProductCard.jsx'
 import SeoHead from '../components/SeoHead.jsx'
 import logoFull from '../assets/logos/kingdom-drip-logo.png'
+import { useProducts } from '../context/ProductsContext.jsx'
 
 export default function Home() {
-  const featured = PRODUCTS.slice(0, 4)
+  const { products, loading, error } = useProducts()
+  const featured = products.slice(0, 4)
   const identityWords = ['REDEEMED', 'BOLD', 'CHOSEN', 'FEARLESS', 'KINGDOM', 'RESTORED']
 
   return (
@@ -96,6 +97,8 @@ export default function Home() {
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
+        {loading && <p className="mt-4 text-sm text-apparel-muted">Loading products...</p>}
+        {error && <p className="mt-4 text-sm font-semibold text-apparel-pink">{error}</p>}
       </section>
 
       <section className="border-y border-apparel-border bg-apparel-panel">

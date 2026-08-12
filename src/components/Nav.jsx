@@ -50,6 +50,7 @@ export default function Nav() {
     isAuthenticated
       ? { to: '/account', label: 'Account' }
       : { to: '/sign-in', label: 'Sign In' },
+    ...(isAuthenticated ? [{ to: '/admin/products', label: 'Admin' }] : []),
   ]
 
   return (
@@ -81,6 +82,7 @@ export default function Nav() {
           ) : (
             <NavLink to="/sign-in" className={linkClass}>Sign In</NavLink>
           )}
+          {isAuthenticated && <NavLink to="/admin/products" className={linkClass}>Admin</NavLink>}
           <a
             href="https://rockmission.co.za"
             target="_blank"
