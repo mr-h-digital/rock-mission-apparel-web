@@ -143,23 +143,28 @@ export default function Nav() {
         onClick={closeMobileMenu}
       >
         <div
-          className={`absolute inset-0 bg-apparel-bg/95 backdrop-blur-lg transition-opacity duration-400 ease-out ${
+          className={`absolute inset-0 bg-apparel-bg transition-opacity duration-400 ease-out ${
             isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
           }`}
         />
         <div
-          className={`relative flex h-full flex-col px-6 pb-10 pt-24 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(0,229,255,0.12),transparent_40%),radial-gradient(circle_at_90%_85%,rgba(255,47,165,0.12),transparent_38%)] transition-opacity duration-500 ease-out ${
+            isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+        <div
+          className={`relative flex h-full overflow-y-auto px-6 pb-10 pt-28 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           }`}
           onClick={(event) => event.stopPropagation()}
         >
-          <nav className="flex flex-1 flex-col items-start justify-center gap-8">
+          <nav className="mx-auto flex w-full max-w-md flex-1 flex-col items-start justify-center gap-5 rounded-3xl border border-apparel-border bg-apparel-panel/85 p-6 backdrop-blur">
             {mobileMenuLinks.map((link, index) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 end={link.end}
-                className={`text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                className={`w-full border-b border-apparel-border/70 pb-4 text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                   isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
                 }`}
                 style={{ transitionDelay: isMobileMenuOpen ? `${index * 85}ms` : '0ms' }}
@@ -172,7 +177,7 @@ export default function Nav() {
               href="https://rockmission.co.za"
               target="_blank"
               rel="noopener noreferrer"
-              className={`text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              className={`w-full text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                 isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
               }`}
               style={{ transitionDelay: isMobileMenuOpen ? '255ms' : '0ms' }}
