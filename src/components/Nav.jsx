@@ -11,17 +11,21 @@ const linkClass = ({ isActive }) =>
 export default function Nav() {
   const { itemCount } = useCart()
   const { isAuthenticated, signOut } = useAuth()
+  const tickerItems = [
+    'Free shipping over R850',
+    '100% of profit funds Rock Mission outreach',
+    'New drops monthly',
+  ]
 
   return (
     <header className="sticky top-0 z-40 border-b border-apparel-border bg-apparel-bg/90 backdrop-blur">
       <div className="marquee-bar overflow-hidden border-b border-apparel-border bg-apparel-panel/60 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-apparel-teal">
         <div className="marquee-track">
-          <span className="mx-6">Free shipping over R850</span>
-          <span className="mx-6">100% of profit funds Rock Mission outreach</span>
-          <span className="mx-6">New drops monthly</span>
-          <span className="mx-6">Free shipping over R850</span>
-          <span className="mx-6">100% of profit funds Rock Mission outreach</span>
-          <span className="mx-6">New drops monthly</span>
+          {Array(4).fill(0).map((_, loopIndex) => (
+            tickerItems.map((item, itemIndex) => (
+              <span key={`${loopIndex}-${itemIndex}`} className="mr-12 shrink-0">{item}</span>
+            ))
+          ))}
         </div>
       </div>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
