@@ -3,6 +3,9 @@ const API_URL = import.meta.env.VITE_API_URL
 const AUTH_REGISTER_PATH = import.meta.env.VITE_AUTH_REGISTER_PATH || '/api/auth/register'
 const AUTH_LOGIN_PATH = import.meta.env.VITE_AUTH_LOGIN_PATH || '/api/auth/login'
 const AUTH_ME_PATH = import.meta.env.VITE_AUTH_ME_PATH || '/api/auth/me'
+const AUTH_FORGOT_PASSWORD_PATH = import.meta.env.VITE_AUTH_FORGOT_PASSWORD_PATH || '/api/auth/forgot-password'
+const AUTH_RESET_PASSWORD_PATH = import.meta.env.VITE_AUTH_RESET_PASSWORD_PATH || '/api/auth/reset-password'
+const AUTH_FORGOT_USERNAME_PATH = import.meta.env.VITE_AUTH_FORGOT_USERNAME_PATH || '/api/auth/forgot-username'
 
 function getErrorMessage(status, fallback, bodyText) {
   if (bodyText) return bodyText
@@ -85,6 +88,66 @@ export async function getCurrentUser(token) {
 
   if (!res.ok) {
     return null
+  }
+
+  return res.json()
+}
+
+export async function requestPasswordReset(payload) {
+  if (!API_URL) {
+    throw new Error('Password recovery is not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${AUTH_FORGOT_PASSWORD_PATH}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Password reset request failed', text))
+  }
+
+  return res.json()
+}
+
+export async function submitPasswordReset(payload) {
+  if (!API_URL) {
+    throw new Error('Password recovery is not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${AUTH_RESET_PASSWORD_PATH}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Password reset failed', text))
+  }
+
+  return res.json()
+}
+
+export async function requestUsernameRecovery(payload) {
+  if (!API_URL) {
+    throw new Error('Username recovery is not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${AUTH_FORGOT_USERNAME_PATH}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    if (res.status === 404 || res.status === 405) {
+      throw new Error('Username recovery is not enabled on this backend yet.')
+    }
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Username recovery request failed', text))
   }
 
   return res.json()
