@@ -11,13 +11,14 @@ const linkClass = ({ isActive }) =>
 
 export default function Nav() {
   const { itemCount } = useCart()
-  const { isAuthenticated, signOut } = useAuth()
+  const { isAuthenticated, signOut, user } = useAuth()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const tickerItems = [
     'Free shipping over R850',
     '100% of profit funds Rock Mission outreach',
     'New drops monthly',
   ]
+  const displayName = [user?.firstName, user?.lastName].filter(Boolean).join(' ').trim()
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
@@ -90,6 +91,11 @@ export default function Nav() {
           </a>
         </nav>
         <div className="flex items-center gap-2">
+          {isAuthenticated && displayName && (
+            <p className="hidden text-right text-xs font-semibold uppercase tracking-wide text-apparel-teal lg:block">
+              Welcome back, {displayName}
+            </p>
+          )}
           <button
             type="button"
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -160,6 +166,11 @@ export default function Nav() {
           }`}
           onClick={(event) => event.stopPropagation()}
         >
+          {isAuthenticated && displayName && (
+            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-apparel-teal">
+              Welcome back, {displayName}
+            </p>
+          )}
           <nav className="flex w-full flex-1 flex-col items-start justify-center gap-6">
             {mobileMenuLinks.map((link, index) => (
               <NavLink
