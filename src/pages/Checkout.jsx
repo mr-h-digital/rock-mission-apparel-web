@@ -4,6 +4,8 @@ import { useCart } from '../context/CartContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import { createOrder, isCheckoutConfigured } from '../lib/api.js'
 
+const LAST_ORDER_ID_KEY = 'kingdomdrip.lastOrderId'
+
 const SA_PROVINCES = [
   'Western Cape', 'Eastern Cape', 'Northern Cape', 'Free State', 'Gauteng',
   'KwaZulu-Natal', 'Limpopo', 'Mpumalanga', 'North West',
@@ -70,7 +72,10 @@ export default function Checkout() {
         })),
       }
 
-      const { processUrl, fields } = await createOrder(payload)
+      const { orderId, processUrl, fields } = await createOrder(payload)
+      if (orderId) {
+        sessionStorage.setItem(LAST_ORDER_ID_KEY, orderId)
+      }
 
       const form_ = document.createElement('form')
       form_.method = 'POST'
@@ -149,6 +154,10 @@ export default function Checkout() {
             <span>Total</span>
             <span className="text-apparel-teal">R{subtotal}</span>
           </div>
+          <p className="mt-4 rounded-xl border border-apparel-border bg-apparel-bg/70 p-3 text-xs leading-relaxed text-apparel-muted">
+            You will be redirected to PayFast to complete payment securely. We will then confirm your payment
+            status and finalize your order reference back on Kingdom Drip.
+          </p>
           <button
             type="submit"
             disabled={!configured || submitting}
