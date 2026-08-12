@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 import logoWhiteText from '../assets/logos/kingdom-drip-logo-transparent-bg-white-text.png'
 
 const linkClass = ({ isActive }) =>
@@ -9,6 +10,7 @@ const linkClass = ({ isActive }) =>
 
 export default function Nav() {
   const { itemCount } = useCart()
+  const { isAuthenticated, signOut } = useAuth()
 
   return (
     <header className="sticky top-0 z-40 border-b border-apparel-border bg-apparel-bg/90 backdrop-blur">
@@ -34,6 +36,11 @@ export default function Nav() {
         <nav className="hidden items-center gap-8 md:flex">
           <NavLink to="/" end className={linkClass}>Home</NavLink>
           <NavLink to="/shop" className={linkClass}>Shop</NavLink>
+          {isAuthenticated ? (
+            <NavLink to="/account" className={linkClass}>Account</NavLink>
+          ) : (
+            <NavLink to="/sign-in" className={linkClass}>Sign In</NavLink>
+          )}
           <a
             href="https://rockmission.co.za"
             target="_blank"
@@ -43,17 +50,34 @@ export default function Nav() {
             The Mission
           </a>
         </nav>
-        <Link
-          to="/cart"
-          className="relative flex items-center gap-2 rounded-full border border-apparel-border bg-apparel-panel px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:border-apparel-teal"
-        >
-          Cart
-          {itemCount > 0 && (
-            <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-apparel-pink px-1 text-xs font-bold text-apparel-bg">
-              {itemCount}
-            </span>
+        <div className="flex items-center gap-2">
+          <Link
+            to={isAuthenticated ? '/account' : '/sign-in'}
+            className="rounded-full border border-apparel-border bg-apparel-panel px-3 py-2 text-xs font-semibold uppercase tracking-wide text-apparel-cream/80 hover:border-apparel-teal hover:text-apparel-cream md:hidden"
+          >
+            {isAuthenticated ? 'Account' : 'Sign In'}
+          </Link>
+          <Link
+            to="/cart"
+            className="relative flex items-center gap-2 rounded-full border border-apparel-border bg-apparel-panel px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:border-apparel-teal"
+          >
+            Cart
+            {itemCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-apparel-pink px-1 text-xs font-bold text-apparel-bg">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+          {isAuthenticated && (
+            <button
+              type="button"
+              onClick={signOut}
+              className="hidden rounded-full border border-apparel-border px-4 py-2 text-xs font-semibold uppercase tracking-wide text-apparel-cream/80 hover:border-apparel-pink hover:text-apparel-cream md:inline-flex"
+            >
+              Sign Out
+            </button>
           )}
-        </Link>
+        </div>
       </div>
     </header>
   )

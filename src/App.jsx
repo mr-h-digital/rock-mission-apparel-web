@@ -8,6 +8,10 @@ import Cart from './pages/Cart.jsx'
 import Checkout from './pages/Checkout.jsx'
 import OrderSuccess from './pages/OrderSuccess.jsx'
 import OrderCancel from './pages/OrderCancel.jsx'
+import SignIn from './pages/SignIn.jsx'
+import SignUp from './pages/SignUp.jsx'
+import Account from './pages/Account.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 export default function App() {
   return (
@@ -22,6 +26,16 @@ export default function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order/success" element={<OrderSuccess />} />
           <Route path="/order/cancel" element={<OrderCancel />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route
+            path="/account"
+            element={(
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            )}
+          />
         </Routes>
       </main>
       <Footer />

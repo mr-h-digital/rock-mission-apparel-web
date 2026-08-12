@@ -14,6 +14,7 @@ Built with React + Vite + Tailwind CSS, mirroring the tooling used in
 - Tailwind CSS (extends the Rock Mission brand palette with a bolder, Gen-Z streetwear accent — see
   `tailwind.config.js`)
 - Cart state in React Context + `localStorage` (no login required to shop)
+- Optional customer accounts (sign up/sign in) backed by API auth endpoints
 - Talks to [`rock-mission-apparel-api`](https://github.com/mr-h-digital/rock-mission-apparel-api) for order
   creation + PayFast checkout
 
@@ -27,6 +28,35 @@ npm run dev
 
 Without `VITE_API_URL` set, the storefront still works end-to-end for browsing/cart — checkout is disabled with an
 inline notice until it's connected to a live API.
+
+## Auth API contract (optional accounts)
+
+The frontend now supports optional accounts while preserving guest checkout. By default it expects these endpoints
+under `VITE_API_URL`:
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me` (Bearer token)
+
+Expected auth response shape from register/login:
+
+```json
+{
+   "token": "jwt-or-access-token",
+   "user": {
+      "id": "...",
+      "firstName": "...",
+      "lastName": "...",
+      "email": "..."
+   }
+}
+```
+
+If your Railway API uses different paths, set:
+
+- `VITE_AUTH_REGISTER_PATH`
+- `VITE_AUTH_LOGIN_PATH`
+- `VITE_AUTH_ME_PATH`
 
 ## Deploy
 

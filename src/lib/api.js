@@ -1,5 +1,95 @@
 const API_URL = import.meta.env.VITE_API_URL
 
+const AUTH_REGISTER_PATH = import.meta.env.VITE_AUTH_REGISTER_PATH || '/api/auth/register'
+const AUTH_LOGIN_PATH = import.meta.env.VITE_AUTH_LOGIN_PATH || '/api/auth/login'
+const AUTH_ME_PATH = import.meta.env.VITE_AUTH_ME_PATH || '/api/auth/me'
+
+function getErrorMessage(status, fallback, bodyText) {
+  if (bodyText) return bodyText
+  return `${fallback} (${status})`
+}
+
+async function readErrorText(res) {
+  return res.text().then((t) => t.trim()).catch(() => '')
+}
+
+function normalizeAuthPayload(data) {
+  const token = data?.token || data?.accessToken || data?.jwt || null
+  const user = data?.user || {
+    id: data?.id,
+    firstName: data?.firstName,
+    lastName: data?.lastName,
+    email: data?.email,
+  }
+
+  if (!token) {
+    throw new Error('Authentication response did not include a token.')
+  }
+
+  return { token, user }
+}
+
+export function isAuthConfigured() {
+  return Boolean(API_URL)
+}
+
+export async function registerUser(payload) {
+  if (!API_URL) {
+    throw new Error('Sign up is not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${AUTH_REGISTER_PATH}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Sign up failed', text))
+  }
+
+  const data = await res.json()
+  return normalizeAuthPayload(data)
+}
+
+export async function loginUser(payload) {
+  if (!API_URL) {
+    throw new Error('Sign in is not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${AUTH_LOGIN_PATH}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Sign in failed', text))
+  }
+
+  const data = await res.json()
+  return normalizeAuthPayload(data)
+}
+
+export async function getCurrentUser(token) {
+  if (!API_URL || !token) return null
+
+  const res = await fetch(`${API_URL}${AUTH_ME_PATH}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!res.ok) {
+    return null
+  }
+
+  return res.json()
+}
+
 export function isCheckoutConfigured() {
   return Boolean(API_URL)
 }

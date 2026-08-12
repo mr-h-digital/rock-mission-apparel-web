@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 import { createOrder, isCheckoutConfigured } from '../lib/api.js'
 
 const SA_PROVINCES = [
@@ -16,7 +17,13 @@ const emptyForm = {
 
 export default function Checkout() {
   const { items, subtotal } = useCart()
-  const [form, setForm] = useState(emptyForm)
+  const { user } = useAuth()
+  const [form, setForm] = useState(() => ({
+    ...emptyForm,
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    email: user?.email || '',
+  }))
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const formRef = useRef(null)
