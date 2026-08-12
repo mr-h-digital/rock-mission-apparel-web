@@ -24,7 +24,7 @@ export default function RecoverUsername() {
     setSubmitting(true)
     try {
       const res = await requestUsernameRecovery({ email: cleanEmail })
-      setSuccess(res?.message || 'If an account exists, username details have been sent to your email.')
+      setSuccess(res?.message || 'If an account exists, your sign-in details have been sent to your email.')
     } catch (err) {
       setError(err.message || 'Unable to recover username right now.')
     } finally {
@@ -36,12 +36,12 @@ export default function RecoverUsername() {
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
       <h1 className="font-display text-5xl tracking-wide">Recover Username</h1>
       <p className="mt-3 text-apparel-muted">
-        Enter your account email and we will send your username details if this feature is enabled.
+        Enter your account email. For this store, your sign-in ID is your email address.
       </p>
 
       {!configured && (
         <div className="mt-6 rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-4 text-sm text-apparel-pinkLight">
-          Username recovery is not connected yet. Set{' '}
+          Sign-in detail recovery is not connected yet. Set{' '}
           <code className="rounded bg-apparel-bg px-1.5 py-0.5">VITE_API_URL</code> to enable it.
         </div>
       )}
