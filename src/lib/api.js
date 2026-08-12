@@ -201,3 +201,20 @@ export async function createOrder(payload) {
 
   return res.json()
 }
+
+export async function getOrderStatus(orderId) {
+  if (!API_URL) {
+    throw new Error('Order tracking is not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}/api/orders/${orderId}/status`, {
+    method: 'GET',
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to fetch order status', text))
+  }
+
+  return res.json()
+}

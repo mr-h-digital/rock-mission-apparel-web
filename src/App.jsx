@@ -8,6 +8,7 @@ import Cart from './pages/Cart.jsx'
 import Checkout from './pages/Checkout.jsx'
 import OrderSuccess from './pages/OrderSuccess.jsx'
 import OrderCancel from './pages/OrderCancel.jsx'
+import OrderPending from './pages/OrderPending.jsx'
 import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Account from './pages/Account.jsx'
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order/success" element={<OrderSuccess />} />
+          <Route path="/order/pending" element={<OrderPending />} />
           <Route path="/order/cancel" element={<OrderCancel />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
