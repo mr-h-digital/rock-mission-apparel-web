@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { CATEGORIES, PRODUCTS } from '../data/products.js'
 import ProductCard from '../components/ProductCard.jsx'
 import CategoryChips from '../components/CategoryChips.jsx'
+import SeoHead from '../components/SeoHead.jsx'
 
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -21,6 +22,12 @@ export default function Shop() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+      <SeoHead
+        title="Shop Christian Apparel — Kingdom Drip"
+        description="Browse Kingdom Drip hoodies, tees, hats and accessories. Streetwear that helps fund Rock Mission Ministries outreach."
+        path="/shop"
+        image="/brand/kingdom-drip-store-hero-bg.png"
+      />
       <div className="mb-8">
         <span className="text-xs font-bold uppercase tracking-widest text-apparel-teal">The Full Range</span>
         <h1 className="mt-2 font-display text-5xl tracking-wide sm:text-6xl">Shop</h1>

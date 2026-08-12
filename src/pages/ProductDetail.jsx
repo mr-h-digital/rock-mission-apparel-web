@@ -3,6 +3,9 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProductById } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
 import { ART_CLASSES } from '../lib/artClasses.js'
+import SeoHead from '../components/SeoHead.jsx'
+
+const SITE_URL = 'https://shop.rockmission.co.za'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -15,9 +18,45 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
 
+  const productPath = product ? `/product/${product.id}` : '/shop'
+  const productTitle = product
+    ? `${product.name} — Kingdom Drip`
+    : 'Product Not Found — Kingdom Drip'
+  const productDescription = product
+    ? `${product.blurb} Shop Kingdom Drip apparel and help fund Rock Mission Ministries outreach.`
+    : 'This product was not found. Explore Kingdom Drip apparel in the shop.'
+
+  const productSchema = product
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.name,
+        description: product.blurb,
+        category: product.category,
+        image: [`${SITE_URL}/brand/kingdom-drip-logo-only.png`],
+        sku: product.id,
+        brand: {
+          '@type': 'Brand',
+          name: 'Kingdom Drip',
+        },
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'ZAR',
+          price: product.price,
+          availability: 'https://schema.org/InStock',
+          url: `${SITE_URL}/product/${product.id}`,
+        },
+      }
+    : null
+
   if (!product) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6">
+        <SeoHead
+          title={productTitle}
+          description={productDescription}
+          path={productPath}
+        />
         <h1 className="font-display text-4xl">Product Not Found</h1>
         <Link to="/shop" className="mt-4 inline-block text-apparel-teal hover:underline">← Back to Shop</Link>
       </div>
@@ -37,6 +76,14 @@ export default function ProductDetail() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      <SeoHead
+        title={productTitle}
+        description={productDescription}
+        path={productPath}
+        image="/brand/kingdom-drip-logo-only.png"
+        type="product"
+        jsonLd={productSchema}
+      />
       <Link to="/shop" className="text-sm font-semibold uppercase tracking-widest text-apparel-muted hover:text-apparel-teal">
         ← Back to Shop
       </Link>

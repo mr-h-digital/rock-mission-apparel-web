@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { PRODUCTS } from '../data/products.js'
 import ProductCard from '../components/ProductCard.jsx'
+import SeoHead from '../components/SeoHead.jsx'
 import logoFull from '../assets/logos/kingdom-drip-logo.png'
 
 export default function Home() {
@@ -9,6 +10,12 @@ export default function Home() {
 
   return (
     <div>
+      <SeoHead
+        title="Kingdom Drip — Bold Christian Streetwear"
+        description="Faith-based streetwear by Kingdom Drip. Every purchase helps fund Rock Mission Ministries outreach across the Cape Flats."
+        path="/"
+        image="/brand/kingdom-drip-store-hero-bg.png"
+      />
       <section
         className="relative overflow-hidden border-b border-apparel-border bg-apparel-bg"
         style={{
