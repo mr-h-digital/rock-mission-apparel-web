@@ -125,11 +125,18 @@ export default function Nav() {
           </button>
           <Link
             to="/cart"
-            className={`relative items-center gap-2 rounded-full border border-apparel-border bg-apparel-panel px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:border-apparel-teal ${
+            aria-label="Open cart"
+            title="Open cart"
+            className={`relative items-center justify-center gap-2 rounded-full border border-apparel-border bg-apparel-panel px-3 py-2 text-sm font-semibold uppercase tracking-wide hover:border-apparel-teal md:px-4 ${
               isMobileMenuOpen ? 'hidden md:flex' : 'flex'
             }`}
           >
-            Cart
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth="1.8">
+              <circle cx="9" cy="20" r="1.5" />
+              <circle cx="18" cy="20" r="1.5" />
+              <path d="M2.5 3h2.2l2.2 11h10.6l2-8.2H6.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="hidden md:inline">Cart</span>
             {itemCount > 0 && (
               <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-apparel-pink px-1 text-xs font-bold text-apparel-bg">
                 {itemCount}
