@@ -3,6 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL
 const AUTH_REGISTER_PATH = import.meta.env.VITE_AUTH_REGISTER_PATH || '/api/auth/register'
 const AUTH_LOGIN_PATH = import.meta.env.VITE_AUTH_LOGIN_PATH || '/api/auth/login'
 const AUTH_ME_PATH = import.meta.env.VITE_AUTH_ME_PATH || '/api/auth/me'
+const AUTH_UPDATE_PROFILE_PATH = import.meta.env.VITE_AUTH_UPDATE_PROFILE_PATH || '/api/auth/me'
 const AUTH_FORGOT_PASSWORD_PATH = import.meta.env.VITE_AUTH_FORGOT_PASSWORD_PATH || '/api/auth/forgot-password'
 const AUTH_RESET_PASSWORD_PATH = import.meta.env.VITE_AUTH_RESET_PASSWORD_PATH || '/api/auth/reset-password'
 const AUTH_FORGOT_USERNAME_PATH = import.meta.env.VITE_AUTH_FORGOT_USERNAME_PATH || '/api/auth/forgot-username'
@@ -88,6 +89,28 @@ export async function getCurrentUser(token) {
 
   if (!res.ok) {
     return null
+  }
+
+  return res.json()
+}
+
+export async function updateCurrentUser(token, payload) {
+  if (!API_URL || !token) {
+    throw new Error('Account settings are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${AUTH_UPDATE_PROFILE_PATH}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Profile update failed', text))
   }
 
   return res.json()

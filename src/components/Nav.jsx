@@ -52,7 +52,8 @@ export default function Nav() {
   ]
 
   return (
-    <header className="sticky top-0 z-40 border-b border-apparel-border bg-apparel-bg/90 backdrop-blur">
+    <>
+      <header className={`sticky top-0 border-b border-apparel-border bg-apparel-bg/90 backdrop-blur ${isMobileMenuOpen ? 'z-[75]' : 'z-40'}`}>
       <div className="marquee-bar overflow-hidden border-b border-apparel-border bg-apparel-panel/60 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-apparel-teal">
         <div className="marquee-track">
           {Array(4).fill(0).map((_, loopIndex) => (
@@ -95,7 +96,9 @@ export default function Nav() {
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-nav-menu"
             onClick={() => setIsMobileMenuOpen((open) => !open)}
-            className="relative z-[60] inline-flex h-11 w-11 items-center justify-center rounded-full border border-apparel-border bg-apparel-panel text-apparel-cream md:hidden"
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-apparel-border bg-apparel-panel text-apparel-cream md:hidden ${
+              isMobileMenuOpen ? 'fixed right-4 top-4 z-[80]' : 'relative z-[60]'
+            }`}
           >
             <span className="sr-only">Toggle menu</span>
             <span
@@ -116,7 +119,9 @@ export default function Nav() {
           </button>
           <Link
             to="/cart"
-            className="relative flex items-center gap-2 rounded-full border border-apparel-border bg-apparel-panel px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:border-apparel-teal"
+            className={`relative items-center gap-2 rounded-full border border-apparel-border bg-apparel-panel px-4 py-2 text-sm font-semibold uppercase tracking-wide hover:border-apparel-teal ${
+              isMobileMenuOpen ? 'hidden md:flex' : 'flex'
+            }`}
           >
             Cart
             {itemCount > 0 && (
@@ -137,9 +142,11 @@ export default function Nav() {
         </div>
       </div>
 
+      </header>
+
       <div
         id="mobile-nav-menu"
-        className={`fixed inset-0 z-50 md:hidden ${isMobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        className={`fixed inset-0 z-[70] md:hidden ${isMobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
         onClick={closeMobileMenu}
       >
         <div
@@ -148,23 +155,18 @@ export default function Nav() {
           }`}
         />
         <div
-          className={`absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(0,229,255,0.12),transparent_40%),radial-gradient(circle_at_90%_85%,rgba(255,47,165,0.12),transparent_38%)] transition-opacity duration-500 ease-out ${
-            isMobileMenuOpen ? 'opacity-100' : 'opacity-0'
-          }`}
-        />
-        <div
-          className={`relative flex h-full overflow-y-auto px-6 pb-10 pt-28 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`relative flex h-full w-full flex-col overflow-y-auto px-6 pb-8 pt-32 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           }`}
           onClick={(event) => event.stopPropagation()}
         >
-          <nav className="mx-auto flex w-full max-w-md flex-1 flex-col items-start justify-center gap-5 rounded-3xl border border-apparel-border bg-apparel-panel/85 p-6 backdrop-blur">
+          <nav className="flex w-full flex-1 flex-col items-start justify-center gap-6">
             {mobileMenuLinks.map((link, index) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 end={link.end}
-                className={`w-full border-b border-apparel-border/70 pb-4 text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                className={`w-full border-b border-apparel-border pb-5 text-3xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                   isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
                 }`}
                 style={{ transitionDelay: isMobileMenuOpen ? `${index * 85}ms` : '0ms' }}
@@ -177,7 +179,7 @@ export default function Nav() {
               href="https://rockmission.co.za"
               target="_blank"
               rel="noopener noreferrer"
-              className={`w-full text-2xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              className={`w-full border-b border-apparel-border pb-5 text-3xl font-semibold uppercase tracking-wide text-apparel-cream transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                 isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-1 opacity-0'
               }`}
               style={{ transitionDelay: isMobileMenuOpen ? '255ms' : '0ms' }}
@@ -185,6 +187,15 @@ export default function Nav() {
             >
               The Mission
             </a>
+            <div className="mt-auto w-full pt-6">
+              <Link
+                to="/cart"
+                className="inline-flex w-full items-center justify-center rounded-full border border-apparel-border bg-apparel-panel px-5 py-3 text-sm font-semibold uppercase tracking-wide text-apparel-cream"
+                onClick={closeMobileMenu}
+              >
+                View Cart
+              </Link>
+            </div>
           </nav>
           {isAuthenticated && (
             <button
@@ -197,6 +208,6 @@ export default function Nav() {
           )}
         </div>
       </div>
-    </header>
+    </>
   )
 }
