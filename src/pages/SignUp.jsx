@@ -30,7 +30,7 @@ export default function SignUp() {
 
   function updateCapsLock(setter) {
     return (e) => {
-      setter(e.getModifierState('CapsLock'))
+      setter(typeof e.getModifierState === 'function' ? e.getModifierState('CapsLock') : false)
     }
   }
 

@@ -26,7 +26,7 @@ export default function SignIn() {
   }
 
   function onPasswordKeyEvent(e) {
-    setCapsLockOn(e.getModifierState('CapsLock'))
+    setCapsLockOn(typeof e.getModifierState === 'function' ? e.getModifierState('CapsLock') : false)
   }
 
   async function onSubmit(e) {
