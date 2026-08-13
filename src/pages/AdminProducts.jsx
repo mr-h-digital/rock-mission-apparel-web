@@ -341,16 +341,16 @@ export default function AdminProducts() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 border-t border-apparel-border pt-4 sm:flex-row sm:items-center sm:justify-between">
-              <label className="inline-flex items-center gap-3 text-sm text-apparel-muted">
+            <div className="space-y-4 border-t border-apparel-border pt-4">
+              <label className="flex max-w-full items-start gap-3 text-sm text-apparel-muted">
                 <input type="checkbox" name="active" checked={form.active} onChange={onChange} />
-                <span><strong className="text-apparel-cream">Published</strong><span className="ml-2 text-xs">Visible in storefront</span></span>
+                <span className="min-w-0"><strong className="text-apparel-cream">Published</strong><span className="ml-2 text-xs">Visible in storefront</span></span>
               </label>
 
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full rounded-full bg-grad-drop px-7 py-3 text-sm font-bold uppercase tracking-widest text-apparel-bg disabled:opacity-50 sm:w-auto sm:shrink-0"
+                className="w-full rounded-full bg-grad-drop px-7 py-3 text-sm font-bold uppercase tracking-widest text-apparel-bg disabled:opacity-50"
               >
                 {saving ? 'Saving...' : editingId ? 'Update Product' : 'Create Product'}
               </button>
