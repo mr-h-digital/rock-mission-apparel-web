@@ -28,6 +28,10 @@ export default function ProductDetail() {
   const productDescription = product
     ? `${product.blurb} Shop Kingdom Drip apparel and help fund Rock Mission Ministries outreach.`
     : 'This product was not found. Explore Kingdom Drip apparel in the shop.'
+  const selectedInventory = product?.inventory?.find((item) => item.size === size && item.color === color)
+  const inventoryTracked = Array.isArray(product?.inventory) && product.inventory.length > 0
+  const availableQuantity = inventoryTracked ? (selectedInventory?.available ?? 0) : null
+  const soldOut = inventoryTracked && availableQuantity < 1
 
   const productSchema = product
     ? {
@@ -67,12 +71,14 @@ export default function ProductDetail() {
   }
 
   function handleAddToCart() {
+    if (soldOut || (inventoryTracked && qty > availableQuantity)) return
     addItem(product.id, size, color, qty)
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
   }
 
   function handleBuyNow() {
+    if (soldOut || (inventoryTracked && qty > availableQuantity)) return
     addItem(product.id, size, color, qty)
     navigate('/cart')
   }
@@ -114,6 +120,11 @@ export default function ProductDetail() {
           <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">{product.name}</h1>
           <p className="mt-3 text-2xl font-bold text-apparel-cream">R{product.price}</p>
           <p className="mt-4 text-apparel-muted">{product.blurb}</p>
+          {inventoryTracked && (
+            <p className={`mt-4 text-sm font-semibold ${soldOut ? 'text-apparel-pink' : 'text-apparel-teal'}`}>
+              {soldOut ? 'Sold out for this size and colour.' : availableQuantity <= 5 ? `Only ${availableQuantity} left in this variant.` : 'In stock'}
+            </p>
+          )}
 
           <div className="mt-8">
             <label className="text-xs font-bold uppercase tracking-widest text-apparel-muted">Size</label>
@@ -165,7 +176,8 @@ export default function ProductDetail() {
               </button>
               <span className="w-8 text-center font-semibold">{qty}</span>
               <button
-                onClick={() => setQty((q) => q + 1)}
+                onClick={() => setQty((q) => Math.min(q + 1, inventoryTracked ? availableQuantity : q + 1))}
+                disabled={inventoryTracked && qty >= availableQuantity}
                 className="px-3 py-2 text-lg font-bold hover:text-apparel-teal"
                 aria-label="Increase quantity"
               >
@@ -177,13 +189,15 @@ export default function ProductDetail() {
           <div className="mt-8 flex flex-wrap gap-4">
             <button
               onClick={handleAddToCart}
-              className="rounded-full border border-apparel-teal px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg"
+              disabled={soldOut}
+              className="rounded-full border border-apparel-teal px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:cursor-not-allowed disabled:border-apparel-border disabled:text-apparel-muted"
             >
               {added ? 'Added ✓' : 'Add To Cart'}
             </button>
             <button
               onClick={handleBuyNow}
-              className="rounded-full bg-grad-drop px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105"
+              disabled={soldOut}
+              className="rounded-full bg-grad-drop px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Buy Now
             </button>

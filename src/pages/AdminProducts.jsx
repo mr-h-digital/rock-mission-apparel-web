@@ -21,6 +21,7 @@ const emptyForm = {
   word: '',
   sizes: 'S, M, L, XL',
   colors: 'Black',
+  inventory: [],
   active: true,
 }
 
@@ -36,6 +37,7 @@ function mapProductToForm(product) {
     word: product.word || '',
     sizes: (product.sizes || []).join(', '),
     colors: (product.colors || []).join(', '),
+    inventory: product.inventory || [],
     active: product.active !== false,
   }
 }
@@ -45,6 +47,15 @@ function csvToArray(value) {
     .split(',')
     .map((v) => v.trim())
     .filter(Boolean)
+}
+
+function inventoryRows(form) {
+  const sizes = csvToArray(form.sizes)
+  const colors = csvToArray(form.colors)
+  return sizes.flatMap((size) => colors.map((color) => {
+    const existing = form.inventory.find((item) => item.size === size && item.color === color)
+    return { size, color, quantity: existing?.quantity ?? 0, available: existing?.available ?? existing?.quantity ?? 0, reserved: existing?.reserved ?? 0 }
+  }))
 }
 
 export default function AdminProducts() {
@@ -97,6 +108,13 @@ export default function AdminProducts() {
   function onChange(e) {
     const { name, value, type, checked } = e.target
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+  }
+
+  function onInventoryChange(size, color, quantity) {
+    setForm((prev) => {
+      const next = prev.inventory.filter((item) => !(item.size === size && item.color === color))
+      return { ...prev, inventory: [...next, { size, color, quantity: Math.max(0, Number(quantity) || 0) }] }
+    })
   }
 
   async function onImageSelect(e) {
@@ -162,6 +180,7 @@ export default function AdminProducts() {
         word: form.word.trim() || null,
         sizes: csvToArray(form.sizes),
         colors: csvToArray(form.colors),
+        inventory: inventoryRows(form).map(({ size, color, quantity }) => ({ size, color, quantity })),
         active: Boolean(form.active),
       }
 
@@ -293,18 +312,49 @@ export default function AdminProducts() {
               </div>
             </div>
 
-            <label className="inline-flex items-center gap-3 text-sm text-apparel-muted">
-              <input type="checkbox" name="active" checked={form.active} onChange={onChange} />
-              <span><strong className="text-apparel-cream">Published</strong><span className="ml-2 text-xs">Visible in storefront</span></span>
-            </label>
+            <div>
+              <div className="mb-3 flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest text-apparel-muted">Inventory by variant</p>
+                  <p className="mt-1 text-xs text-apparel-muted">Set available units for each size and colour combination.</p>
+                </div>
+                <span className="shrink-0 text-xs font-semibold text-apparel-teal">{inventoryRows(form).length} variants</span>
+              </div>
+              <div className="overflow-hidden rounded-xl border border-apparel-border">
+                <div className="grid grid-cols-[1fr_1fr_6rem] gap-3 bg-apparel-bg/70 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-apparel-muted">
+                  <span>Size</span><span>Colour</span><span>Units</span>
+                </div>
+                {inventoryRows(form).map((item) => (
+                  <div key={`${item.size}-${item.color}`} className="grid grid-cols-[1fr_1fr_6rem] items-center gap-3 border-t border-apparel-border px-3 py-2">
+                    <span className="text-sm text-apparel-cream">{item.size}</span>
+                    <span className="text-sm text-apparel-muted">{item.color}</span>
+                    <input
+                      type="number"
+                      min="0"
+                      value={item.quantity}
+                      onChange={(event) => onInventoryChange(item.size, item.color, event.target.value)}
+                      className="input px-2 py-2 text-center"
+                      aria-label={`${item.size} ${item.color} stock quantity`}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            <button
-              type="submit"
-              disabled={saving}
-              className="rounded-full bg-grad-drop px-7 py-3 text-sm font-bold uppercase tracking-widest text-apparel-bg disabled:opacity-50"
-            >
-              {saving ? 'Saving...' : editingId ? 'Update Product' : 'Create Product'}
-            </button>
+            <div className="flex flex-col gap-4 border-t border-apparel-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+              <label className="inline-flex items-center gap-3 text-sm text-apparel-muted">
+                <input type="checkbox" name="active" checked={form.active} onChange={onChange} />
+                <span><strong className="text-apparel-cream">Published</strong><span className="ml-2 text-xs">Visible in storefront</span></span>
+              </label>
+
+              <button
+                type="submit"
+                disabled={saving}
+                className="w-full rounded-full bg-grad-drop px-7 py-3 text-sm font-bold uppercase tracking-widest text-apparel-bg disabled:opacity-50 sm:w-auto sm:shrink-0"
+              >
+                {saving ? 'Saving...' : editingId ? 'Update Product' : 'Create Product'}
+              </button>
+            </div>
           </form>
         </section>
 
