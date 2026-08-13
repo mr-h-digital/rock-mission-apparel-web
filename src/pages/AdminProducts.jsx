@@ -8,6 +8,7 @@ import {
   uploadAdminProductImage,
   updateAdminProduct,
 } from '../lib/api.js'
+import { formatBytes, optimizeImageForUpload } from '../lib/imageUpload.js'
 
 const emptyForm = {
   id: '',
@@ -56,6 +57,7 @@ export default function AdminProducts() {
   const [success, setSuccess] = useState('')
   const [editingId, setEditingId] = useState('')
   const [uploadingImage, setUploadingImage] = useState(false)
+  const [uploadStatus, setUploadStatus] = useState('')
   const [form, setForm] = useState(emptyForm)
 
   async function loadProducts() {
@@ -93,17 +95,28 @@ export default function AdminProducts() {
     if (!file) return
 
     setUploadingImage(true)
+    setUploadStatus('Optimizing image...')
     setError('')
     setSuccess('')
 
     try {
-      const result = await uploadAdminProductImage(token, file)
+      const prepared = await optimizeImageForUpload(file)
+      setUploadStatus('Uploading image...')
+      const result = await uploadAdminProductImage(token, prepared.file)
       setForm((prev) => ({ ...prev, imageUrl: result.url || prev.imageUrl }))
-      setSuccess('Image uploaded. Save the product to apply the new image URL.')
+
+      if (prepared.changed) {
+        setSuccess(
+          `Image optimized from ${formatBytes(prepared.originalBytes)} to ${formatBytes(prepared.optimizedBytes)} and uploaded. Save the product to apply the new image URL.`,
+        )
+      } else {
+        setSuccess('Image uploaded. Save the product to apply the new image URL.')
+      }
     } catch (err) {
       setError(err.message || 'Unable to upload image.')
     } finally {
       setUploadingImage(false)
+      setUploadStatus('')
       e.target.value = ''
     }
   }
@@ -217,7 +230,7 @@ export default function AdminProducts() {
               <div className="flex flex-wrap items-center gap-3">
                 <label className="inline-flex cursor-pointer items-center rounded-full border border-apparel-border px-4 py-2 text-xs font-bold uppercase tracking-widest text-apparel-cream hover:border-apparel-teal">
                   <input type="file" accept="image/*" className="hidden" onChange={onImageSelect} />
-                  {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                  {uploadingImage ? uploadStatus || 'Uploading...' : 'Upload Image'}
                 </label>
                 {form.imageUrl && (
                   <button
