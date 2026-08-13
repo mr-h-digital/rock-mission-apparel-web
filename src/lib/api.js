@@ -323,3 +323,27 @@ export async function deleteAdminProduct(token, productId) {
     throw new Error(getErrorMessage(res.status, 'Unable to delete product', text))
   }
 }
+
+export async function uploadAdminProductImage(token, file) {
+  if (!API_URL || !token) {
+    throw new Error('Image uploads are not connected to a store backend yet.')
+  }
+
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const res = await fetch(`${API_URL}/api/admin/uploads/images`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to upload image', text))
+  }
+
+  return res.json()
+}

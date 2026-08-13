@@ -5,6 +5,7 @@ import {
   createAdminProduct,
   deleteAdminProduct,
   listAdminProducts,
+  uploadAdminProductImage,
   updateAdminProduct,
 } from '../lib/api.js'
 
@@ -54,6 +55,7 @@ export default function AdminProducts() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [editingId, setEditingId] = useState('')
+  const [uploadingImage, setUploadingImage] = useState(false)
   const [form, setForm] = useState(emptyForm)
 
   async function loadProducts() {
@@ -84,6 +86,26 @@ export default function AdminProducts() {
   function onChange(e) {
     const { name, value, type, checked } = e.target
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+  }
+
+  async function onImageSelect(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploadingImage(true)
+    setError('')
+    setSuccess('')
+
+    try {
+      const result = await uploadAdminProductImage(token, file)
+      setForm((prev) => ({ ...prev, imageUrl: result.url || prev.imageUrl }))
+      setSuccess('Image uploaded. Save the product to apply the new image URL.')
+    } catch (err) {
+      setError(err.message || 'Unable to upload image.')
+    } finally {
+      setUploadingImage(false)
+      e.target.value = ''
+    }
   }
 
   function startCreate() {
@@ -190,7 +212,24 @@ export default function AdminProducts() {
               <input name="price" value={form.price} onChange={onChange} required type="number" min="1" step="0.01" className="input" placeholder="Price" />
             </div>
 
-            <input name="imageUrl" value={form.imageUrl} onChange={onChange} className="input" placeholder="Image URL (https://...)" />
+            <div className="space-y-2">
+              <input name="imageUrl" value={form.imageUrl} onChange={onChange} className="input" placeholder="Image URL (https://...)" />
+              <div className="flex flex-wrap items-center gap-3">
+                <label className="inline-flex cursor-pointer items-center rounded-full border border-apparel-border px-4 py-2 text-xs font-bold uppercase tracking-widest text-apparel-cream hover:border-apparel-teal">
+                  <input type="file" accept="image/*" className="hidden" onChange={onImageSelect} />
+                  {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                </label>
+                {form.imageUrl && (
+                  <button
+                    type="button"
+                    onClick={() => setForm((prev) => ({ ...prev, imageUrl: '' }))}
+                    className="text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream"
+                  >
+                    Clear image
+                  </button>
+                )}
+              </div>
+            </div>
             <textarea name="blurb" value={form.blurb} onChange={onChange} className="input min-h-[90px]" placeholder="Product blurb" />
 
             <div className="grid gap-4 sm:grid-cols-2">
