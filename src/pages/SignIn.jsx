@@ -18,7 +18,7 @@ export default function SignIn() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
-  const from = location.state?.from || '/account'
+  const from = location.state?.from || '/'
   const configured = isAuthConfigured()
 
   function onChange(e) {
