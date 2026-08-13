@@ -1,8 +1,15 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ART_CLASSES } from '../lib/artClasses.js'
 
 export default function ProductCard({ product }) {
-  const showImage = Boolean(product.imageUrl)
+  const [imageFailed, setImageFailed] = useState(false)
+
+  useEffect(() => {
+    setImageFailed(false)
+  }, [product.imageUrl])
+
+  const showImage = Boolean(product.imageUrl) && !imageFailed
 
   return (
     <Link
@@ -16,6 +23,7 @@ export default function ProductCard({ product }) {
             alt={product.name}
             className="h-full w-full object-cover"
             loading="lazy"
+            onError={() => setImageFailed(true)}
           />
         ) : (
           <span className="font-display text-4xl leading-none tracking-wide text-apparel-bg drop-shadow-sm sm:text-5xl">
