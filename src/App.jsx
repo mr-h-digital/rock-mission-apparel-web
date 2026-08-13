@@ -37,6 +37,7 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/recover-username" element={<RecoverUsername />} />
+  import AdminOrders from './pages/AdminOrders.jsx'
           <Route
             path="/admin/products"
             element={(
@@ -45,6 +46,14 @@ export default function App() {
               </ProtectedRoute>
             )}
           />
+            <Route
+              path="/admin/orders"
+              element={(
+                <ProtectedRoute>
+                  <AdminOrders />
+                </ProtectedRoute>
+              )}
+            />
           <Route
             path="/account"
             element={(
