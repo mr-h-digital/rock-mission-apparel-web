@@ -19,6 +19,7 @@ export default function ProductDetail() {
   const [color, setColor] = useState(product?.colors[0] ?? '')
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
+  const [imageFailed, setImageFailed] = useState(false)
 
   const productPath = product ? `/product/${product.id}` : '/shop'
   const productTitle = product
@@ -76,6 +77,8 @@ export default function ProductDetail() {
     navigate('/cart')
   }
 
+  const showImage = Boolean(product.imageUrl) && !imageFailed
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
       <SeoHead
@@ -90,9 +93,14 @@ export default function ProductDetail() {
         ← Back to Shop
       </Link>
       <div className="mt-6 grid gap-10 md:grid-cols-2">
-        {product.imageUrl ? (
+        {showImage ? (
           <div className="overflow-hidden rounded-3xl border border-apparel-border bg-apparel-panel">
-            <img src={product.imageUrl} alt={product.name} className="h-full w-full object-cover" />
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="h-full w-full object-cover"
+              onError={() => setImageFailed(true)}
+            />
           </div>
         ) : (
           <div className={`flex aspect-square items-center justify-center rounded-3xl ${ART_CLASSES[product.art] || 'bg-grad-drop'} p-10`}>

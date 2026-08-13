@@ -40,6 +40,22 @@ function normalizeImageUrl(value) {
   const url = value.trim()
   if (!url) return url
 
+  if (API_URL) {
+    try {
+      const parsed = new URL(url)
+      if (parsed.hostname.endsWith('storageapi.dev')) {
+        const segments = parsed.pathname.split('/').filter(Boolean)
+        const productsIndex = segments.indexOf('products')
+        const filename = productsIndex >= 0 ? segments[productsIndex + 1] : ''
+        if (filename) {
+          return `${API_URL}/api/media/products/${filename}`
+        }
+      }
+    } catch {
+      // Continue with string-based normalization if URL parsing fails.
+    }
+  }
+
   // Repair malformed protocol strings such as https:/host/path.
   if (/^https?:\/[^/]/i.test(url)) {
     return url.replace(/^http:\//i, 'http://').replace(/^https:\//i, 'https://')
