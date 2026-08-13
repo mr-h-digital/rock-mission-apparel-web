@@ -309,6 +309,42 @@ export async function listAdminProducts(token) {
   return Array.isArray(data) ? data.map(normalizeProductImage) : []
 }
 
+export async function listAdminOrders(token) {
+  if (!API_URL || !token) {
+    throw new Error('Admin orders are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}/api/admin/orders`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to load admin orders', text))
+  }
+
+  return res.json()
+}
+
+export async function cancelAdminOrder(token, orderId) {
+  if (!API_URL || !token) {
+    throw new Error('Admin orders are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}/api/admin/orders/${orderId}/cancel`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to cancel order', text))
+  }
+
+  return res.json()
+}
+
 export async function createAdminProduct(token, payload) {
   if (!API_URL || !token) {
     throw new Error('Admin products are not connected to a store backend yet.')
