@@ -34,6 +34,32 @@ function normalizeAuthPayload(data) {
   return { token, user }
 }
 
+function normalizeImageUrl(value) {
+  if (!value || typeof value !== 'string') return value
+
+  const url = value.trim()
+  if (!url) return url
+
+  // Repair malformed protocol strings such as https:/host/path.
+  if (/^https?:\/[^/]/i.test(url)) {
+    return url.replace(/^http:\//i, 'http://').replace(/^https:\//i, 'https://')
+  }
+
+  if (/^https?:\/\//i.test(url)) return url
+  if (url.startsWith('//')) return `https:${url}`
+  if (/^[a-z0-9.-]+\.[a-z]{2,}(\/|$)/i.test(url)) return `https://${url}`
+
+  return url
+}
+
+function normalizeProductImage(product) {
+  if (!product || typeof product !== 'object') return product
+  return {
+    ...product,
+    imageUrl: normalizeImageUrl(product.imageUrl),
+  }
+}
+
 export function isAuthConfigured() {
   return Boolean(API_URL)
 }
@@ -230,7 +256,8 @@ export async function listProducts() {
     const text = await readErrorText(res)
     throw new Error(getErrorMessage(res.status, 'Unable to load products', text))
   }
-  return res.json()
+  const data = await res.json()
+  return Array.isArray(data) ? data.map(normalizeProductImage) : []
 }
 
 export async function getProduct(productId) {
@@ -243,7 +270,8 @@ export async function getProduct(productId) {
     const text = await readErrorText(res)
     throw new Error(getErrorMessage(res.status, 'Unable to load product', text))
   }
-  return res.json()
+  const data = await res.json()
+  return normalizeProductImage(data)
 }
 
 export async function listAdminProducts(token) {
@@ -261,7 +289,8 @@ export async function listAdminProducts(token) {
     throw new Error(getErrorMessage(res.status, 'Unable to load admin products', text))
   }
 
-  return res.json()
+  const data = await res.json()
+  return Array.isArray(data) ? data.map(normalizeProductImage) : []
 }
 
 export async function createAdminProduct(token, payload) {
@@ -283,7 +312,8 @@ export async function createAdminProduct(token, payload) {
     throw new Error(getErrorMessage(res.status, 'Unable to create product', text))
   }
 
-  return res.json()
+  const data = await res.json()
+  return normalizeProductImage(data)
 }
 
 export async function updateAdminProduct(token, productId, payload) {
@@ -305,7 +335,8 @@ export async function updateAdminProduct(token, productId, payload) {
     throw new Error(getErrorMessage(res.status, 'Unable to update product', text))
   }
 
-  return res.json()
+  const data = await res.json()
+  return normalizeProductImage(data)
 }
 
 export async function deleteAdminProduct(token, productId) {
