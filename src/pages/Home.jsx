@@ -17,7 +17,7 @@ export default function Home() {
         image="/brand/kingdom-drip-store-hero-bg.png"
       />
       <section
-        className="relative overflow-hidden border-b border-apparel-border bg-apparel-bg"
+        className="relative overflow-hidden bg-apparel-bg"
         style={{
           backgroundImage:
             "linear-gradient(115deg, rgba(12,14,22,0.94) 0%, rgba(12,14,22,0.72) 42%, rgba(12,14,22,0.5) 100%), url('/brand/kingdom-drip-store-hero-bg.webp')",
@@ -26,10 +26,8 @@ export default function Home() {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="absolute inset-0 bg-apparel-bg/25" />
         <div className="absolute inset-y-0 left-0 w-full max-w-3xl bg-gradient-to-r from-apparel-bg/92 via-apparel-bg/82 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(32,227,207,0.18),transparent_34%),radial-gradient(circle_at_80%_24%,rgba(255,47,165,0.14),transparent_30%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-apparel-bg/90" />
         <div className="relative mx-auto flex min-h-[78vh] max-w-7xl flex-col items-start justify-center gap-6 px-4 py-24 sm:px-6 sm:py-32 lg:min-h-[84vh]">
           <div className="max-w-2xl">
             <img
