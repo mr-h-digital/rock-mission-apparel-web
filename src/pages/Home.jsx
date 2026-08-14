@@ -20,7 +20,7 @@ export default function Home() {
         className="relative overflow-hidden border-b border-apparel-border bg-apparel-bg"
         style={{
           backgroundImage:
-            "linear-gradient(115deg, rgba(12,14,22,0.94) 0%, rgba(12,14,22,0.72) 42%, rgba(12,14,22,0.5) 100%), url('/brand/kingdom-drip-store-hero-bg.png')",
+            "linear-gradient(115deg, rgba(12,14,22,0.94) 0%, rgba(12,14,22,0.72) 42%, rgba(12,14,22,0.5) 100%), url('/brand/kingdom-drip-store-hero-bg.webp')",
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
