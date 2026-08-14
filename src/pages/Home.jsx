@@ -17,7 +17,7 @@ export default function Home() {
         image="/brand/kingdom-drip-store-hero-bg.png"
       />
       <section
-        className="relative overflow-hidden border-b border-apparel-border bg-apparel-bg"
+        className="relative overflow-hidden bg-apparel-bg"
         style={{
           backgroundImage:
             "linear-gradient(115deg, rgba(12,14,22,0.94) 0%, rgba(12,14,22,0.72) 42%, rgba(12,14,22,0.5) 100%), url('/brand/kingdom-drip-store-hero-bg.webp')",
