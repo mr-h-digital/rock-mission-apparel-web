@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/ProductCard.jsx'
 import SeoHead from '../components/SeoHead.jsx'
-import logoFull from '../assets/logos/kingdom-drip-logo.png'
 import { useProducts } from '../context/ProductsContext.jsx'
 
 export default function Home() {
@@ -32,7 +31,7 @@ export default function Home() {
         <div className="relative mx-auto flex min-h-[78vh] max-w-7xl flex-col items-start justify-center gap-6 px-4 py-24 sm:px-6 sm:py-32 lg:min-h-[84vh]">
           <div className="max-w-2xl">
             <img
-              src={logoFull}
+              src="/brand/kingdom-drip-logo-transparent-bg-white-text.png"
               alt="Kingdom Drip"
               className="h-auto w-52 rounded-xl border border-apparel-border/70 bg-apparel-bg/35 p-3.5 shadow-lg shadow-black/35 backdrop-blur-sm sm:w-56 lg:w-60"
               loading="eager"
