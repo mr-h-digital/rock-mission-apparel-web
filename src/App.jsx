@@ -16,6 +16,7 @@ import ForgotPassword from './pages/ForgotPassword.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
 import RecoverUsername from './pages/RecoverUsername.jsx'
 import AdminProducts from './pages/AdminProducts.jsx'
+import AdminOrders from './pages/AdminOrders.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 export default function App() {
