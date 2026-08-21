@@ -43,6 +43,11 @@ function normalizeImageUrl(value) {
   if (API_URL) {
     try {
       const parsed = new URL(url)
+      const apiOrigin = new URL(API_URL).origin
+      if (parsed.origin === apiOrigin && parsed.protocol === 'http:') {
+        parsed.protocol = 'https:'
+        return parsed.toString()
+      }
       if (parsed.hostname.endsWith('storageapi.dev')) {
         const segments = parsed.pathname.split('/').filter(Boolean)
         const productsIndex = segments.indexOf('products')
