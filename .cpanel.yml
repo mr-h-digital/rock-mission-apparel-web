@@ -1,0 +1,8 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/CPANEL_USERNAME/public_html/
+    - export VITE_API_URL=https://api.shop.rockmission.co.za
+    - npm ci
+    - npm run build
+    - /bin/cp -R dist/. $DEPLOYPATH

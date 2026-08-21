@@ -68,16 +68,27 @@ If your Railway API uses different paths, set:
 
 ## Deploy
 
-Hosted on **Netlify** (not GitHub Pages — GitHub's Pages terms prohibit using it for a site "primarily directed at
-facilitating commercial transactions," which this is). Netlify's free tier explicitly permits commercial use.
+The storefront can be hosted as static files on Afrihost cPanel while the Spring Boot API remains on Railway.
 
-Connect the repo in Netlify ("Add new site → Import from GitHub"); it auto-detects the Vite build via
-`netlify.toml` (build command `npm run build`, publish directory `dist`), including the SPA redirect rule so
-client-side routes like `/shop` or `/checkout` don't 404 on a direct visit or refresh. Every push to the connected
-branch triggers a new deploy automatically — no manual deploy step needed.
+### Afrihost cPanel Git deployment
 
-Point the custom subdomain (`shop.rockmission.co.za`) at the site in Netlify's domain settings, then add the DNS
-record Netlify gives you at wherever `rockmission.co.za`'s DNS is managed.
+The repository includes `.cpanel.yml` and `public/.htaccess`. Before deploying:
+
+1. Replace `CPANEL_USERNAME` in `.cpanel.yml` with the cPanel account username shown in Afrihost File Manager.
+2. Replace the `VITE_API_URL` value in `.cpanel.yml` with the public Railway API URL.
+3. Ensure Node.js/npm is enabled for the cPanel account. The deployment task runs `npm ci`, builds the Vite app, and
+   copies `dist` into `public_html`.
+4. Add the storefront domain or subdomain to the cPanel repository's deployment path if it is not the primary domain.
+
+The `.htaccess` file is copied into `dist` by Vite and makes direct visits to React Router routes such as `/shop` and
+`/checkout` resolve to `index.html`.
+
+If Node.js is not available in the cPanel account, run `npm ci && npm run build` locally and upload the contents of
+`dist` to `public_html` instead. The API must still be deployed separately on Railway.
+
+For Railway, set `FRONTEND_URL` to the exact public storefront origin, such as `https://shop.rockmission.co.za`.
+Also set the production database, JWT secret, PayFast credentials, `PAYFAST_RETURN_URL`, `PAYFAST_CANCEL_URL`, and
+public `PAYFAST_NOTIFY_URL` in Railway variables. Never put those secrets in the frontend environment.
 
 ## Catalog
 
@@ -86,6 +97,9 @@ server-side in the API (`db/migration/V2__seed_products.sql`) so order totals ar
 **update both files together** when the catalog changes.
 
 ## What's still needed before this can take real payments
+
+See [`PAYFAST-ONBOARDING-DOCUMENTS.md`](PAYFAST-ONBOARDING-DOCUMENTS.md) for the PayFast document checklist and
+submission notes.
 
 1. A live PayFast **merchant account** for Rock Mission Ministries (merchant ID + key + passphrase), configured on
    the API.
