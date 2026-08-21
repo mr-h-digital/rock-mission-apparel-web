@@ -40,7 +40,7 @@ export default function ProductDetail() {
         name: product.name,
         description: product.blurb,
         category: product.category,
-        image: [`${SITE_URL}/brand/kingdom-drip-logo-only.png`],
+        image: product.imageUrl || `${SITE_URL}/brand/kingdom-drip-logo-only.png`,
         sku: product.id,
         brand: {
           '@type': 'Brand',

@@ -44,7 +44,11 @@ function setJsonLd(data) {
   script.textContent = JSON.stringify(data)
 }
 
-export default function SeoHead({ title, description, path = '/', image, type = 'website', jsonLd }) {
+function clearJsonLd() {
+  document.getElementById('seo-jsonld')?.remove()
+}
+
+export default function SeoHead({ title, description, path = '/', image, type = 'website', jsonLd, robots = 'index,follow' }) {
   useEffect(() => {
     if (!title) return
 
@@ -55,6 +59,7 @@ export default function SeoHead({ title, description, path = '/', image, type = 
     setCanonical(path)
 
     setMeta('description', description)
+    setMeta('robots', robots)
 
     setMeta('og:type', type, 'property')
     setMeta('og:site_name', 'Kingdom Drip', 'property')
@@ -70,8 +75,10 @@ export default function SeoHead({ title, description, path = '/', image, type = 
 
     if (jsonLd) {
       setJsonLd(jsonLd)
+    } else {
+      clearJsonLd()
     }
-  }, [title, description, path, image, type, jsonLd])
+  }, [title, description, path, image, type, jsonLd, robots])
 
   return null
 }
