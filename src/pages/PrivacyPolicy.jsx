@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import SeoHead from '../components/SeoHead.jsx'
 
 const sections = [
   {
@@ -55,6 +56,18 @@ const sections = [
 export default function PrivacyPolicy() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:py-24">
+      <SeoHead
+        title="Privacy Policy — Kingdom Drip"
+        description="Read how Kingdom Drip handles account, order, delivery and payment information for the online store."
+        path="/privacy"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: 'Kingdom Drip Privacy Policy',
+          description: 'How Kingdom Drip handles account, order, delivery and payment information.',
+          url: 'https://shop.rockmission.co.za/privacy',
+        }}
+      />
       <div className="max-w-2xl">
         <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Kingdom Drip</p>
         <h1 className="mt-3 font-display text-5xl tracking-wide text-apparel-cream sm:text-6xl">Privacy Policy</h1>

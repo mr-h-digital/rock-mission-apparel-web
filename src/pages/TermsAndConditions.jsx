@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import SeoHead from '../components/SeoHead.jsx'
 
 const sections = [
   {
@@ -59,6 +60,18 @@ const sections = [
 export default function TermsAndConditions() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:py-24">
+      <SeoHead
+        title="Terms & Policies — Kingdom Drip"
+        description="Read the Kingdom Drip terms covering orders, PayFast payments, delivery, returns, refunds and cancellations."
+        path="/terms"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: 'Kingdom Drip Terms & Policies',
+          description: 'Terms covering Kingdom Drip orders, payments, delivery, returns, refunds and cancellations.',
+          url: 'https://shop.rockmission.co.za/terms',
+        }}
+      />
       <div className="max-w-2xl">
         <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Kingdom Drip</p>
         <h1 className="mt-3 font-display text-5xl tracking-wide text-apparel-cream sm:text-6xl">Terms &amp; Policies</h1>
