@@ -9,6 +9,7 @@ import Checkout from './pages/Checkout.jsx'
 import OrderSuccess from './pages/OrderSuccess.jsx'
 import OrderCancel from './pages/OrderCancel.jsx'
 import OrderPending from './pages/OrderPending.jsx'
+import TermsAndConditions from './pages/TermsAndConditions.jsx'
 import SignIn from './pages/SignIn.jsx'
 import SignUp from './pages/SignUp.jsx'
 import Account from './pages/Account.jsx'
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/order/success" element={<OrderSuccess />} />
           <Route path="/order/pending" element={<OrderPending />} />
           <Route path="/order/cancel" element={<OrderCancel />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

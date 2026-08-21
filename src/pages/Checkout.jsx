@@ -28,6 +28,7 @@ export default function Checkout() {
   }))
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
+  const [termsAccepted, setTermsAccepted] = useState(false)
   const formRef = useRef(null)
 
   useEffect(() => {
@@ -158,9 +159,24 @@ export default function Checkout() {
             You will be redirected to PayFast to complete payment securely. We will then confirm your payment
             status and finalize your order reference back on Kingdom Drip.
           </p>
+          <label className="mt-5 flex items-start gap-3 text-xs leading-relaxed text-apparel-muted">
+            <input
+              type="checkbox"
+              checked={termsAccepted}
+              onChange={(e) => setTermsAccepted(e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-apparel-teal"
+            />
+            <span>
+              I have read and accept the{' '}
+              <a href="/terms" target="_blank" rel="noreferrer" className="font-semibold text-apparel-teal hover:underline">
+                Terms &amp; Policies
+              </a>
+              .
+            </span>
+          </label>
           <button
             type="submit"
-            disabled={!configured || submitting}
+            disabled={!configured || !termsAccepted || submitting}
             className="mt-6 w-full rounded-full bg-grad-drop px-6 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {submitting ? 'Redirecting to PayFast…' : 'Pay With PayFast →'}
