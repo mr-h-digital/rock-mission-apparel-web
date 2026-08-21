@@ -31,11 +31,15 @@ export default function Footer() {
               <li><a href="https://rockmission.co.za" className="hover:text-apparel-cream">About Rock Mission</a></li>
               <li><a href="https://rockmission.co.za/#donate" className="hover:text-apparel-cream">Donate Directly</a></li>
               <li><a href="https://rockmission.co.za/pages/contact.html" className="hover:text-apparel-cream">Contact</a></li>
+              <li><a href="/privacy" className="hover:text-apparel-cream">Privacy Policy</a></li>
             </ul>
           </div>
         </div>
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-apparel-border pt-6 text-xs text-apparel-muted sm:flex-row">
-          <span>© {new Date().getFullYear()} Kingdom Drip — a Rock Mission Ministries NPC project, Cape Town, South Africa</span>
+          <div>
+            <span className="block">© {new Date().getFullYear()} Kingdom Drip — ROCK MISSION MINISTRIES, NPC 2022/798592/08</span>
+            <span className="mt-1 block">Kingdom Drip branch: 49 London Way, Malibu Village, Blue Downs, Cape Town, Western Cape, 7100 · <a href="mailto:info@rockmission.co.za" className="hover:text-apparel-cream">info@rockmission.co.za</a></span>
+          </div>
         </div>
       </div>
     </footer>

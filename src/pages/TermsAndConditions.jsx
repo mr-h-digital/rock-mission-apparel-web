@@ -4,7 +4,7 @@ const sections = [
   {
     title: '1. About Kingdom Drip',
     content: [
-      'Kingdom Drip is an online Christian apparel store operated as a project of Rock Mission Ministries NPC in Cape Town, South Africa. Proceeds support Rock Mission outreach work.',
+      'Kingdom Drip is an online Christian apparel store operated by ROCK MISSION MINISTRIES, a South African non-profit company registered under number 2022/798592/08. Its registered office is 11 Vultee Crescent, Tuscany Glen, Cape Town, Western Cape, 7100, and its preferred Kingdom Drip branch is at 49 London Way, Malibu Village, Blue Downs, Cape Town, Western Cape, 7100. Proceeds support Rock Mission outreach work.',
       'These terms apply to purchases made through the Kingdom Drip online store. By placing an order, you confirm that you have read and accepted these terms.',
     ],
   },
@@ -28,7 +28,7 @@ const sections = [
     content: [
       'We deliver to addresses in South Africa supplied during checkout. Please provide a complete and accurate delivery address and a telephone number at which the courier can reach you.',
       'Orders are prepared after payment confirmation. Our usual delivery estimate is 3 to 7 business days after dispatch. Remote areas and courier delays may take longer. We will use the contact details supplied with the order to provide relevant delivery updates.',
-      'Shipping charges and any applicable free-shipping eligibility are shown before payment. The current store offer is free shipping on qualifying orders over R850. Delivery to an incorrect or incomplete address may result in additional charges or delays.',
+      'The current online checkout includes delivery in the displayed total, with no separate delivery line-item charge sent to PayFast. The store advertises free shipping on qualifying orders over R850. Delivery to an incorrect or incomplete address may result in additional charges or delays.',
       'Risk passes to you when the order is delivered to the address supplied at checkout. If a parcel arrives damaged, please notify us promptly and provide photographs of the packaging and item.',
     ],
   },

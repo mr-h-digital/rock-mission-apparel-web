@@ -151,9 +151,19 @@ export default function Checkout() {
               </li>
             ))}
           </ul>
-          <div className="mt-4 flex justify-between border-t border-apparel-border pt-4 text-base font-bold">
-            <span>Total</span>
-            <span className="text-apparel-teal">R{subtotal}</span>
+          <div className="mt-4 space-y-2 border-t border-apparel-border pt-4 text-sm">
+            <div className="flex justify-between">
+              <span className="text-apparel-muted">Merchandise subtotal</span>
+              <span>R{subtotal}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-apparel-muted">Delivery</span>
+              <span className="font-semibold text-apparel-teal">Included</span>
+            </div>
+            <div className="flex justify-between border-t border-apparel-border pt-3 text-base font-bold">
+              <span>Total</span>
+              <span className="text-apparel-teal">R{subtotal}</span>
+            </div>
           </div>
           <p className="mt-4 rounded-xl border border-apparel-border bg-apparel-bg/70 p-3 text-xs leading-relaxed text-apparel-muted">
             You will be redirected to PayFast to complete payment securely. We will then confirm your payment
