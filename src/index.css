@@ -16,6 +16,16 @@ body {
   background-color: #0c0e16;
 }
 
+.hero-stage {
+  background-image: linear-gradient(135deg, rgba(12, 14, 22, 0.84) 0%, rgba(12, 14, 22, 0.62) 38%, rgba(12, 14, 22, 0.12) 78%), url('/brand/kingdom-drip-store-hero-bg.webp');
+}
+
+@media (max-width: 639px) {
+  .hero-stage {
+    background-image: linear-gradient(180deg, rgba(12, 14, 22, 0.78) 0%, rgba(12, 14, 22, 0.54) 52%, rgba(12, 14, 22, 0.34) 100%), url('/brand/kingdom-drip-store-hero-bg.webp');
+  }
+}
+
 ::selection {
   background: #ff2fa5;
   color: #0c0e16;
