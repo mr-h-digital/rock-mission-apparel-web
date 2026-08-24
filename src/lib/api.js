@@ -8,6 +8,7 @@ const AUTH_FORGOT_PASSWORD_PATH = import.meta.env.VITE_AUTH_FORGOT_PASSWORD_PATH
 const AUTH_RESET_PASSWORD_PATH = import.meta.env.VITE_AUTH_RESET_PASSWORD_PATH || '/api/auth/reset-password'
 const AUTH_FORGOT_USERNAME_PATH = import.meta.env.VITE_AUTH_FORGOT_USERNAME_PATH || '/api/auth/forgot-username'
 const ADMIN_PRODUCTS_PATH = import.meta.env.VITE_ADMIN_PRODUCTS_PATH || '/api/admin/products'
+const WISHLIST_PATH = import.meta.env.VITE_WISHLIST_PATH || '/api/wishlist'
 
 function getErrorMessage(status, fallback, bodyText) {
   if (bodyText) return bodyText
@@ -164,6 +165,60 @@ export async function updateCurrentUser(token, payload) {
   return res.json()
 }
 
+export async function mergeWishlist(token, productIds) {
+  if (!API_URL || !token) {
+    throw new Error('Wishlist syncing is not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}${WISHLIST_PATH}/merge`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ productIds }),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to sync wishlist', text))
+  }
+
+  const data = await res.json()
+  return Array.isArray(data) ? data : []
+}
+
+export async function addWishlistItem(token, productId) {
+  if (!API_URL || !token) return null
+
+  const res = await fetch(`${API_URL}${WISHLIST_PATH}/${encodeURIComponent(productId)}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to save wishlist item', text))
+  }
+
+  const data = await res.json()
+  return Array.isArray(data) ? data : []
+}
+
+export async function removeWishlistItem(token, productId) {
+  if (!API_URL || !token) return
+
+  const res = await fetch(`${API_URL}${WISHLIST_PATH}/${encodeURIComponent(productId)}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to remove wishlist item', text))
+  }
+}
+
 export async function requestPasswordReset(payload) {
   if (!API_URL) {
     throw new Error('Password recovery is not connected to a store backend yet.')
@@ -231,14 +286,17 @@ export function isCheckoutConfigured() {
 // Creates an order on the backend and returns the PayFast redirect payload:
 // { processUrl, fields } - the caller builds and auto-submits a POST form to
 // processUrl with fields (see Checkout.jsx). Throws on any non-2xx response.
-export async function createOrder(payload) {
+export async function createOrder(payload, token) {
   if (!API_URL) {
     throw new Error('Checkout is not connected to a store backend yet.')
   }
 
   const res = await fetch(`${API_URL}/api/orders`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
     body: JSON.stringify(payload),
   })
 
@@ -248,6 +306,25 @@ export async function createOrder(payload) {
   }
 
   return res.json()
+}
+
+export async function listMyOrders(token) {
+  if (!API_URL || !token) {
+    throw new Error('Order history is not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}/api/orders/mine`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to load order history', text))
+  }
+
+  const data = await res.json()
+  return Array.isArray(data) ? data : []
 }
 
 export async function getOrderStatus(orderId) {

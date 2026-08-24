@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { getProductById } from '../data/products.js'
+import { addWishlistItem, mergeWishlist, removeWishlistItem } from '../lib/api.js'
+import { useAuth } from './AuthContext.jsx'
 import { useProducts } from './ProductsContext.jsx'
 
 const WishlistContext = createContext(null)
@@ -16,22 +18,54 @@ function readStoredProductIds() {
 
 export function WishlistProvider({ children }) {
   const { products } = useProducts()
+  const { token } = useAuth()
   const [productIds, setProductIds] = useState(readStoredProductIds)
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(productIds))
   }, [productIds])
 
+  useEffect(() => {
+    if (!token) return
+
+    let active = true
+
+    async function syncWishlist() {
+      try {
+        const mergedProductIds = await mergeWishlist(token, productIds)
+        if (active) setProductIds(mergedProductIds)
+      } catch {
+        // Keep the browser wishlist available if the account sync is temporarily unavailable.
+      }
+    }
+
+    syncWishlist()
+    return () => {
+      active = false
+    }
+  }, [token])
+
   function toggleItem(productId) {
-    setProductIds((previous) => (
-      previous.includes(productId)
-        ? previous.filter((id) => id !== productId)
-        : [...previous, productId]
-    ))
+    const saved = productIds.includes(productId)
+    setProductIds((previous) => saved ? previous.filter((id) => id !== productId) : [...previous, productId])
+
+    if (token) {
+      const request = saved ? removeWishlistItem(token, productId) : addWishlistItem(token, productId)
+      request.then((serverProductIds) => {
+        if (serverProductIds) setProductIds(serverProductIds)
+      }).catch(() => {
+        // Local storage remains the fallback when a request cannot be completed.
+      })
+    }
   }
 
   function removeItem(productId) {
     setProductIds((previous) => previous.filter((id) => id !== productId))
+    if (token) {
+      removeWishlistItem(token, productId).catch(() => {
+        // Local storage remains the fallback when a request cannot be completed.
+      })
+    }
   }
 
   const items = useMemo(() => (
