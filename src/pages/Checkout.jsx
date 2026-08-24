@@ -19,7 +19,7 @@ const emptyForm = {
 
 export default function Checkout() {
   const { items, subtotal } = useCart()
-  const { user } = useAuth()
+  const { user, token } = useAuth()
   const [form, setForm] = useState(() => ({
     ...emptyForm,
     firstName: user?.firstName || '',
@@ -73,7 +73,7 @@ export default function Checkout() {
         })),
       }
 
-      const { orderId, processUrl, fields } = await createOrder(payload)
+      const { orderId, processUrl, fields } = await createOrder(payload, token)
       if (orderId) {
         sessionStorage.setItem(LAST_ORDER_ID_KEY, orderId)
       }

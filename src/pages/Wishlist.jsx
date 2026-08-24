@@ -32,13 +32,22 @@ export default function Wishlist() {
           {items.map((product) => (
             <div key={product.id} className="flex flex-col gap-3">
               <ProductCard product={product} />
-              <button
-                type="button"
-                onClick={() => addItem(product.id, product.sizes[0], product.colors[0])}
-                className="w-full rounded-full border border-apparel-teal px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg"
-              >
-                Move to Cart
-              </button>
+              {product.sizes.length === 1 && product.colors.length === 1 ? (
+                <button
+                  type="button"
+                  onClick={() => addItem(product.id, product.sizes[0], product.colors[0])}
+                  className="w-full rounded-full border border-apparel-teal px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg"
+                >
+                  Move to Cart
+                </button>
+              ) : (
+                <Link
+                  to={`/product/${product.id}`}
+                  className="w-full rounded-full border border-apparel-teal px-4 py-2.5 text-center text-xs font-bold uppercase tracking-widest text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg"
+                >
+                  Choose options
+                </Link>
+              )}
             </div>
           ))}
         </div>

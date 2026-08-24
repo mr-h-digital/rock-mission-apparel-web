@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import { listMyOrders } from '../lib/api.js'
 
 const emptyForm = {
   firstName: '',
@@ -16,11 +17,14 @@ const emptyForm = {
 }
 
 export default function Account() {
-  const { user, saveProfile, signOut } = useAuth()
+  const { user, token, saveProfile, signOut } = useAuth()
   const [form, setForm] = useState(emptyForm)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [orders, setOrders] = useState([])
+  const [ordersError, setOrdersError] = useState('')
+  const [ordersLoading, setOrdersLoading] = useState(true)
 
   useEffect(() => {
     setForm({
@@ -36,6 +40,30 @@ export default function Account() {
       country: user?.country || 'South Africa',
     })
   }, [user])
+
+  useEffect(() => {
+    let active = true
+
+    async function loadOrders() {
+      if (!token) return
+      setOrdersLoading(true)
+      setOrdersError('')
+
+      try {
+        const accountOrders = await listMyOrders(token)
+        if (active) setOrders(accountOrders)
+      } catch (err) {
+        if (active) setOrdersError(err.message || 'Unable to load your order history right now.')
+      } finally {
+        if (active) setOrdersLoading(false)
+      }
+    }
+
+    loadOrders()
+    return () => {
+      active = false
+    }
+  }, [token])
 
   function onChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -105,15 +133,41 @@ export default function Account() {
 
         <section className="rounded-2xl border border-apparel-border bg-apparel-panel p-6">
           <h2 className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Orders</h2>
-          <p className="mt-4 text-sm text-apparel-muted">
-            Order history will appear here once the backend orders endpoint is connected to accounts.
-          </p>
-          <Link
-            to="/shop"
-            className="mt-4 inline-block text-sm font-bold uppercase tracking-widest text-apparel-teal hover:underline"
-          >
-            Keep Shopping &rarr;
-          </Link>
+          {ordersLoading ? (
+            <p className="mt-4 text-sm text-apparel-muted">Loading your orders...</p>
+          ) : ordersError ? (
+            <p className="mt-4 text-sm font-semibold text-apparel-pink">{ordersError}</p>
+          ) : orders.length === 0 ? (
+            <>
+              <p className="mt-4 text-sm text-apparel-muted">Your account orders will appear here after checkout.</p>
+              <Link
+                to="/shop"
+                className="mt-4 inline-block text-sm font-bold uppercase tracking-widest text-apparel-teal hover:underline"
+              >
+                Keep Shopping &rarr;
+              </Link>
+            </>
+          ) : (
+            <ul className="mt-4 divide-y divide-apparel-border">
+              {orders.map((order) => (
+                <li key={order.id} className="py-4 first:pt-0">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold text-apparel-cream">Order #{order.id.slice(0, 8).toUpperCase()}</p>
+                      <p className="mt-1 text-xs text-apparel-muted">{new Date(order.createdAt).toLocaleDateString('en-ZA', { dateStyle: 'medium' })}</p>
+                    </div>
+                    <span className="rounded-full border border-apparel-teal/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-apparel-teal">
+                      {order.status}
+                    </span>
+                  </div>
+                  <ul className="mt-3 space-y-1 text-xs text-apparel-muted">
+                    {order.items.map((item) => <li key={`${order.id}-${item.productId}-${item.size}-${item.color}`}>{item.qty}x {item.productName} ({item.size}/{item.color})</li>)}
+                  </ul>
+                  <p className="mt-3 text-sm font-bold text-apparel-cream">R{Number(order.totalAmount).toFixed(2)}</p>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       </div>
 

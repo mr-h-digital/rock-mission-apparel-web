@@ -1,18 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { getProductById } from '../data/products.js'
+import { getProductById, PRODUCTS } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
 import { useProducts } from '../context/ProductsContext.jsx'
 import { useWishlist } from '../context/WishlistContext.jsx'
 import { ART_CLASSES } from '../lib/artClasses.js'
 import SeoHead from '../components/SeoHead.jsx'
+import ProductCard from '../components/ProductCard.jsx'
 
 const SITE_URL = 'https://shop.rockmission.co.za'
+const RECENTLY_VIEWED_KEY = 'rm-apparel-recently-viewed'
+const FIT_GUIDANCE = {
+  Hoodies: 'Designed with a relaxed, oversized shape. Choose your usual size for an easy fit, or size down for a closer fit.',
+  Tees: 'Cut for a relaxed everyday fit. Choose your usual size; size up for a looser streetwear silhouette.',
+  Hats: 'One-size caps and beanies use adjustable or flexible fits where stated in the product description.',
+  Accessories: 'Accessory dimensions and fit details are included in each product description.',
+}
+
+function readRecentlyViewed() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(RECENTLY_VIEWED_KEY))
+    return Array.isArray(stored) ? stored.filter((productId) => typeof productId === 'string') : []
+  } catch {
+    return []
+  }
+}
 
 export default function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { products } = useProducts()
+  const catalogProducts = products.length > 0 ? products : PRODUCTS
   const product = products.find((p) => p.id === id) || getProductById(id)
   const { addItem } = useCart()
   const { isWishlisted, toggleItem } = useWishlist()
@@ -22,6 +40,7 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1)
   const [added, setAdded] = useState(false)
   const [imageFailed, setImageFailed] = useState(false)
+  const [recentlyViewedIds, setRecentlyViewedIds] = useState(readRecentlyViewed)
 
   const productPath = product ? `/product/${product.id}` : '/shop'
   const productTitle = product
@@ -35,6 +54,30 @@ export default function ProductDetail() {
   const availableQuantity = inventoryTracked ? (selectedInventory?.available ?? 0) : null
   const soldOut = inventoryTracked && availableQuantity < 1
   const saved = product ? isWishlisted(product.id) : false
+
+  useEffect(() => {
+    if (!product) return
+
+    setRecentlyViewedIds((previous) => {
+      const next = [product.id, ...previous.filter((productId) => productId !== product.id)].slice(0, 6)
+      localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(next))
+      return next
+    })
+  }, [product])
+
+  const relatedProducts = useMemo(() => (
+    product
+      ? catalogProducts.filter((candidate) => candidate.id !== product.id && candidate.category === product.category).slice(0, 4)
+      : []
+  ), [catalogProducts, product])
+
+  const recentlyViewedProducts = useMemo(() => (
+    recentlyViewedIds
+      .filter((productId) => productId !== product?.id)
+      .map((productId) => catalogProducts.find((candidate) => candidate.id === productId) || getProductById(productId))
+      .filter(Boolean)
+      .slice(0, 4)
+  ), [catalogProducts, product?.id, recentlyViewedIds])
 
   const productSchema = product
     ? {
@@ -167,6 +210,18 @@ export default function ProductDetail() {
             </div>
           </div>
 
+          <details className="mt-6 border-y border-apparel-border py-4">
+            <summary className="cursor-pointer text-xs font-bold uppercase tracking-widest text-apparel-teal">
+              Fit and sizing
+            </summary>
+            <p className="mt-3 text-sm leading-relaxed text-apparel-muted">
+              {FIT_GUIDANCE[product.category] || 'Choose the size and colour that best match your preferred fit.'}
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-apparel-muted">
+              Measurements can vary by garment. Use the product description and your preferred fit as your guide.
+            </p>
+          </details>
+
           <div className="mt-6 flex items-center gap-4">
             <label className="text-xs font-bold uppercase tracking-widest text-apparel-muted">Qty</label>
             <div className="flex items-center rounded-lg border border-apparel-border">
@@ -221,6 +276,31 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+      {relatedProducts.length > 0 && (
+        <section className="mt-20 border-t border-apparel-border pt-10">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Keep exploring</p>
+              <h2 className="mt-2 font-display text-3xl tracking-wide">More {product.category}</h2>
+            </div>
+            <Link to={`/shop?category=${encodeURIComponent(product.category)}`} className="text-sm font-bold uppercase tracking-widest text-apparel-teal hover:underline">
+              View all
+            </Link>
+          </div>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {relatedProducts.map((relatedProduct) => <ProductCard key={relatedProduct.id} product={relatedProduct} />)}
+          </div>
+        </section>
+      )}
+      {recentlyViewedProducts.length > 0 && (
+        <section className="mt-16 border-t border-apparel-border pt-10">
+          <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Your browsing</p>
+          <h2 className="mt-2 font-display text-3xl tracking-wide">Recently viewed</h2>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {recentlyViewedProducts.map((viewedProduct) => <ProductCard key={viewedProduct.id} product={viewedProduct} />)}
+          </div>
+        </section>
+      )}
     </div>
   )
 }

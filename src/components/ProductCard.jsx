@@ -14,6 +14,12 @@ export default function ProductCard({ product }) {
   const showImage = Boolean(product.imageUrl) && !imageFailed
 
   const saved = isWishlisted(product.id)
+  const inventoryTracked = Array.isArray(product.inventory) && product.inventory.length > 0
+  const availableQuantity = inventoryTracked
+    ? product.inventory.reduce((total, variant) => total + Math.max(0, variant.available || 0), 0)
+    : null
+  const soldOut = inventoryTracked && availableQuantity === 0
+  const lowStock = inventoryTracked && availableQuantity > 0 && availableQuantity <= 5
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-apparel-border bg-apparel-panel transition-transform hover:-translate-y-1">
@@ -50,6 +56,16 @@ export default function ProductCard({ product }) {
         <span className="absolute left-3 top-3 rounded-full bg-apparel-bg/80 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-apparel-cream">
           {product.category}
         </span>
+        {soldOut && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-apparel-pink px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-apparel-bg">
+            Sold out
+          </span>
+        )}
+        {lowStock && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-apparel-teal px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-apparel-bg">
+            Low stock
+          </span>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-4">
         <h3 className="text-sm font-semibold leading-snug text-apparel-cream group-hover:text-apparel-teal">

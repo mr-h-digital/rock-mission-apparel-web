@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard.jsx'
 import CategoryChips from '../components/CategoryChips.jsx'
@@ -8,17 +8,52 @@ import { useProducts } from '../context/ProductsContext.jsx'
 export default function Shop() {
   const { products, categories, loading, error } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
-  const urlCategory = searchParams.get('category')
-  const [active, setActive] = useState(categories.includes(urlCategory) ? urlCategory : null)
+  const active = searchParams.get('category')
+  const query = searchParams.get('q') || ''
+  const size = searchParams.get('size') || ''
+  const color = searchParams.get('color') || ''
+  const inStockOnly = searchParams.get('inStock') === 'true'
+  const sort = searchParams.get('sort') || 'featured'
 
-  const filtered = useMemo(
-    () => (active ? products.filter((p) => p.category === active) : products),
-    [active, products],
-  )
+  const sizes = useMemo(() => Array.from(new Set(products.flatMap((product) => product.sizes || []))).sort(), [products])
+  const colors = useMemo(() => Array.from(new Set(products.flatMap((product) => product.colors || []))).sort(), [products])
 
-  function handleChange(category) {
-    setActive(category)
-    setSearchParams(category ? { category } : {})
+  const filtered = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase()
+    const matches = products.filter((product) => {
+      const hasAvailableVariant = !Array.isArray(product.inventory) || product.inventory.length === 0
+        || product.inventory.some((variant) => variant.available > 0)
+      const searchableText = [product.name, product.category, product.blurb, product.word, product.colors?.join(' ')]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
+
+      return (!active || product.category === active)
+        && (!normalizedQuery || searchableText.includes(normalizedQuery))
+        && (!size || product.sizes?.includes(size))
+        && (!color || product.colors?.includes(color))
+        && (!inStockOnly || hasAvailableVariant)
+    })
+
+    return matches.sort((first, second) => {
+      if (sort === 'price-asc') return first.price - second.price
+      if (sort === 'price-desc') return second.price - first.price
+      if (sort === 'name') return first.name.localeCompare(second.name)
+      return 0
+    })
+  }, [active, color, inStockOnly, products, query, size, sort])
+
+  function updateFilter(key, value) {
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current)
+      if (value) next.set(key, value)
+      else next.delete(key)
+      return next
+    })
+  }
+
+  function clearFilters() {
+    setSearchParams({})
   }
 
   return (
@@ -34,7 +69,50 @@ export default function Shop() {
         <h1 className="mt-2 font-display text-5xl tracking-wide sm:text-6xl">Shop</h1>
       </div>
       <div className="mb-8">
-        <CategoryChips categories={categories} active={active} onChange={handleChange} />
+        <CategoryChips categories={categories} active={active} onChange={(category) => updateFilter('category', category)} />
+      </div>
+      <div className="mb-8 grid gap-3 border-y border-apparel-border py-5 lg:grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_auto]">
+        <input
+          type="search"
+          value={query}
+          onChange={(event) => updateFilter('q', event.target.value)}
+          className="input"
+          placeholder="Search the collection"
+          aria-label="Search products"
+        />
+        <select value={size} onChange={(event) => updateFilter('size', event.target.value)} className="input" aria-label="Filter by size">
+          <option value="">All sizes</option>
+          {sizes.map((option) => <option key={option} value={option}>{option}</option>)}
+        </select>
+        <select value={color} onChange={(event) => updateFilter('color', event.target.value)} className="input" aria-label="Filter by colour">
+          <option value="">All colours</option>
+          {colors.map((option) => <option key={option} value={option}>{option}</option>)}
+        </select>
+        <select value={sort} onChange={(event) => updateFilter('sort', event.target.value === 'featured' ? '' : event.target.value)} className="input" aria-label="Sort products">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price: low to high</option>
+          <option value="price-desc">Price: high to low</option>
+          <option value="name">Name: A to Z</option>
+        </select>
+        <label className="flex items-center gap-2 px-2 text-xs font-bold uppercase tracking-widest text-apparel-muted">
+          <input
+            type="checkbox"
+            checked={inStockOnly}
+            onChange={(event) => updateFilter('inStock', event.target.checked ? 'true' : '')}
+            className="h-4 w-4 accent-apparel-teal"
+          />
+          In stock
+        </label>
+        <button
+          type="button"
+          onClick={clearFilters}
+          className="text-xs font-bold uppercase tracking-widest text-apparel-teal hover:underline"
+        >
+          Clear
+        </button>
+      </div>
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <p className="text-sm text-apparel-muted">{filtered.length} {filtered.length === 1 ? 'piece' : 'pieces'} found</p>
       </div>
       {loading && <p className="mb-6 text-sm text-apparel-muted">Loading products...</p>}
       {error && <p className="mb-6 text-sm font-semibold text-apparel-pink">{error}</p>}
@@ -44,7 +122,12 @@ export default function Shop() {
         ))}
       </div>
       {filtered.length === 0 && (
-        <p className="py-20 text-center text-apparel-muted">No products in this category yet — check back soon.</p>
+        <div className="py-20 text-center">
+          <p className="text-apparel-muted">No pieces match those filters.</p>
+          <button type="button" onClick={clearFilters} className="mt-4 text-sm font-bold uppercase tracking-widest text-apparel-teal hover:underline">
+            Reset filters
+          </button>
+        </div>
       )}
     </div>
   )
