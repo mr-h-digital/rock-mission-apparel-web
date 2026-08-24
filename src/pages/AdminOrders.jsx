@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
-import { cancelAdminOrder, listAdminOrders } from '../lib/api.js'
+import { cancelAdminOrder, listAdminOrders, updateAdminOrderFulfillment } from '../lib/api.js'
 
 const statusStyles = {
   PENDING: 'bg-apparel-volt/10 text-apparel-volt',
   PAID: 'bg-apparel-teal/10 text-apparel-teal',
+  FULFILLING: 'bg-apparel-volt/10 text-apparel-volt',
+  SHIPPED: 'bg-apparel-teal/10 text-apparel-teal',
+  DELIVERED: 'bg-apparel-teal/10 text-apparel-teal',
   FAILED: 'bg-apparel-border text-apparel-muted',
   CANCELLED: 'bg-apparel-pink/10 text-apparel-pinkLight',
 }
@@ -21,6 +24,7 @@ export default function AdminOrders() {
   const [query, setQuery] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [fulfillmentForms, setFulfillmentForms] = useState({})
 
   async function loadOrders() {
     setLoading(true)
@@ -69,6 +73,43 @@ export default function AdminOrders() {
     } finally {
       setBusyId('')
     }
+  }
+
+  function nextFulfillmentStatus(status) {
+    if (status === 'PAID') return 'FULFILLING'
+    if (status === 'FULFILLING') return 'SHIPPED'
+    if (status === 'SHIPPED') return 'DELIVERED'
+    return ''
+  }
+
+  async function onUpdateFulfillment(order) {
+    const status = nextFulfillmentStatus(order.status)
+    if (!status) return
+
+    setBusyId(order.id)
+    setError('')
+    setSuccess('')
+    try {
+      const details = fulfillmentForms[order.id] || {}
+      const updated = await updateAdminOrderFulfillment(token, order.id, {
+        status,
+        trackingCarrier: details.trackingCarrier || order.trackingCarrier || '',
+        trackingNumber: details.trackingNumber || order.trackingNumber || '',
+      })
+      setOrders((current) => current.map((item) => item.id === updated.id ? updated : item))
+      setSuccess(`Order ${order.id.slice(0, 8)} marked ${status.toLowerCase()}.`)
+    } catch (err) {
+      setError(err.message || 'Unable to update fulfilment.')
+    } finally {
+      setBusyId('')
+    }
+  }
+
+  function updateFulfillmentField(orderId, field, value) {
+    setFulfillmentForms((current) => ({
+      ...current,
+      [orderId]: { ...current[orderId], [field]: value },
+    }))
   }
 
   return (
@@ -121,6 +162,34 @@ export default function AdminOrders() {
                 <ul className="mt-4 grid gap-2 border-t border-apparel-border pt-3 text-xs text-apparel-muted sm:grid-cols-2">
                   {order.items.map((item) => <li key={`${order.id}-${item.productId}-${item.size}-${item.color}`}>{item.quantity}× {item.productName} · {item.size}/{item.color}</li>)}
                 </ul>
+                {nextFulfillmentStatus(order.status) && (
+                  <div className="mt-4 flex flex-wrap items-end gap-2 border-t border-apparel-border pt-4">
+                    {order.status === 'FULFILLING' && (
+                      <>
+                        <input
+                          value={fulfillmentForms[order.id]?.trackingCarrier ?? order.trackingCarrier ?? ''}
+                          onChange={(event) => updateFulfillmentField(order.id, 'trackingCarrier', event.target.value)}
+                          className="input min-w-40 flex-1"
+                          placeholder="Carrier"
+                          aria-label="Tracking carrier"
+                        />
+                        <input
+                          value={fulfillmentForms[order.id]?.trackingNumber ?? order.trackingNumber ?? ''}
+                          onChange={(event) => updateFulfillmentField(order.id, 'trackingNumber', event.target.value)}
+                          className="input min-w-48 flex-[1.5]"
+                          placeholder="Tracking number"
+                          aria-label="Tracking number"
+                        />
+                      </>
+                    )}
+                    <button type="button" onClick={() => onUpdateFulfillment(order)} disabled={busyId === order.id} className="rounded-full border border-apparel-teal px-3 py-2 text-xs font-bold uppercase tracking-wider text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:opacity-50">
+                      {busyId === order.id ? 'Updating...' : order.status === 'PAID' ? 'Start fulfilment' : order.status === 'FULFILLING' ? 'Mark shipped' : 'Mark delivered'}
+                    </button>
+                  </div>
+                )}
+                {order.trackingNumber && (
+                  <p className="mt-3 text-xs font-semibold text-apparel-teal">Tracking: {order.trackingCarrier ? `${order.trackingCarrier} · ` : ''}{order.trackingNumber}</p>
+                )}
               </article>
             ))}
           </div>

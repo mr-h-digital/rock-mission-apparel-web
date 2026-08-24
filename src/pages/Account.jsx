@@ -16,6 +16,15 @@ const emptyForm = {
   country: 'South Africa',
 }
 
+const orderSteps = ['PENDING', 'PAID', 'FULFILLING', 'SHIPPED', 'DELIVERED']
+const orderLabels = {
+  PENDING: 'Payment pending',
+  PAID: 'Paid',
+  FULFILLING: 'In fulfilment',
+  SHIPPED: 'Dispatched',
+  DELIVERED: 'Delivered',
+}
+
 export default function Account() {
   const { user, token, saveProfile, signOut } = useAuth()
   const [form, setForm] = useState(emptyForm)
@@ -163,6 +172,23 @@ export default function Account() {
                   <ul className="mt-3 space-y-1 text-xs text-apparel-muted">
                     {order.items.map((item) => <li key={`${order.id}-${item.productId}-${item.size}-${item.color}`}>{item.qty}x {item.productName} ({item.size}/{item.color})</li>)}
                   </ul>
+                  {!['FAILED', 'CANCELLED'].includes(order.status) && (
+                    <ol className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide">
+                      {orderSteps.map((step, index) => {
+                        const currentStep = orderSteps.indexOf(order.status)
+                        const reached = index <= currentStep
+                        return (
+                          <li key={step} className={`flex items-center ${reached ? 'text-apparel-teal' : 'text-apparel-muted'}`}>
+                            <span className="whitespace-nowrap">{orderLabels[step]}</span>
+                            {index < orderSteps.length - 1 && <span className="mx-1 h-px w-3 bg-current opacity-50" />}
+                          </li>
+                        )
+                      })}
+                    </ol>
+                  )}
+                  {order.trackingNumber && (
+                    <p className="mt-3 text-xs font-semibold text-apparel-teal">Tracking: {order.trackingCarrier ? `${order.trackingCarrier} · ` : ''}{order.trackingNumber}</p>
+                  )}
                   <p className="mt-3 text-sm font-bold text-apparel-cream">R{Number(order.totalAmount).toFixed(2)}</p>
                 </li>
               ))}
