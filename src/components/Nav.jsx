@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useWishlist } from '../context/WishlistContext.jsx'
 import logoWhiteText from '../assets/logos/kingdom-drip-logo-transparent-bg-white-text.png'
 
 const linkClass = ({ isActive }) =>
@@ -11,6 +12,7 @@ const linkClass = ({ isActive }) =>
 
 export default function Nav() {
   const { itemCount } = useCart()
+  const { itemCount: wishlistCount } = useWishlist()
   const { isAuthenticated, signOut, user } = useAuth()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const tickerItems = [
@@ -47,6 +49,7 @@ export default function Nav() {
   const mobileMenuLinks = [
     { to: '/', label: 'Home', end: true },
     { to: '/shop', label: 'Shop' },
+    { to: '/wishlist', label: 'Wishlist' },
     isAuthenticated
       ? { to: '/account', label: 'Account' }
       : { to: '/sign-in', label: 'Sign In' },
@@ -78,6 +81,7 @@ export default function Nav() {
         <nav className="hidden items-center gap-8 md:flex">
           <NavLink to="/" end className={linkClass}>Home</NavLink>
           <NavLink to="/shop" className={linkClass}>Shop</NavLink>
+          <NavLink to="/wishlist" className={linkClass}>Wishlist</NavLink>
           {isAuthenticated ? (
             <NavLink to="/account" className={linkClass}>Account</NavLink>
           ) : (
@@ -127,6 +131,23 @@ export default function Nav() {
               }`}
             />
           </button>
+          <Link
+            to="/wishlist"
+            aria-label="Open wishlist"
+            title="Open wishlist"
+            className={`relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-apparel-border bg-apparel-panel text-apparel-cream hover:border-apparel-pink hover:text-apparel-pink ${
+              isMobileMenuOpen ? 'hidden md:inline-flex' : 'inline-flex'
+            }`}
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current" strokeWidth="1.8">
+              <path d="M20.8 4.9a5.5 5.5 0 0 0-7.8 0L12 6l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.3a5.5 5.5 0 0 0 0-7.8Z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {wishlistCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-apparel-pink px-1 text-xs font-bold text-apparel-bg">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
           <Link
             to="/cart"
             aria-label="Open cart"

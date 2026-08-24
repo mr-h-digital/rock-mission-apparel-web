@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProductById } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
 import { useProducts } from '../context/ProductsContext.jsx'
+import { useWishlist } from '../context/WishlistContext.jsx'
 import { ART_CLASSES } from '../lib/artClasses.js'
 import SeoHead from '../components/SeoHead.jsx'
 
@@ -14,6 +15,7 @@ export default function ProductDetail() {
   const { products } = useProducts()
   const product = products.find((p) => p.id === id) || getProductById(id)
   const { addItem } = useCart()
+  const { isWishlisted, toggleItem } = useWishlist()
 
   const [size, setSize] = useState(product?.sizes[0] ?? '')
   const [color, setColor] = useState(product?.colors[0] ?? '')
@@ -32,6 +34,7 @@ export default function ProductDetail() {
   const inventoryTracked = Array.isArray(product?.inventory) && product.inventory.length > 0
   const availableQuantity = inventoryTracked ? (selectedInventory?.available ?? 0) : null
   const soldOut = inventoryTracked && availableQuantity < 1
+  const saved = product ? isWishlisted(product.id) : false
 
   const productSchema = product
     ? {
@@ -200,6 +203,20 @@ export default function ProductDetail() {
               className="rounded-full bg-grad-drop px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Buy Now
+            </button>
+            <button
+              type="button"
+              onClick={() => toggleItem(product.id)}
+              className={`inline-flex items-center gap-2 rounded-full border px-6 py-3.5 text-sm font-bold uppercase tracking-widest transition-colors ${
+                saved
+                  ? 'border-apparel-pink bg-apparel-pink text-apparel-bg'
+                  : 'border-apparel-border text-apparel-cream hover:border-apparel-pink hover:text-apparel-pink'
+              }`}
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-current stroke-current" strokeWidth="1.8">
+                <path d="M20.8 4.9a5.5 5.5 0 0 0-7.8 0L12 6l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.3a5.5 5.5 0 0 0 0-7.8Z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {saved ? 'Saved' : 'Save'}
             </button>
           </div>
         </div>
