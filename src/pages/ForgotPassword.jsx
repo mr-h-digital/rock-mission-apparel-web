@@ -7,6 +7,7 @@ export default function ForgotPassword() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [submittedEmail, setSubmittedEmail] = useState('')
 
   const configured = isAuthConfigured()
 
@@ -14,6 +15,7 @@ export default function ForgotPassword() {
     e.preventDefault()
     setError('')
     setSuccess('')
+    setSubmittedEmail('')
 
     const cleanEmail = email.trim().toLowerCase()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
@@ -24,6 +26,7 @@ export default function ForgotPassword() {
     setSubmitting(true)
     try {
       const res = await requestPasswordReset({ email: cleanEmail })
+      setSubmittedEmail(cleanEmail)
       setSuccess(res?.message || 'If an account exists, a reset link has been prepared.')
     } catch (err) {
       setError(err.message || 'Unable to request password reset right now.')
@@ -61,15 +64,37 @@ export default function ForgotPassword() {
           />
         </div>
 
-        {error && <p className="text-sm font-semibold text-apparel-pink">{error}</p>}
-        {success && <p className="text-sm font-semibold text-apparel-teal">{success}</p>}
+        {error && (
+          <div className="rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-4 text-sm text-apparel-pink" role="status" aria-live="polite">
+            <p className="font-semibold">{error}</p>
+            <p className="mt-2 text-apparel-pinkLight/90">
+              Please try again in a moment. If this keeps happening, contact support.
+            </p>
+          </div>
+        )}
+
+        {success && (
+          <div className="rounded-xl border border-apparel-teal/40 bg-apparel-teal/10 p-4 text-sm text-apparel-teal" role="status" aria-live="polite">
+            <p className="font-semibold">Request received.</p>
+            <p className="mt-2 text-apparel-tealLight">{success}</p>
+            {submittedEmail && (
+              <p className="mt-2 text-apparel-tealLight/90">
+                Submitted for: <span className="font-semibold">{submittedEmail}</span>
+              </p>
+            )}
+            <p className="mt-2 text-apparel-tealLight/90">
+              For account security, we cannot confirm whether this email exists in our records.
+            </p>
+            <p className="mt-1 text-apparel-tealLight/90">If the account exists, check inbox and spam for the reset email.</p>
+          </div>
+        )}
 
         <button
           type="submit"
           disabled={!configured || submitting}
           className="w-full rounded-full bg-grad-drop px-6 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {submitting ? 'Preparing Link...' : 'Send Reset Link ->'}
+          {submitting ? 'Sending...' : 'Send Recovery Email ->'}
         </button>
 
         <p className="text-sm text-apparel-muted">
