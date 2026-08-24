@@ -7,6 +7,7 @@ import { useWishlist } from '../context/WishlistContext.jsx'
 import { ART_CLASSES } from '../lib/artClasses.js'
 import SeoHead from '../components/SeoHead.jsx'
 import ProductCard from '../components/ProductCard.jsx'
+import { requestBackInStockNotification } from '../lib/api.js'
 
 const SITE_URL = 'https://shop.rockmission.co.za'
 const RECENTLY_VIEWED_KEY = 'rm-apparel-recently-viewed'
@@ -41,6 +42,9 @@ export default function ProductDetail() {
   const [added, setAdded] = useState(false)
   const [imageFailed, setImageFailed] = useState(false)
   const [recentlyViewedIds, setRecentlyViewedIds] = useState(readRecentlyViewed)
+  const [notificationEmail, setNotificationEmail] = useState('')
+  const [notificationState, setNotificationState] = useState('')
+  const [notificationError, setNotificationError] = useState('')
 
   const productPath = product ? `/product/${product.id}` : '/shop'
   const productTitle = product
@@ -129,6 +133,20 @@ export default function ProductDetail() {
     navigate('/cart')
   }
 
+  async function handleBackInStockRequest(event) {
+    event.preventDefault()
+    setNotificationError('')
+    setNotificationState('saving')
+
+    try {
+      await requestBackInStockNotification({ productId: product.id, size, color, email: notificationEmail })
+      setNotificationState('saved')
+    } catch (err) {
+      setNotificationState('')
+      setNotificationError(err.message || 'Unable to save your request right now.')
+    }
+  }
+
   const showImage = Boolean(product.imageUrl) && !imageFailed
 
   return (
@@ -170,6 +188,34 @@ export default function ProductDetail() {
             <p className={`mt-4 text-sm font-semibold ${soldOut ? 'text-apparel-pink' : 'text-apparel-teal'}`}>
               {soldOut ? 'Sold out for this size and colour.' : availableQuantity <= 5 ? `Only ${availableQuantity} left in this variant.` : 'In stock'}
             </p>
+          )}
+
+          {soldOut && (
+            <form onSubmit={handleBackInStockRequest} className="mt-5 border-y border-apparel-border py-5">
+              <p className="text-sm font-semibold text-apparel-cream">Get notified when this {size}/{color} variant returns.</p>
+              {notificationState === 'saved' ? (
+                <p className="mt-2 text-sm font-semibold text-apparel-teal">You are on the list. We will email you when it is back.</p>
+              ) : (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <input
+                    type="email"
+                    required
+                    value={notificationEmail}
+                    onChange={(event) => setNotificationEmail(event.target.value)}
+                    className="input min-w-[220px] flex-1"
+                    placeholder="Email address"
+                  />
+                  <button
+                    type="submit"
+                    disabled={notificationState === 'saving'}
+                    className="rounded-full border border-apparel-teal px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {notificationState === 'saving' ? 'Saving...' : 'Notify me'}
+                  </button>
+                </div>
+              )}
+              {notificationError && <p className="mt-2 text-sm font-semibold text-apparel-pink">{notificationError}</p>}
+            </form>
           )}
 
           <div className="mt-8">

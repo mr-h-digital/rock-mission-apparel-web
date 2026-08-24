@@ -344,6 +344,23 @@ export async function getOrderStatus(orderId) {
   return res.json()
 }
 
+export async function requestBackInStockNotification(payload) {
+  if (!API_URL) {
+    throw new Error('Back-in-stock notifications are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}/api/back-in-stock`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to save notification request', text))
+  }
+}
+
 export async function listProducts() {
   if (!API_URL) {
     throw new Error('Products are not connected to a store backend yet.')
@@ -422,6 +439,28 @@ export async function cancelAdminOrder(token, orderId) {
   if (!res.ok) {
     const text = await readErrorText(res)
     throw new Error(getErrorMessage(res.status, 'Unable to cancel order', text))
+  }
+
+  return res.json()
+}
+
+export async function updateAdminOrderFulfillment(token, orderId, payload) {
+  if (!API_URL || !token) {
+    throw new Error('Admin orders are not connected to a store backend yet.')
+  }
+
+  const res = await fetch(`${API_URL}/api/admin/orders/${orderId}/fulfillment`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!res.ok) {
+    const text = await readErrorText(res)
+    throw new Error(getErrorMessage(res.status, 'Unable to update fulfilment', text))
   }
 
   return res.json()
