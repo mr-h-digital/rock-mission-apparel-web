@@ -20,6 +20,7 @@ import RecoverUsername from './pages/RecoverUsername.jsx'
 import AdminProducts from './pages/AdminProducts.jsx'
 import AdminOrders from './pages/AdminOrders.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import Wishlist from './pages/Wishlist.jsx'
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order/success" element={<OrderSuccess />} />
           <Route path="/order/pending" element={<OrderPending />} />
@@ -42,7 +44,6 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/recover-username" element={<RecoverUsername />} />
-  import AdminOrders from './pages/AdminOrders.jsx'
           <Route
             path="/admin/products"
             element={(
