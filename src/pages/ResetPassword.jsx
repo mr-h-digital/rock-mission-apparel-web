@@ -49,7 +49,7 @@ export default function ResetPassword() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-5xl tracking-wide">Reset Password</h1>
+      <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Reset Password</h1>
       <p className="mt-3 text-apparel-muted">
         Enter your reset token and choose a new password.
       </p>

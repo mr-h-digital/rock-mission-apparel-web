@@ -74,7 +74,7 @@ export default function TermsAndConditions() {
       />
       <div className="max-w-2xl">
         <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Kingdom Drip</p>
-        <h1 className="mt-3 font-display text-5xl tracking-wide text-apparel-cream sm:text-6xl">Terms &amp; Policies</h1>
+        <h1 className="mt-3 font-display text-4xl tracking-wide text-apparel-cream sm:text-6xl">Terms &amp; Policies</h1>
         <p className="mt-5 text-sm leading-7 text-apparel-muted">
           Last updated: 21 August 2026. These terms explain how orders, payments, delivery, returns, refunds, and
           cancellations are handled for the Kingdom Drip online store.

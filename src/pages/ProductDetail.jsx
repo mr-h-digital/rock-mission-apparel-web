@@ -202,7 +202,7 @@ export default function ProductDetail() {
                     required
                     value={notificationEmail}
                     onChange={(event) => setNotificationEmail(event.target.value)}
-                    className="input min-w-[220px] flex-1"
+                    className="input w-full sm:min-w-[220px] sm:flex-1"
                     placeholder="Email address"
                   />
                   <button
@@ -290,25 +290,25 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-wrap gap-3">
             <button
               onClick={handleAddToCart}
               disabled={soldOut}
-              className="rounded-full border border-apparel-teal px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:cursor-not-allowed disabled:border-apparel-border disabled:text-apparel-muted"
+              className="w-full rounded-full border border-apparel-teal px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:cursor-not-allowed disabled:border-apparel-border disabled:text-apparel-muted sm:w-auto"
             >
               {added ? 'Added ✓' : 'Add To Cart'}
             </button>
             <button
               onClick={handleBuyNow}
               disabled={soldOut}
-              className="rounded-full bg-grad-drop px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40"
+              className="w-full rounded-full bg-grad-drop px-8 py-3.5 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
             >
               Buy Now
             </button>
             <button
               type="button"
               onClick={() => toggleItem(product.id)}
-              className={`inline-flex items-center gap-2 rounded-full border px-6 py-3.5 text-sm font-bold uppercase tracking-widest transition-colors ${
+              className={`inline-flex w-full items-center justify-center gap-2 rounded-full border px-6 py-3.5 text-sm font-bold uppercase tracking-widest transition-colors sm:w-auto ${
                 saved
                   ? 'border-apparel-pink bg-apparel-pink text-apparel-bg'
                   : 'border-apparel-border text-apparel-cream hover:border-apparel-pink hover:text-apparel-pink'

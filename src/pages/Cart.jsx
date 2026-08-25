@@ -8,7 +8,7 @@ export default function Cart() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6">
-        <h1 className="font-display text-5xl tracking-wide">Your Cart Is Empty</h1>
+        <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Your Cart Is Empty</h1>
         <p className="mt-3 text-apparel-muted">Time to gear up and rep the Kingdom.</p>
         <Link
           to="/shop"
@@ -22,10 +22,10 @@ export default function Cart() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-5xl tracking-wide">Your Cart</h1>
+      <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Your Cart</h1>
       <div className="mt-8 divide-y divide-apparel-border rounded-2xl border border-apparel-border bg-apparel-panel">
         {items.map((item) => (
-          <div key={item.key} className="flex items-center gap-4 p-4 sm:p-6">
+          <div key={item.key} className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-6">
             <div className="flex-1">
               <Link to={`/product/${item.product.id}`} className="font-semibold hover:text-apparel-teal">
                 {item.product.name}
@@ -40,24 +40,26 @@ export default function Cart() {
                 Remove
               </button>
             </div>
-            <div className="flex items-center rounded-lg border border-apparel-border">
-              <button
-                onClick={() => updateQty(item.key, item.qty - 1)}
-                className="px-3 py-1.5 text-lg font-bold hover:text-apparel-teal"
-                aria-label="Decrease quantity"
-              >
-                −
-              </button>
-              <span className="w-8 text-center font-semibold">{item.qty}</span>
-              <button
-                onClick={() => updateQty(item.key, item.qty + 1)}
-                className="px-3 py-1.5 text-lg font-bold hover:text-apparel-teal"
-                aria-label="Increase quantity"
-              >
-                +
-              </button>
+            <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-start">
+              <div className="flex items-center rounded-lg border border-apparel-border">
+                <button
+                  onClick={() => updateQty(item.key, item.qty - 1)}
+                  className="px-3 py-1.5 text-lg font-bold hover:text-apparel-teal"
+                  aria-label="Decrease quantity"
+                >
+                  −
+                </button>
+                <span className="w-8 text-center font-semibold">{item.qty}</span>
+                <button
+                  onClick={() => updateQty(item.key, item.qty + 1)}
+                  className="px-3 py-1.5 text-lg font-bold hover:text-apparel-teal"
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
+              <span className="text-right font-bold text-apparel-teal sm:w-20">R{item.qty * item.product.price}</span>
             </div>
-            <span className="w-20 text-right font-bold text-apparel-teal">R{item.qty * item.product.price}</span>
           </div>
         ))}
       </div>

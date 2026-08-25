@@ -45,7 +45,7 @@ export default function SignIn() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-5xl tracking-wide">Sign In</h1>
+      <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Sign In</h1>
       <p className="mt-3 text-apparel-muted">
         Welcome back. Sign in to manage your profile and future order history.
       </p>

@@ -37,7 +37,7 @@ export default function RecoverUsername() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-5xl tracking-wide">Recover Username</h1>
+      <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Recover Username</h1>
       <p className="mt-3 text-apparel-muted">
         Enter your account email. For this store, your sign-in ID is your email address.
       </p>

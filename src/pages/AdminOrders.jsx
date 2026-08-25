@@ -117,7 +117,7 @@ export default function AdminOrders() {
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-apparel-teal">Store operations</p>
-          <h1 className="mt-2 font-display text-5xl tracking-wide">Orders</h1>
+          <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">Orders</h1>
           <p className="mt-3 max-w-2xl text-apparel-muted">Review payments and keep inventory accurate when an order is cancelled.</p>
         </div>
         <button type="button" onClick={loadOrders} className="self-start rounded-full border border-apparel-border px-4 py-2 text-xs font-bold uppercase tracking-widest text-apparel-cream hover:border-apparel-teal sm:self-auto">Refresh</button>
@@ -147,10 +147,10 @@ export default function AdminOrders() {
                       <h3 className="font-semibold text-apparel-cream">#{order.id.slice(0, 8)}</h3>
                       <span className={`rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${statusStyles[order.status] || statusStyles.FAILED}`}>{order.status}</span>
                     </div>
-                    <p className="mt-1 text-sm text-apparel-muted">{order.firstName} {order.lastName} · {order.email}</p>
-                    <p className="mt-1 text-xs text-apparel-muted">{formatDate(order.createdAt)}{order.payfastPaymentId ? ` · PayFast ${order.payfastPaymentId}` : ''}</p>
+                    <p className="mt-1 break-all text-sm text-apparel-muted">{order.firstName} {order.lastName} · {order.email}</p>
+                    <p className="mt-1 break-all text-xs text-apparel-muted">{formatDate(order.createdAt)}{order.payfastPaymentId ? ` · PayFast ${order.payfastPaymentId}` : ''}</p>
                   </div>
-                  <div className="flex items-center justify-between gap-4 lg:justify-end">
+                  <div className="flex flex-wrap items-center justify-between gap-3 lg:justify-end">
                     <p className="text-lg font-bold text-apparel-teal">R{order.totalAmount}</p>
                     {(order.status === 'PAID' || order.status === 'PENDING') && (
                       <button type="button" onClick={() => onCancel(order)} disabled={busyId === order.id} className="rounded-full border border-apparel-pink/60 px-3 py-2 text-xs font-bold uppercase tracking-wider text-apparel-pink hover:bg-apparel-pink/10 disabled:opacity-50">
@@ -169,26 +169,26 @@ export default function AdminOrders() {
                         <input
                           value={fulfillmentForms[order.id]?.trackingCarrier ?? order.trackingCarrier ?? ''}
                           onChange={(event) => updateFulfillmentField(order.id, 'trackingCarrier', event.target.value)}
-                          className="input min-w-40 flex-1"
+                          className="input w-full sm:min-w-40 sm:flex-1"
                           placeholder="Carrier"
                           aria-label="Tracking carrier"
                         />
                         <input
                           value={fulfillmentForms[order.id]?.trackingNumber ?? order.trackingNumber ?? ''}
                           onChange={(event) => updateFulfillmentField(order.id, 'trackingNumber', event.target.value)}
-                          className="input min-w-48 flex-[1.5]"
+                          className="input w-full sm:min-w-48 sm:flex-[1.5]"
                           placeholder="Tracking number"
                           aria-label="Tracking number"
                         />
                       </>
                     )}
-                    <button type="button" onClick={() => onUpdateFulfillment(order)} disabled={busyId === order.id} className="rounded-full border border-apparel-teal px-3 py-2 text-xs font-bold uppercase tracking-wider text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:opacity-50">
+                    <button type="button" onClick={() => onUpdateFulfillment(order)} disabled={busyId === order.id} className="w-full rounded-full border border-apparel-teal px-3 py-2 text-xs font-bold uppercase tracking-wider text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:opacity-50 sm:w-auto">
                       {busyId === order.id ? 'Updating...' : order.status === 'PAID' ? 'Start fulfilment' : order.status === 'FULFILLING' ? 'Mark shipped' : 'Mark delivered'}
                     </button>
                   </div>
                 )}
                 {order.trackingNumber && (
-                  <p className="mt-3 text-xs font-semibold text-apparel-teal">Tracking: {order.trackingCarrier ? `${order.trackingCarrier} · ` : ''}{order.trackingNumber}</p>
+                  <p className="mt-3 break-all text-xs font-semibold text-apparel-teal">Tracking: {order.trackingCarrier ? `${order.trackingCarrier} · ` : ''}{order.trackingNumber}</p>
                 )}
               </article>
             ))}

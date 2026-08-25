@@ -66,12 +66,12 @@ export default function Shop() {
       />
       <div className="mb-8">
         <span className="text-xs font-bold uppercase tracking-widest text-apparel-teal">The Full Range</span>
-        <h1 className="mt-2 font-display text-5xl tracking-wide sm:text-6xl">Shop</h1>
+        <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-6xl">Shop</h1>
       </div>
       <div className="mb-8">
         <CategoryChips categories={categories} active={active} onChange={(category) => updateFilter('category', category)} />
       </div>
-      <div className="mb-8 grid gap-3 border-y border-apparel-border py-5 lg:grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_auto]">
+      <div className="mb-8 grid gap-3 border-y border-apparel-border py-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_auto]">
         <input
           type="search"
           value={query}
@@ -94,7 +94,7 @@ export default function Shop() {
           <option value="price-desc">Price: high to low</option>
           <option value="name">Name: A to Z</option>
         </select>
-        <label className="flex items-center gap-2 px-2 text-xs font-bold uppercase tracking-widest text-apparel-muted">
+        <label className="flex items-center gap-2 px-2 text-xs font-bold uppercase tracking-widest text-apparel-muted sm:col-span-1 lg:col-span-1">
           <input
             type="checkbox"
             checked={inStockOnly}
@@ -106,7 +106,7 @@ export default function Shop() {
         <button
           type="button"
           onClick={clearFilters}
-          className="text-xs font-bold uppercase tracking-widest text-apparel-teal hover:underline"
+          className="text-left text-xs font-bold uppercase tracking-widest text-apparel-teal hover:underline sm:text-right lg:text-left"
         >
           Clear
         </button>

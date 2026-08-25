@@ -223,12 +223,12 @@ export default function AdminProducts() {
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-apparel-teal">Store management</p>
-          <h1 className="mt-2 font-display text-5xl tracking-wide">Admin Products</h1>
+          <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">Admin Products</h1>
           <p className="mt-3 max-w-2xl text-apparel-muted">
             Keep your catalogue current, polished and ready for the next drop.
           </p>
         </div>
-        <div className="flex gap-6 border-l border-apparel-border pl-5 text-sm sm:mb-1">
+        <div className="flex w-full gap-6 border-t border-apparel-border pt-4 text-sm sm:mb-1 sm:w-auto sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
           <div>
             <p className="text-2xl font-bold text-apparel-cream">{products.length}</p>
             <p className="text-xs uppercase tracking-widest text-apparel-muted">Products</p>
@@ -247,7 +247,7 @@ export default function AdminProducts() {
         <section className="rounded-2xl border border-apparel-border bg-apparel-panel p-6">
           <div className="mb-5 flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">
+              <p className="break-all text-xs font-bold uppercase tracking-widest text-apparel-teal">
               {editingId ? `Edit Product: ${editingId}` : 'Create Product'}
               </p>
               <p className="mt-1 text-xs text-apparel-muted">{editingId ? 'Update the details below.' : 'Add a new item to your storefront.'}</p>
@@ -321,21 +321,30 @@ export default function AdminProducts() {
                 <span className="shrink-0 text-xs font-semibold text-apparel-teal">{inventoryRows(form).length} variants</span>
               </div>
               <div className="overflow-hidden rounded-xl border border-apparel-border">
-                <div className="grid grid-cols-[1fr_1fr_6rem] gap-3 bg-apparel-bg/70 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-apparel-muted">
+                <div className="hidden gap-3 bg-apparel-bg/70 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-apparel-muted sm:grid sm:grid-cols-[1fr_1fr_6rem]">
                   <span>Size</span><span>Colour</span><span>Units</span>
                 </div>
                 {inventoryRows(form).map((item) => (
-                  <div key={`${item.size}-${item.color}`} className="grid grid-cols-[1fr_1fr_6rem] items-center gap-3 border-t border-apparel-border px-3 py-2">
-                    <span className="text-sm text-apparel-cream">{item.size}</span>
-                    <span className="text-sm text-apparel-muted">{item.color}</span>
-                    <input
-                      type="number"
-                      min="0"
-                      value={item.quantity}
-                      onChange={(event) => onInventoryChange(item.size, item.color, event.target.value)}
-                      className="input px-2 py-2 text-center"
-                      aria-label={`${item.size} ${item.color} stock quantity`}
-                    />
+                  <div key={`${item.size}-${item.color}`} className="grid grid-cols-2 gap-2 border-t border-apparel-border px-3 py-2 sm:grid-cols-[1fr_1fr_6rem] sm:items-center sm:gap-3">
+                    <div>
+                      <span className="block text-[10px] font-bold uppercase tracking-widest text-apparel-muted sm:hidden">Size</span>
+                      <span className="text-sm text-apparel-cream">{item.size}</span>
+                    </div>
+                    <div>
+                      <span className="block text-[10px] font-bold uppercase tracking-widest text-apparel-muted sm:hidden">Colour</span>
+                      <span className="text-sm text-apparel-muted">{item.color}</span>
+                    </div>
+                    <div className="col-span-2 sm:col-span-1">
+                      <span className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-apparel-muted sm:hidden">Units</span>
+                      <input
+                        type="number"
+                        min="0"
+                        value={item.quantity}
+                        onChange={(event) => onInventoryChange(item.size, item.color, event.target.value)}
+                        className="input px-2 py-2 text-center"
+                        aria-label={`${item.size} ${item.color} stock quantity`}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -359,7 +368,7 @@ export default function AdminProducts() {
         </section>
 
         <section className="rounded-2xl border border-apparel-border bg-apparel-panel p-6">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
             <div>
               <h2 className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Existing Products</h2>
               <p className="mt-1 text-xs text-apparel-muted">{filteredProducts.length} of {products.length} shown</p>
@@ -389,10 +398,10 @@ export default function AdminProducts() {
                         <p className="truncate text-sm font-semibold text-apparel-cream">{product.name}</p>
                         <span className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${product.active !== false ? 'bg-apparel-teal/10 text-apparel-teal' : 'bg-apparel-border text-apparel-muted'}`}>{product.active !== false ? 'Live' : 'Hidden'}</span>
                       </div>
-                      <p className="mt-1 text-xs text-apparel-muted">{product.id} · {product.category} · R{product.price}</p>
+                      <p className="mt-1 break-all text-xs text-apparel-muted">{product.id} · {product.category} · R{product.price}</p>
                     </div>
                   </div>
-                  <div className="mt-3 flex gap-2">
+                  <div className="mt-3 flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => startEdit(product)}
