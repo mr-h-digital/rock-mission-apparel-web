@@ -14,7 +14,7 @@ export default function Wishlist() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Saved for later</p>
-          <h1 className="mt-2 font-display text-5xl tracking-wide">Wishlist</h1>
+          <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">Wishlist</h1>
         </div>
         {items.length > 0 && <span className="text-sm font-semibold text-apparel-muted">{items.length} saved {items.length === 1 ? 'item' : 'items'}</span>}
       </div>

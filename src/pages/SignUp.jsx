@@ -66,7 +66,7 @@ export default function SignUp() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-5xl tracking-wide">Create Account</h1>
+      <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Create Account</h1>
       <p className="mt-3 text-apparel-muted">
         Join Kingdom Drip for faster checkout, saved details, and future order tracking.
       </p>

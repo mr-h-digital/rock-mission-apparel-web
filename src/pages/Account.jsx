@@ -96,7 +96,7 @@ export default function Account() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-5xl tracking-wide">My Account</h1>
+      <h1 className="font-display text-4xl tracking-wide sm:text-5xl">My Account</h1>
       <p className="mt-3 text-apparel-muted">
         Signed in as <span className="font-semibold text-apparel-cream">{user?.email || 'your account'}</span>
       </p>
@@ -163,7 +163,7 @@ export default function Account() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-sm font-semibold text-apparel-cream">Order #{order.id.slice(0, 8).toUpperCase()}</p>
-                      <p className="mt-1 text-xs text-apparel-muted">{new Date(order.createdAt).toLocaleDateString('en-ZA', { dateStyle: 'medium' })}</p>
+                      <p className="mt-1 break-all text-xs text-apparel-muted">{new Date(order.createdAt).toLocaleDateString('en-ZA', { dateStyle: 'medium' })}</p>
                     </div>
                     <span className="rounded-full border border-apparel-teal/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-apparel-teal">
                       {order.status}
@@ -173,7 +173,7 @@ export default function Account() {
                     {order.items.map((item) => <li key={`${order.id}-${item.productId}-${item.size}-${item.color}`}>{item.qty}x {item.productName} ({item.size}/{item.color})</li>)}
                   </ul>
                   {!['FAILED', 'CANCELLED'].includes(order.status) && (
-                    <ol className="mt-4 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide">
+                    <ol className="mt-4 flex flex-wrap items-center gap-1 text-[10px] font-bold uppercase tracking-wide">
                       {orderSteps.map((step, index) => {
                         const currentStep = orderSteps.indexOf(order.status)
                         const reached = index <= currentStep
@@ -187,7 +187,7 @@ export default function Account() {
                     </ol>
                   )}
                   {order.trackingNumber && (
-                    <p className="mt-3 text-xs font-semibold text-apparel-teal">Tracking: {order.trackingCarrier ? `${order.trackingCarrier} · ` : ''}{order.trackingNumber}</p>
+                    <p className="mt-3 break-all text-xs font-semibold text-apparel-teal">Tracking: {order.trackingCarrier ? `${order.trackingCarrier} · ` : ''}{order.trackingNumber}</p>
                   )}
                   <p className="mt-3 text-sm font-bold text-apparel-cream">R{Number(order.totalAmount).toFixed(2)}</p>
                 </li>

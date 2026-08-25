@@ -70,7 +70,7 @@ export default function PrivacyPolicy() {
       />
       <div className="max-w-2xl">
         <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Kingdom Drip</p>
-        <h1 className="mt-3 font-display text-5xl tracking-wide text-apparel-cream sm:text-6xl">Privacy Policy</h1>
+        <h1 className="mt-3 font-display text-4xl tracking-wide text-apparel-cream sm:text-6xl">Privacy Policy</h1>
         <p className="mt-5 text-sm leading-7 text-apparel-muted">
           Last updated: 21 August 2026. This policy explains how Kingdom Drip handles personal information when you
           browse the store, create an account, or place an order.

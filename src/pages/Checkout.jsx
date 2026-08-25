@@ -100,7 +100,7 @@ export default function Checkout() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-5xl tracking-wide">Checkout</h1>
+      <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Checkout</h1>
 
       {!configured && (
         <div className="mt-6 rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-4 text-sm text-apparel-pinkLight">

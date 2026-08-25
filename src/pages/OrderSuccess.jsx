@@ -52,7 +52,7 @@ export default function OrderSuccess() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
       <span className="font-display text-6xl text-apparel-teal">✓</span>
-      <h1 className="mt-4 font-display text-5xl tracking-wide">Order Confirmed</h1>
+      <h1 className="mt-4 font-display text-4xl tracking-wide sm:text-5xl">Order Confirmed</h1>
       <p className="mt-4 text-apparel-muted">Thank you for supporting Kingdom Drip and Rock Mission outreach.</p>
 
       {orderId && (

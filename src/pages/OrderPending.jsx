@@ -49,7 +49,7 @@ export default function OrderPending() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
       <span className="font-display text-6xl text-apparel-teal">...</span>
-      <h1 className="mt-4 font-display text-5xl tracking-wide">Processing Payment</h1>
+      <h1 className="mt-4 font-display text-4xl tracking-wide sm:text-5xl">Processing Payment</h1>
       <p className="mt-4 text-apparel-muted">
         We are waiting for PayFast to confirm your payment. This usually takes a few seconds.
       </p>
