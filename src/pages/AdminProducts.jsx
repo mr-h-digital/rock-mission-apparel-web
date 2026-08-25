@@ -219,7 +219,7 @@ export default function AdminProducts() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl overflow-x-hidden px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-apparel-teal">Store management</p>
@@ -244,7 +244,7 @@ export default function AdminProducts() {
       {success && <p className="mt-5 rounded-xl border border-apparel-teal/40 bg-apparel-teal/10 p-3 text-sm font-semibold text-apparel-teal">{success}</p>}
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
-        <section className="rounded-2xl border border-apparel-border bg-apparel-panel p-6">
+        <section className="min-w-0 rounded-2xl border border-apparel-border bg-apparel-panel p-6">
           <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="break-all text-xs font-bold uppercase tracking-widest text-apparel-teal">
@@ -284,7 +284,7 @@ export default function AdminProducts() {
             <div className="space-y-3">
               <p className="text-xs font-bold uppercase tracking-widest text-apparel-muted">Product image</p>
               <input name="imageUrl" value={form.imageUrl} onChange={onChange} className="input" placeholder="Paste an image URL or upload a file" />
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-start gap-3">
                 <label className="inline-flex cursor-pointer items-center rounded-full border border-apparel-border px-4 py-2 text-xs font-bold uppercase tracking-widest text-apparel-cream hover:border-apparel-teal">
                   <input type="file" accept="image/*" className="hidden" onChange={onImageSelect} />
                   {uploadingImage ? uploadStatus || 'Uploading...' : 'Upload Image'}
@@ -325,7 +325,7 @@ export default function AdminProducts() {
                   <span>Size</span><span>Colour</span><span>Units</span>
                 </div>
                 {inventoryRows(form).map((item) => (
-                  <div key={`${item.size}-${item.color}`} className="grid grid-cols-2 gap-2 border-t border-apparel-border px-3 py-2 sm:grid-cols-[1fr_1fr_6rem] sm:items-center sm:gap-3">
+                  <div key={`${item.size}-${item.color}`} className="grid grid-cols-1 gap-2 border-t border-apparel-border px-3 py-2 sm:grid-cols-[1fr_1fr_6rem] sm:items-center sm:gap-3">
                     <div>
                       <span className="block text-[10px] font-bold uppercase tracking-widest text-apparel-muted sm:hidden">Size</span>
                       <span className="text-sm text-apparel-cream">{item.size}</span>
@@ -334,7 +334,7 @@ export default function AdminProducts() {
                       <span className="block text-[10px] font-bold uppercase tracking-widest text-apparel-muted sm:hidden">Colour</span>
                       <span className="text-sm text-apparel-muted">{item.color}</span>
                     </div>
-                    <div className="col-span-2 sm:col-span-1">
+                    <div>
                       <span className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-apparel-muted sm:hidden">Units</span>
                       <input
                         type="number"
@@ -367,7 +367,7 @@ export default function AdminProducts() {
           </form>
         </section>
 
-        <section className="rounded-2xl border border-apparel-border bg-apparel-panel p-6">
+        <section className="min-w-0 rounded-2xl border border-apparel-border bg-apparel-panel p-6">
           <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
             <div>
               <h2 className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Existing Products</h2>
@@ -388,15 +388,15 @@ export default function AdminProducts() {
           ) : (
             <ul className="mt-4 space-y-3">
               {filteredProducts.map((product) => (
-                <li key={product.id} className="rounded-xl border border-apparel-border bg-apparel-bg/70 p-3">
-                  <div className="flex gap-3">
+                <li key={product.id} className="min-w-0 rounded-xl border border-apparel-border bg-apparel-bg/70 p-3">
+                  <div className="flex min-w-0 gap-3">
                     <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-apparel-border bg-apparel-panel2">
                       {product.imageUrl ? <img src={product.imageUrl} alt="" className="h-full w-full object-cover" /> : <span className="flex h-full items-center justify-center text-[10px] uppercase text-apparel-muted">No image</span>}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-2">
-                        <p className="truncate text-sm font-semibold text-apparel-cream">{product.name}</p>
-                        <span className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${product.active !== false ? 'bg-apparel-teal/10 text-apparel-teal' : 'bg-apparel-border text-apparel-muted'}`}>{product.active !== false ? 'Live' : 'Hidden'}</span>
+                        <p className="break-words text-sm font-semibold text-apparel-cream">{product.name}</p>
+                        <span className={`shrink-0 self-start rounded-full px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${product.active !== false ? 'bg-apparel-teal/10 text-apparel-teal' : 'bg-apparel-border text-apparel-muted'}`}>{product.active !== false ? 'Live' : 'Hidden'}</span>
                       </div>
                       <p className="mt-1 break-all text-xs text-apparel-muted">{product.id} · {product.category} · R{product.price}</p>
                     </div>
