@@ -219,7 +219,7 @@ export default function AdminProducts() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-7xl overflow-x-hidden px-4 py-16 sm:px-6">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-apparel-teal">Store management</p>
@@ -228,7 +228,7 @@ export default function AdminProducts() {
             Keep your catalogue current, polished and ready for the next drop.
           </p>
         </div>
-        <div className="flex w-full gap-6 border-t border-apparel-border pt-4 text-sm sm:mb-1 sm:w-auto sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
+        <div className="flex w-full flex-wrap gap-6 border-t border-apparel-border pt-4 text-sm sm:mb-1 sm:w-auto sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
           <div>
             <p className="text-2xl font-bold text-apparel-cream">{products.length}</p>
             <p className="text-xs uppercase tracking-widest text-apparel-muted">Products</p>
@@ -245,8 +245,8 @@ export default function AdminProducts() {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
         <section className="rounded-2xl border border-apparel-border bg-apparel-panel p-6">
-          <div className="mb-5 flex items-center justify-between">
-            <div>
+          <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0">
               <p className="break-all text-xs font-bold uppercase tracking-widest text-apparel-teal">
               {editingId ? `Edit Product: ${editingId}` : 'Create Product'}
               </p>
@@ -256,7 +256,7 @@ export default function AdminProducts() {
               <button
                 type="button"
                 onClick={startCreate}
-                className="text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream"
+                className="shrink-0 text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream"
               >
                 + New Product
               </button>
@@ -313,8 +313,8 @@ export default function AdminProducts() {
             </div>
 
             <div>
-              <div className="mb-3 flex items-end justify-between gap-4">
-                <div>
+              <div className="mb-3 flex flex-wrap items-end justify-between gap-4">
+                <div className="min-w-0">
                   <p className="text-xs font-bold uppercase tracking-widest text-apparel-muted">Inventory by variant</p>
                   <p className="mt-1 text-xs text-apparel-muted">Set available units for each size and colour combination.</p>
                 </div>
