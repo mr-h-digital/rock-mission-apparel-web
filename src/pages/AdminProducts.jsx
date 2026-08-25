@@ -244,7 +244,7 @@ export default function AdminProducts() {
       {success && <p className="mt-5 rounded-xl border border-apparel-teal/40 bg-apparel-teal/10 p-3 text-sm font-semibold text-apparel-teal">{success}</p>}
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
-        <section className="min-w-0 rounded-2xl border border-apparel-border bg-apparel-panel p-6">
+        <section className="min-w-0 rounded-2xl border border-apparel-border bg-apparel-panel p-4 sm:p-6">
           <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="break-all text-xs font-bold uppercase tracking-widest text-apparel-teal">
@@ -256,7 +256,7 @@ export default function AdminProducts() {
               <button
                 type="button"
                 onClick={startCreate}
-                className="shrink-0 text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream"
+                className="shrink-0 rounded-full px-3 py-2 text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream"
               >
                 + New Product
               </button>
@@ -285,7 +285,7 @@ export default function AdminProducts() {
               <p className="text-xs font-bold uppercase tracking-widest text-apparel-muted">Product image</p>
               <input name="imageUrl" value={form.imageUrl} onChange={onChange} className="input" placeholder="Paste an image URL or upload a file" />
               <div className="flex flex-wrap items-start gap-3">
-                <label className="inline-flex cursor-pointer items-center rounded-full border border-apparel-border px-4 py-2 text-xs font-bold uppercase tracking-widest text-apparel-cream hover:border-apparel-teal">
+                <label className="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-apparel-border px-4 py-2 text-xs font-bold uppercase tracking-widest text-apparel-cream hover:border-apparel-teal">
                   <input type="file" accept="image/*" className="hidden" onChange={onImageSelect} />
                   {uploadingImage ? uploadStatus || 'Uploading...' : 'Upload Image'}
                 </label>
@@ -293,7 +293,7 @@ export default function AdminProducts() {
                   <button
                     type="button"
                     onClick={() => setForm((prev) => ({ ...prev, imageUrl: '' }))}
-                    className="text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream"
+                    className="rounded-full px-3 py-2 text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream"
                   >
                     Clear image
                   </button>
@@ -367,13 +367,13 @@ export default function AdminProducts() {
           </form>
         </section>
 
-        <section className="min-w-0 rounded-2xl border border-apparel-border bg-apparel-panel p-6">
+        <section className="min-w-0 rounded-2xl border border-apparel-border bg-apparel-panel p-4 sm:p-6">
           <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
             <div>
               <h2 className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Existing Products</h2>
               <p className="mt-1 text-xs text-apparel-muted">{filteredProducts.length} of {products.length} shown</p>
             </div>
-            <button type="button" onClick={loadProducts} className="text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream">Refresh</button>
+            <button type="button" onClick={loadProducts} className="rounded-full px-3 py-2 text-xs font-bold uppercase tracking-widest text-apparel-muted hover:text-apparel-cream">Refresh</button>
           </div>
           <input
             type="search"
@@ -405,14 +405,14 @@ export default function AdminProducts() {
                     <button
                       type="button"
                       onClick={() => startEdit(product)}
-                      className="rounded-full border border-apparel-border px-3 py-1 text-xs font-semibold uppercase tracking-wide text-apparel-cream"
+                      className="rounded-full border border-apparel-border px-3 py-2 text-xs font-semibold uppercase tracking-wide text-apparel-cream"
                     >
                       Edit
                     </button>
                     <button
                       type="button"
                       onClick={() => onDelete(product.id)}
-                      className="rounded-full border border-apparel-pink/60 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-apparel-pink"
+                      className="rounded-full border border-apparel-pink/60 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-apparel-pink"
                     >
                       Delete
                     </button>

@@ -120,7 +120,7 @@ export default function AdminOrders() {
           <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">Orders</h1>
           <p className="mt-3 max-w-2xl text-apparel-muted">Review payments and keep inventory accurate when an order is cancelled.</p>
         </div>
-        <button type="button" onClick={loadOrders} className="self-start rounded-full border border-apparel-border px-4 py-2 text-xs font-bold uppercase tracking-widest text-apparel-cream hover:border-apparel-teal sm:self-auto">Refresh</button>
+          <button type="button" onClick={loadOrders} className="self-start rounded-full border border-apparel-border px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-apparel-cream hover:border-apparel-teal sm:self-auto">Refresh</button>
       </div>
 
       {error && <p className="mt-6 rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-3 text-sm font-semibold text-apparel-pink">{error}</p>}
@@ -153,7 +153,7 @@ export default function AdminOrders() {
                   <div className="flex flex-wrap items-center justify-between gap-3 lg:justify-end">
                     <p className="text-lg font-bold text-apparel-teal">R{order.totalAmount}</p>
                     {(order.status === 'PAID' || order.status === 'PENDING') && (
-                      <button type="button" onClick={() => onCancel(order)} disabled={busyId === order.id} className="rounded-full border border-apparel-pink/60 px-3 py-2 text-xs font-bold uppercase tracking-wider text-apparel-pink hover:bg-apparel-pink/10 disabled:opacity-50">
+                      <button type="button" onClick={() => onCancel(order)} disabled={busyId === order.id} className="w-full rounded-full border border-apparel-pink/60 px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-apparel-pink hover:bg-apparel-pink/10 disabled:opacity-50 sm:w-auto">
                         {busyId === order.id ? 'Updating...' : 'Cancel order'}
                       </button>
                     )}
@@ -182,7 +182,7 @@ export default function AdminOrders() {
                         />
                       </>
                     )}
-                    <button type="button" onClick={() => onUpdateFulfillment(order)} disabled={busyId === order.id} className="w-full rounded-full border border-apparel-teal px-3 py-2 text-xs font-bold uppercase tracking-wider text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:opacity-50 sm:w-auto">
+                    <button type="button" onClick={() => onUpdateFulfillment(order)} disabled={busyId === order.id} className="w-full rounded-full border border-apparel-teal px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-apparel-teal hover:bg-apparel-teal hover:text-apparel-bg disabled:opacity-50 sm:w-auto">
                       {busyId === order.id ? 'Updating...' : order.status === 'PAID' ? 'Start fulfilment' : order.status === 'FULFILLING' ? 'Mark shipped' : 'Mark delivered'}
                     </button>
                   </div>
