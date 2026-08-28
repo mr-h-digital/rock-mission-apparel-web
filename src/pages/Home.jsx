@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/ProductCard.jsx'
 import SeoHead from '../components/SeoHead.jsx'
+import ImpactTracker from '../components/ImpactTracker.jsx'
+import DropCalendar from '../components/DropCalendar.jsx'
+import Testimonials from '../components/Testimonials.jsx'
 import { useProducts } from '../context/ProductsContext.jsx'
 
 export default function Home() {
@@ -33,7 +36,7 @@ export default function Home() {
               className="h-auto w-52 rounded-xl border border-apparel-border/70 bg-apparel-bg/35 p-3.5 shadow-lg shadow-black/35 backdrop-blur-sm sm:w-56 lg:w-60"
               loading="eager"
             />
-            <span className="mt-4 inline-flex w-52 justify-center rounded-full border border-apparel-teal/40 bg-apparel-panel/85 px-4 py-1.5 text-center text-xs font-bold uppercase tracking-widest text-apparel-teal backdrop-blur-sm sm:w-56 lg:w-60">
+            <span className="mt-4 inline-flex w-52 justify-center rounded-full border border-apparel-teal/40 bg-apparel-panel/85 px-4 py-1.5 text-center text-xs font-bold uppercase tracking-widest">
               Cape Town · South Africa
             </span>
             <h1 className="mt-4 font-display text-6xl leading-[0.95] tracking-wide drop-shadow-[0_2px_14px_rgba(0,0,0,0.55)] sm:text-8xl">
@@ -97,6 +100,9 @@ export default function Home() {
         {error && <p className="mt-4 text-sm font-semibold text-apparel-pink">{error}</p>}
       </section>
 
+      {/* NEW: Impact Tracker Section */}
+      <ImpactTracker />
+
       <section className="border-y border-apparel-border bg-apparel-panel">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-2 md:items-center">
           <div>
@@ -137,6 +143,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* NEW: Testimonials Section */}
+      <Testimonials />
+
+      {/* NEW: Drop Calendar Section */}
+      <DropCalendar />
 
       <section className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6">
         <h2 className="font-display text-4xl tracking-wide sm:text-5xl">Ready To Rep The Kingdom?</h2>
