@@ -9,6 +9,7 @@ const AUTH_RESET_PASSWORD_PATH = import.meta.env.VITE_AUTH_RESET_PASSWORD_PATH |
 const AUTH_FORGOT_USERNAME_PATH = import.meta.env.VITE_AUTH_FORGOT_USERNAME_PATH || '/api/auth/forgot-username'
 const ADMIN_PRODUCTS_PATH = import.meta.env.VITE_ADMIN_PRODUCTS_PATH || '/api/admin/products'
 const WISHLIST_PATH = import.meta.env.VITE_WISHLIST_PATH || '/api/wishlist'
+const IMPACT_METRICS_PATH = import.meta.env.VITE_IMPACT_METRICS_PATH || '/api/impact/metrics'
 
 function getErrorMessage(status, fallback, bodyText) {
   if (bodyText) return bodyText
@@ -550,4 +551,24 @@ export async function uploadAdminProductImage(token, file) {
   }
 
   return res.json()
+}
+
+// NEW: Impact Metrics API
+export async function getImpactMetrics() {
+  if (!API_URL) {
+    // Gracefully return null if API not configured - ImpactContext will use defaults
+    return null
+  }
+
+  try {
+    const res = await fetch(`${API_URL}${IMPACT_METRICS_PATH}`, { method: 'GET' })
+    if (!res.ok) {
+      console.warn('Unable to fetch impact metrics:', res.status)
+      return null
+    }
+    return res.json()
+  } catch (err) {
+    console.error('Error fetching impact metrics:', err)
+    return null
+  }
 }
