@@ -6,20 +6,23 @@ import { CartProvider } from './context/CartContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { ProductsProvider } from './context/ProductsContext.jsx'
 import { WishlistProvider } from './context/WishlistContext.jsx'
+import { ImpactProvider } from './context/ImpactContext.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <ProductsProvider>
-          <WishlistProvider>
-            <CartProvider>
-              <App />
-            </CartProvider>
-          </WishlistProvider>
-        </ProductsProvider>
-      </AuthProvider>
+      <ImpactProvider>
+        <AuthProvider>
+          <ProductsProvider>
+            <WishlistProvider>
+              <CartProvider>
+                <App />
+              </CartProvider>
+            </WishlistProvider>
+          </ProductsProvider>
+        </AuthProvider>
+      </ImpactProvider>
     </BrowserRouter>
   </React.StrictMode>,
 )
