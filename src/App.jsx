@@ -19,6 +19,7 @@ import ResetPassword from './pages/ResetPassword.jsx'
 import RecoverUsername from './pages/RecoverUsername.jsx'
 import AdminProducts from './pages/AdminProducts.jsx'
 import AdminOrders from './pages/AdminOrders.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Wishlist from './pages/Wishlist.jsx'
 
@@ -44,6 +45,14 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/recover-username" element={<RecoverUsername />} />
+          <Route
+            path="/admin"
+            element={(
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            )}
+          />
           <Route
             path="/admin/products"
             element={(

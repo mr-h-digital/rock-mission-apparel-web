@@ -53,23 +53,24 @@ export default function Nav() {
     isAuthenticated
       ? { to: '/account', label: 'Account' }
       : { to: '/sign-in', label: 'Sign In' },
-    ...(isAuthenticated ? [{ to: '/admin/products', label: 'Admin' }] : []),
-      ...(isAuthenticated ? [{ to: '/admin/orders', label: 'Orders' }] : []),
+    ...(isAuthenticated ? [{ to: '/admin', label: 'Admin' }] : []),
+    ...(isAuthenticated ? [{ to: '/admin/products', label: 'Products' }] : []),
+    ...(isAuthenticated ? [{ to: '/admin/orders', label: 'Orders' }] : []),
   ]
 
   return (
     <>
       <header className={`sticky top-0 border-b border-apparel-border bg-apparel-bg/90 backdrop-blur ${isMobileMenuOpen ? 'z-[75]' : 'z-40'}`}>
-      <div className="marquee-bar overflow-hidden border-b border-apparel-border bg-apparel-panel/60 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-apparel-teal">
-        <div className="marquee-track">
-          {Array(4).fill(0).map((_, loopIndex) => (
-            tickerItems.map((item, itemIndex) => (
-              <span key={`${loopIndex}-${itemIndex}`} className="mr-12 shrink-0">{item}</span>
-            ))
-          ))}
+        <div className="marquee-bar overflow-hidden border-b border-apparel-border bg-apparel-panel/60 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-apparel-teal">
+          <div className="marquee-track">
+            {Array(4).fill(0).map((_, loopIndex) => (
+              tickerItems.map((item, itemIndex) => (
+                <span key={`${loopIndex}-${itemIndex}`} className="mr-12 shrink-0 whitespace-nowrap">{item}</span>
+              ))
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:gap-4 sm:px-6">
         <Link to="/" className="inline-flex items-center" aria-label="Kingdom Drip Home">
           <img
             src={logoWhiteText}
@@ -78,7 +79,7 @@ export default function Nav() {
             loading="eager"
           />
         </Link>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 lg:gap-8 md:flex">
           <NavLink to="/" end className={linkClass}>Home</NavLink>
           <NavLink to="/shop" className={linkClass}>Shop</NavLink>
           <NavLink to="/wishlist" className={linkClass}>Wishlist</NavLink>
@@ -87,6 +88,7 @@ export default function Nav() {
           ) : (
             <NavLink to="/sign-in" className={linkClass}>Sign In</NavLink>
           )}
+          {isAuthenticated && <NavLink to="/admin" className={linkClass}>Admin</NavLink>}
           {isAuthenticated && <NavLink to="/admin/products" className={linkClass}>Products</NavLink>}
           {isAuthenticated && <NavLink to="/admin/orders" className={linkClass}>Orders</NavLink>}
           <a
@@ -98,7 +100,7 @@ export default function Nav() {
             The Mission
           </a>
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {isAuthenticated && displayName && (
             <p className="hidden text-right text-xs font-semibold uppercase tracking-wide text-apparel-teal lg:block">
               Welcome back, {displayName}
@@ -178,7 +180,7 @@ export default function Nav() {
             </button>
           )}
         </div>
-      </div>
+        </div>
 
       </header>
 

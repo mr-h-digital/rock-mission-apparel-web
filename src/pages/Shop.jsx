@@ -116,7 +116,7 @@ export default function Shop() {
       </div>
       {loading && <p className="mb-6 text-sm text-apparel-muted">Loading products...</p>}
       {error && <p className="mb-6 text-sm font-semibold text-apparel-pink">{error}</p>}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
         {filtered.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}

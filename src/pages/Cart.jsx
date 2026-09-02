@@ -40,7 +40,7 @@ export default function Cart() {
                 Remove
               </button>
             </div>
-            <div className="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-start">
+            <div className="flex w-full min-w-0 items-center justify-between gap-3 sm:w-auto sm:justify-start">
               <div className="flex items-center rounded-lg border border-apparel-border">
                 <button
                   onClick={() => updateQty(item.key, item.qty - 1)}
@@ -58,7 +58,7 @@ export default function Cart() {
                   +
                 </button>
               </div>
-              <span className="text-right font-bold text-apparel-teal sm:w-20">R{item.qty * item.product.price}</span>
+              <span className="min-w-[5rem] text-right font-bold text-apparel-teal sm:w-20">R{item.qty * item.product.price}</span>
             </div>
           </div>
         ))}

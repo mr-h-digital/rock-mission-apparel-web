@@ -20,7 +20,7 @@ export default function Home() {
         image="/brand/kingdom-drip-store-hero-bg.png"
       />
       <section
-        className="hero-stage relative overflow-hidden bg-apparel-bg"
+        className="hero-stage relative overflow-x-clip overflow-y-hidden bg-apparel-bg"
         style={{
           backgroundPosition: 'center',
           backgroundSize: 'cover',
@@ -68,8 +68,8 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="overflow-hidden border-b border-apparel-border bg-apparel-panel py-3">
-        <div className="marquee-track font-display text-2xl tracking-wide text-apparel-cream/40">
+      <div className="overflow-x-clip border-b border-apparel-border bg-apparel-panel py-3">
+        <div className="marquee-track flex-nowrap font-display text-2xl tracking-wide text-apparel-cream/40">
           {Array(4).fill(0).map((_, loopIndex) => (
             identityWords.map((word, wordIndex) => (
               <span key={`${loopIndex}-${wordIndex}`} className="mr-8 shrink-0">
@@ -82,7 +82,7 @@ export default function Home() {
       </div>
 
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <div className="mb-10 flex items-end justify-between">
+        <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="text-xs font-bold uppercase tracking-widest text-apparel-teal">This Week's Drop</span>
             <h2 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">Fresh Fits</h2>
@@ -91,7 +91,7 @@ export default function Home() {
             View All →
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
           {featured.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
@@ -123,7 +123,7 @@ export default function Home() {
               See Our Outreach Projects →
             </a>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-apparel-border bg-apparel-bg p-6">
               <div className="font-display text-5xl text-apparel-teal">100%</div>
               <div className="mt-1 text-sm text-apparel-muted">Of profit funds outreach</div>
