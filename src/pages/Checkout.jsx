@@ -104,8 +104,9 @@ export default function Checkout() {
 
       {!configured && (
         <div className="mt-6 rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-4 text-sm text-apparel-pinkLight">
-          The store backend isn't connected yet, so payment is disabled in this preview. Set{' '}
-          <code className="rounded bg-apparel-bg px-1.5 py-0.5">VITE_API_URL</code> to enable checkout.
+      Checkout is disabled until the live API is configured. Set{' '}
+      <code className="rounded bg-apparel-bg px-1.5 py-0.5">VITE_API_URL</code> and confirm the PayFast
+      onboarding values in <code className="rounded bg-apparel-bg px-1.5 py-0.5">PAYFAST-ONBOARDING-DOCUMENTS.md</code>.
         </div>
       )}
 

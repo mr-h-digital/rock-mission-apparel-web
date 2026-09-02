@@ -102,8 +102,9 @@ server-side in the API (`db/migration/V2__seed_products.sql`) so order totals ar
 See [`PAYFAST-ONBOARDING-DOCUMENTS.md`](PAYFAST-ONBOARDING-DOCUMENTS.md) for the PayFast document checklist and
 submission notes.
 
-1. A live PayFast **merchant account** for Rock Mission Ministries (merchant ID + key + passphrase), configured on
-   the API.
+1. A live PayFast **merchant account** for Rock Mission Ministries. The onboarding email shows Merchant ID
+   `36646031` and Merchant Key `v9i18xviwsobf`; the passphrase still needs to be created in the PayFast dashboard
+   under Developer Settings and configured on the API.
 2. A **Printful** (or similar print-on-demand) account with the actual garment designs uploaded, so orders can be
    auto-submitted for fulfillment. See the API README for details.
 3. Real product photography/artwork — the storefront currently ships with bold typographic placeholder art
