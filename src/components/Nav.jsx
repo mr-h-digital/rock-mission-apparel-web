@@ -56,6 +56,7 @@ export default function Nav() {
     ...(isAuthenticated ? [{ to: '/admin', label: 'Admin' }] : []),
     ...(isAuthenticated ? [{ to: '/admin/products', label: 'Products' }] : []),
     ...(isAuthenticated ? [{ to: '/admin/orders', label: 'Orders' }] : []),
+    ...(isAuthenticated ? [{ to: '/admin/printful', label: 'Printful' }] : []),
   ]
 
   return (
@@ -91,6 +92,7 @@ export default function Nav() {
           {isAuthenticated && <NavLink to="/admin" className={linkClass}>Admin</NavLink>}
           {isAuthenticated && <NavLink to="/admin/products" className={linkClass}>Products</NavLink>}
           {isAuthenticated && <NavLink to="/admin/orders" className={linkClass}>Orders</NavLink>}
+          {isAuthenticated && <NavLink to="/admin/printful" className={linkClass}>Printful</NavLink>}
           <a
             href="https://rockmission.co.za"
             target="_blank"
