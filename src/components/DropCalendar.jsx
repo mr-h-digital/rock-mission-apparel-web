@@ -144,13 +144,13 @@ export default function DropCalendar() {
           <p className="mt-2 text-apparel-muted">
             Get SMS + email alerts when new Kingdom Drip gear hits the store.
           </p>
-          <div className="mt-6 flex gap-2 max-w-md mx-auto">
+          <div className="mx-auto mt-6 flex max-w-md flex-col gap-2 sm:flex-row">
             <input
               type="email"
               placeholder="Your email"
-              className="flex-1 rounded-full bg-apparel-panel px-4 py-3 text-sm text-apparel-cream placeholder-apparel-muted/50 focus:outline-none focus:ring-2 focus:ring-apparel-teal"
+              className="w-full flex-1 rounded-full bg-apparel-panel px-4 py-3 text-sm text-apparel-cream placeholder-apparel-muted/50 focus:outline-none focus:ring-2 focus:ring-apparel-teal"
             />
-            <button className="rounded-full bg-grad-drop px-6 py-3 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105">
+            <button className="w-full rounded-full bg-grad-drop px-6 py-3 text-sm font-bold uppercase tracking-widest text-apparel-bg transition-transform hover:scale-105 sm:w-auto">
               Notify
             </button>
           </div>

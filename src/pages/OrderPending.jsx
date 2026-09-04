@@ -9,6 +9,9 @@ export default function OrderPending() {
   const navigate = useNavigate()
   const [status, setStatus] = useState('PENDING')
   const [error, setError] = useState('')
+  const statusCopy = status === 'PAID'
+    ? 'Payment confirmed. Redirecting you now.'
+    : 'We are still waiting for confirmation from PayFast.'
 
   const orderId = useMemo(() => (
     searchParams.get('orderId') || sessionStorage.getItem(LAST_ORDER_ID_KEY) || ''
@@ -47,15 +50,15 @@ export default function OrderPending() {
   }, [navigate, orderId])
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
+    <div className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6 overflow-x-clip">
       <span className="font-display text-6xl text-apparel-teal">...</span>
       <h1 className="mt-4 font-display text-4xl tracking-wide sm:text-5xl">Processing Payment</h1>
       <p className="mt-4 text-apparel-muted">
-        We are waiting for PayFast to confirm your payment. This usually takes a few seconds.
+        {statusCopy} This usually takes a few seconds.
       </p>
 
       {orderId && (
-        <p className="mt-4 rounded-xl border border-apparel-border bg-apparel-panel px-4 py-3 text-sm text-apparel-cream">
+        <p className="mt-4 break-words rounded-xl border border-apparel-border bg-apparel-panel px-4 py-3 text-sm text-apparel-cream">
           Order reference: <span className="font-semibold text-apparel-teal">{orderId}</span>
         </p>
       )}
@@ -65,6 +68,11 @@ export default function OrderPending() {
       </p>
 
       {error && <p className="mt-3 text-sm font-semibold text-apparel-pink">{error}</p>}
+
+      <div className="mt-6 rounded-2xl border border-apparel-border bg-apparel-panel p-5 text-left break-words text-sm text-apparel-muted">
+        <p className="font-semibold uppercase tracking-wide text-apparel-teal">While you wait</p>
+        <p className="mt-3">Keep this page open until payment confirms, or return to your account for order history.</p>
+      </div>
 
       <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         <Link

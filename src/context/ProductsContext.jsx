@@ -44,14 +44,23 @@ export function ProductsProvider({ children }) {
     const unique = new Set(products.map((p) => p.category).filter(Boolean))
     return Array.from(unique).sort((a, b) => a.localeCompare(b))
   }, [products])
+  const productCountsByCategory = useMemo(() => {
+    const counts = {}
+    products.forEach((product) => {
+      if (!product.category) return
+      counts[product.category] = (counts[product.category] || 0) + 1
+    })
+    return counts
+  }, [products])
 
   const value = useMemo(() => ({
     products,
     categories,
+    productCountsByCategory,
     loading,
     error,
     refreshProducts,
-  }), [products, categories, loading, error, refreshProducts])
+  }), [products, categories, productCountsByCategory, loading, error, refreshProducts])
 
   return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>
 }

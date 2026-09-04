@@ -162,7 +162,7 @@ npm run dev
    ```bash
    VITE_API_URL=http://localhost:8080
    # or
-   VITE_API_URL=https://store-api.rockmission.co.za
+   VITE_API_URL=https://kingdomdrip-api.rockmission.co.za
    ```
 
 2. Restart dev server:
@@ -238,7 +238,7 @@ Before merging Phase 1 to `main`:
 
 **Fix:**
 1. Check `VITE_API_URL` in frontend `.env.local`
-2. Test API directly: `curl https://store-api.rockmission.co.za/api/impact/metrics`
+2. Test API directly: `curl https://kingdomdrip-api.rockmission.co.za/api/impact/metrics`
 3. Check browser console for network errors
 
 ### Counters Don't Animate
@@ -262,19 +262,18 @@ Before merging Phase 1 to `main`:
 
 Ensure the `orders` table has these fields:
 
-```sql
+```text
 CREATE TABLE orders (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id BIGSERIAL PRIMARY KEY,
   customer_id BIGINT,
   total_amount INT, -- in cents (e.g., 16490 = 164.90 ZAR)
   status VARCHAR(20), -- 'PENDING', 'PAID', 'FAILED', 'CANCELLED'
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  paid_at TIMESTAMP,
-  -- ... other fields
-  
-  INDEX idx_status_created (status, created_at),
-  INDEX idx_paid_at (paid_at)
+  paid_at TIMESTAMP
 );
+
+CREATE INDEX idx_status_created ON orders (status, created_at);
+CREATE INDEX idx_paid_at ON orders (paid_at);
 ```
 
 ---

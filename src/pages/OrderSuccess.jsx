@@ -13,6 +13,13 @@ export default function OrderSuccess() {
   const navigate = useNavigate()
   const [status, setStatus] = useState('')
   const [statusError, setStatusError] = useState('')
+  const statusMessage = status === 'PAID'
+    ? 'Payment received. We are preparing your order for fulfillment.'
+    : status === 'FULFILLING'
+      ? 'Your order is being packed and prepared for dispatch.'
+      : status === 'SHIPPED'
+        ? 'Your order has been handed over to the courier.'
+        : 'We will keep tracking your order until it is confirmed.'
 
   const orderId = useMemo(() => (
     searchParams.get('orderId') || sessionStorage.getItem(LAST_ORDER_ID_KEY) || ''
@@ -50,13 +57,16 @@ export default function OrderSuccess() {
   }, [navigate, orderId])
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
+    <div className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6 overflow-x-clip">
       <span className="font-display text-6xl text-apparel-teal">✓</span>
       <h1 className="mt-4 font-display text-4xl tracking-wide sm:text-5xl">Order Confirmed</h1>
       <p className="mt-4 text-apparel-muted">Thank you for supporting Kingdom Drip and Rock Mission outreach.</p>
+      <p className="mt-3 break-words rounded-2xl border border-apparel-teal/30 bg-apparel-teal/10 px-4 py-3 text-sm text-apparel-cream">
+        {statusMessage}
+      </p>
 
       {orderId && (
-        <p className="mt-4 rounded-xl border border-apparel-border bg-apparel-panel px-4 py-3 text-sm text-apparel-cream">
+        <p className="mt-4 break-words rounded-xl border border-apparel-border bg-apparel-panel px-4 py-3 text-sm text-apparel-cream">
           Order reference: <span className="font-semibold text-apparel-teal">{orderId}</span>
         </p>
       )}
@@ -69,11 +79,26 @@ export default function OrderSuccess() {
 
       {statusError && <p className="mt-3 text-sm font-semibold text-apparel-pink">{statusError}</p>}
 
-      <div className="mt-6 rounded-2xl border border-apparel-border bg-apparel-panel p-5 text-left text-sm text-apparel-muted">
+      <div className="mt-6 rounded-2xl border border-apparel-border bg-apparel-panel p-5 text-left break-words text-sm text-apparel-muted">
         <p className="font-semibold uppercase tracking-wide text-apparel-teal">What happens next</p>
         <p className="mt-3">1. We verify payment confirmation from PayFast.</p>
         <p className="mt-1">2. Your order is prepared for fulfillment.</p>
         <p className="mt-1">3. You will receive updates on the email used at checkout.</p>
+      </div>
+
+      <div className="mt-6 grid gap-3 text-left sm:grid-cols-2">
+        <Link
+          to="/account"
+          className="rounded-2xl border border-apparel-border bg-apparel-panel p-4 text-sm font-semibold text-apparel-cream hover:border-apparel-teal"
+        >
+          Track this order in your account
+        </Link>
+        <Link
+          to="/shop"
+          className="rounded-2xl border border-apparel-border bg-apparel-panel p-4 text-sm font-semibold text-apparel-cream hover:border-apparel-teal"
+        >
+          Keep shopping the latest drop
+        </Link>
       </div>
 
       <Link

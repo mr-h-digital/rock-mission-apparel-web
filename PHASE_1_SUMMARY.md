@@ -147,7 +147,7 @@ All components follow Kingdom Drip's Gen Z aesthetic:
    # In .env.local
    VITE_API_URL=http://localhost:8080
    # or
-   VITE_API_URL=https://store-api.rockmission.co.za
+   VITE_API_URL=https://kingdomdrip-api.rockmission.co.za
    
    npm run dev
    ```

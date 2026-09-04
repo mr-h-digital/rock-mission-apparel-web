@@ -75,8 +75,8 @@ The storefront can be hosted as static files on Afrihost cPanel while the Spring
 The repository includes `.cpanel.yml` and `public/.htaccess`. Before deploying:
 
 1. Replace `CPANEL_USERNAME` in `.cpanel.yml` with the cPanel account username shown in Afrihost File Manager.
-2. Set the `VITE_API_URL` value in `.cpanel.yml` to `https://store-api.rockmission.co.za`, the Railway custom domain
-   configured for the API.
+2. Set the `VITE_API_URL` value in `.cpanel.yml` to `https://kingdomdrip-api.rockmission.co.za`, the Railway custom
+   domain configured for the API.
 3. Ensure Node.js/npm is enabled for the cPanel account. The deployment task runs `npm ci`, builds the Vite app, and
    copies `dist` into `public_html`.
 4. Add the storefront domain or subdomain to the cPanel repository's deployment path if it is not the primary domain.
@@ -110,3 +110,11 @@ submission notes.
 3. Real product photography/artwork — the storefront currently ships with bold typographic placeholder art
    (gradient cards with the product's tagline) instead of photos, so it looks complete without needing assets yet.
 4. DNS for the storefront subdomain once you're ready to go live.
+
+## Go-live checklist
+
+- Set `VITE_API_URL` to the production API origin.
+- Set `FRONTEND_URL`, `PAYFAST_RETURN_URL`, `PAYFAST_CANCEL_URL`, and `PAYFAST_NOTIFY_URL` on the API.
+- Add `ADMIN_EMAILS` on Railway for admin-only access.
+- Confirm `PRINTFUL_ENABLED` and `BREVO_ENABLED` stay off until their live credentials are configured.
+- Verify the storefront domain and API domain resolve correctly before toggling sandbox off.

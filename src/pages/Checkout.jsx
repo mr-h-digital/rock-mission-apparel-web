@@ -30,6 +30,7 @@ export default function Checkout() {
   const [error, setError] = useState(null)
   const [termsAccepted, setTermsAccepted] = useState(false)
   const formRef = useRef(null)
+  const estimatedDeliveryDays = '2-5 business days after dispatch'
 
   useEffect(() => {
     if (!user) return
@@ -99,8 +100,14 @@ export default function Checkout() {
   const configured = isCheckoutConfigured()
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 py-16 pb-28 sm:px-6 md:pb-16">
       <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Checkout</h1>
+      <p className="mt-3 max-w-2xl text-sm text-apparel-muted">
+        Fast checkout, secure payment, and delivery details that can be reused from your account.
+      </p>
+      <p className="mt-3 max-w-2xl text-sm text-apparel-muted">
+        Fast checkout, secure payment, and delivery details that can be reused from your account.
+      </p>
 
       {!configured && (
         <div className="mt-6 rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-4 text-sm text-apparel-pinkLight">
@@ -170,6 +177,18 @@ export default function Checkout() {
             You will be redirected to PayFast to complete payment securely. We will then confirm your payment
             status and finalize your order reference back on Kingdom Drip.
           </p>
+          <div className="mt-4 grid gap-3 rounded-xl border border-apparel-border bg-apparel-bg/60 p-3 text-xs leading-relaxed text-apparel-muted sm:grid-cols-2">
+            <div>
+              <p className="font-semibold uppercase tracking-widest text-apparel-teal">Delivery estimate</p>
+              <p className="mt-1">{estimatedDeliveryDays}</p>
+            </div>
+            <div>
+              <p className="font-semibold uppercase tracking-widest text-apparel-teal">Need to adjust your cart?</p>
+              <a href="/cart" className="mt-1 inline-block font-semibold text-apparel-teal hover:underline">
+                Go back to cart
+              </a>
+            </div>
+          </div>
           <label className="mt-5 flex items-start gap-3 text-xs leading-relaxed text-apparel-muted">
             <input
               type="checkbox"
@@ -195,6 +214,19 @@ export default function Checkout() {
           <p className="mt-3 text-center text-xs text-apparel-muted">Secure payment via PayFast. ZAR only.</p>
         </div>
       </form>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-apparel-border bg-apparel-bg/95 p-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md md:hidden">
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-apparel-muted">Total</p>
+            <p className="text-lg font-bold text-apparel-teal">R{subtotal}</p>
+          </div>
+          <div className="text-right text-[11px] uppercase tracking-widest text-apparel-muted">
+            <p>Delivery included</p>
+            <p>PayFast secure</p>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

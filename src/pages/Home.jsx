@@ -122,6 +122,14 @@ export default function Home() {
             >
               See Our Outreach Projects →
             </a>
+            <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
+              <Link to="/shop" className="text-apparel-pink hover:underline">
+                Browse the latest drop
+              </Link>
+              <Link to="/cart" className="text-apparel-teal hover:underline">
+                Review your cart
+              </Link>
+            </div>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-apparel-border bg-apparel-bg p-6">

@@ -20,6 +20,13 @@ export default function ProductCard({ product }) {
     : null
   const soldOut = inventoryTracked && availableQuantity === 0
   const lowStock = inventoryTracked && availableQuantity > 0 && availableQuantity <= 5
+  const stockLabel = soldOut
+    ? 'Sold out'
+    : lowStock
+      ? `${availableQuantity} left`
+      : inventoryTracked
+        ? 'In stock'
+        : ''
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-apparel-border bg-apparel-panel transition-transform hover:-translate-y-1">
@@ -66,11 +73,17 @@ export default function ProductCard({ product }) {
             Low stock
           </span>
         )}
+        {!soldOut && !lowStock && inventoryTracked && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-apparel-bg/80 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-apparel-teal">
+            In stock
+          </span>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-4">
         <h3 className="text-sm font-semibold leading-snug text-apparel-cream group-hover:text-apparel-teal">
           {product.name}
         </h3>
+        {stockLabel && <p className="text-xs font-semibold uppercase tracking-widest text-apparel-muted">{stockLabel}</p>}
         <span className="mt-auto text-base font-bold text-apparel-teal">R{product.price}</span>
       </div>
       </Link>

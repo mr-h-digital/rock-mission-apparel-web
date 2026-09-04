@@ -1,4 +1,4 @@
-export default function CategoryChips({ categories, active, onChange }) {
+export default function CategoryChips({ categories, active, onChange, counts = {} }) {
   return (
     <div className="flex flex-wrap gap-2">
       <button
@@ -22,6 +22,7 @@ export default function CategoryChips({ categories, active, onChange }) {
           }`}
         >
           {c}
+          {typeof counts[c] === 'number' ? ` (${counts[c]})` : ''}
         </button>
       ))}
     </div>

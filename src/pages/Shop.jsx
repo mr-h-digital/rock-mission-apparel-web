@@ -6,7 +6,7 @@ import SeoHead from '../components/SeoHead.jsx'
 import { useProducts } from '../context/ProductsContext.jsx'
 
 export default function Shop() {
-  const { products, categories, loading, error } = useProducts()
+  const { products, categories, productCountsByCategory, loading, error } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
   const active = searchParams.get('category')
   const query = searchParams.get('q') || ''
@@ -42,6 +42,7 @@ export default function Shop() {
       return 0
     })
   }, [active, color, inStockOnly, products, query, size, sort])
+  const resultCountLabel = `${filtered.length} ${filtered.length === 1 ? 'piece' : 'pieces'}`
 
   function updateFilter(key, value) {
     setSearchParams((current) => {
@@ -69,7 +70,21 @@ export default function Shop() {
         <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-6xl">Shop</h1>
       </div>
       <div className="mb-8">
-        <CategoryChips categories={categories} active={active} onChange={(category) => updateFilter('category', category)} />
+        <CategoryChips
+          categories={categories}
+          counts={productCountsByCategory}
+          active={active}
+          onChange={(category) => updateFilter('category', category)}
+        />
+      </div>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-apparel-border bg-apparel-panel px-4 py-3 text-sm">
+        <p className="text-apparel-muted">
+          Showing <span className="font-semibold text-apparel-cream">{resultCountLabel}</span>
+          {active ? ` in ${active}` : ''}{query ? ` for “${query}”` : ''}.
+        </p>
+        <p className="text-xs uppercase tracking-widest text-apparel-teal">
+          Sort: {sort === 'featured' ? 'Featured' : sort === 'price-asc' ? 'Price low to high' : sort === 'price-desc' ? 'Price high to low' : 'Name A to Z'}
+        </p>
       </div>
       <div className="mb-8 grid gap-3 border-y border-apparel-border py-5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_auto]">
         <input
@@ -112,7 +127,7 @@ export default function Shop() {
         </button>
       </div>
       <div className="mb-5 flex items-center justify-between gap-4">
-        <p className="text-sm text-apparel-muted">{filtered.length} {filtered.length === 1 ? 'piece' : 'pieces'} found</p>
+        <p className="text-sm text-apparel-muted">{resultCountLabel} found</p>
       </div>
       {loading && <p className="mb-6 text-sm text-apparel-muted">Loading products...</p>}
       {error && <p className="mb-6 text-sm font-semibold text-apparel-pink">{error}</p>}

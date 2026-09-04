@@ -33,7 +33,7 @@ export default function ProductDetail() {
   const { products } = useProducts()
   const catalogProducts = products.length > 0 ? products : PRODUCTS
   const product = products.find((p) => p.id === id) || getProductById(id)
-  const { addItem } = useCart()
+  const { addItem, itemCount, subtotal } = useCart()
   const { isWishlisted, toggleItem } = useWishlist()
 
   const [size, setSize] = useState(product?.sizes[0] ?? '')
@@ -57,6 +57,13 @@ export default function ProductDetail() {
   const inventoryTracked = Array.isArray(product?.inventory) && product.inventory.length > 0
   const availableQuantity = inventoryTracked ? (selectedInventory?.available ?? 0) : null
   const soldOut = inventoryTracked && availableQuantity < 1
+  const stockSummary = inventoryTracked
+    ? soldOut
+      ? 'Sold out for this size and colour.'
+      : availableQuantity <= 5
+        ? `Only ${availableQuantity} left in this variant.`
+        : 'In stock and ready to ship.'
+    : ''
   const saved = product ? isWishlisted(product.id) : false
 
   useEffect(() => {
@@ -148,9 +155,11 @@ export default function ProductDetail() {
   }
 
   const showImage = Boolean(product.imageUrl) && !imageFailed
+  const freeShippingThreshold = 850
+  const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal)
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 py-12 pb-28 sm:px-6 md:pb-12">
       <SeoHead
         title={productTitle}
         description={productDescription}
@@ -186,7 +195,7 @@ export default function ProductDetail() {
           <p className="mt-4 text-apparel-muted">{product.blurb}</p>
           {inventoryTracked && (
             <p className={`mt-4 text-sm font-semibold ${soldOut ? 'text-apparel-pink' : 'text-apparel-teal'}`}>
-              {soldOut ? 'Sold out for this size and colour.' : availableQuantity <= 5 ? `Only ${availableQuantity} left in this variant.` : 'In stock'}
+              {stockSummary}
             </p>
           )}
 
@@ -216,6 +225,14 @@ export default function ProductDetail() {
               )}
               {notificationError && <p className="mt-2 text-sm font-semibold text-apparel-pink">{notificationError}</p>}
             </form>
+          )}
+          {!soldOut && inventoryTracked && (
+            <div className="mt-5 rounded-2xl border border-apparel-teal/30 bg-apparel-teal/10 p-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Back-in-stock alerts</p>
+              <p className="mt-2 text-sm text-apparel-cream/90">
+                If your size sells out later, we can notify you as soon as it is restocked.
+              </p>
+            </div>
           )}
 
           <div className="mt-8">
@@ -318,6 +335,52 @@ export default function ProductDetail() {
                 <path d="M20.8 4.9a5.5 5.5 0 0 0-7.8 0L12 6l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.3a5.5 5.5 0 0 0 0-7.8Z" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               {saved ? 'Saved' : 'Save'}
+            </button>
+          </div>
+
+          <div className="mt-8 grid gap-3 rounded-2xl border border-apparel-border bg-apparel-panel p-4 sm:grid-cols-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Fast dispatch</p>
+              <p className="mt-1 text-sm text-apparel-muted">Orders packed with care and shipped quickly.</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Secure checkout</p>
+              <p className="mt-1 text-sm text-apparel-muted">Trusted payment flow for a smooth purchase.</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Faith-driven brand</p>
+              <p className="mt-1 text-sm text-apparel-muted">Every purchase supports Rock Mission Ministries outreach.</p>
+            </div>
+          </div>
+          <p className="mt-4 text-sm text-apparel-muted">
+            {remainingForFreeShipping > 0
+              ? `Add R${remainingForFreeShipping.toFixed(2)} more to unlock free shipping.`
+              : 'Free shipping unlocked on your current cart.'}
+          </p>
+        </div>
+      </div>
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-apparel-border bg-apparel-bg/95 p-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md md:hidden">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-apparel-muted">{itemCount > 0 ? `Cart · ${itemCount}` : 'Total'}</p>
+            <p className="text-lg font-bold text-apparel-teal">R{(product.price * qty).toLocaleString('en-ZA')}</p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              disabled={soldOut}
+              className="rounded-full border border-apparel-teal px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-apparel-teal disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              disabled={soldOut}
+              className="rounded-full bg-grad-drop px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-apparel-bg disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Checkout
             </button>
           </div>
         </div>

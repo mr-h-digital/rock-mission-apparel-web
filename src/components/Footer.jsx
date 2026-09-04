@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="border-t border-apparel-border bg-apparel-panel">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-2">
+          <div className="min-w-0 md:col-span-2">
             <img src={logoWhiteText} alt="Kingdom Drip" className="h-10 w-auto" loading="lazy" />
             <p className="mt-3 max-w-sm text-sm text-apparel-muted">
               Bold, faith-based streetwear built for a generation unashamed of the Gospel. Kingdom Drip is run by
@@ -13,7 +13,7 @@ export default function Footer() {
               Cape Town.
             </p>
           </div>
-          <div>
+          <div className="min-w-0">
             <h4 className="text-xs font-bold uppercase tracking-widest text-apparel-teal">Shop</h4>
             <ul className="mt-3 space-y-2 text-sm text-apparel-muted">
               <li><a href="/shop" className="hover:text-apparel-cream">All Products</a></li>
@@ -25,7 +25,7 @@ export default function Footer() {
               <li><a href="/terms" className="hover:text-apparel-cream">Terms &amp; Policies</a></li>
             </ul>
           </div>
-          <div>
+          <div className="min-w-0">
             <h4 className="text-xs font-bold uppercase tracking-widest text-apparel-teal">The Ministry</h4>
             <ul className="mt-3 space-y-2 text-sm text-apparel-muted">
               <li><a href="https://rockmission.co.za" className="hover:text-apparel-cream">About Rock Mission</a></li>

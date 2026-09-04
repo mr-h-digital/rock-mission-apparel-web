@@ -16,7 +16,7 @@ Use this checklist to finish Kingdom Drip's PayFast setup.
    - `PAYFAST_PASSPHRASE=<your passphrase>`
    - `PAYFAST_SANDBOX=false`
 3. Deploy the API publicly and set:
-   - `PAYFAST_NOTIFY_URL=https://store-api.rockmission.co.za/api/payfast/notify`
+   - `PAYFAST_NOTIFY_URL=https://kingdomdrip-api.rockmission.co.za/api/payfast/notify`
 4. Set the storefront return/cancel URLs in PayFast to match the deployed frontend:
    - Return URL: `https://shop.rockmission.co.za/order/success`
    - Cancel URL: `https://shop.rockmission.co.za/order/cancel`

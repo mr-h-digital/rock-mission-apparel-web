@@ -100,7 +100,7 @@ export default function Nav() {
             The Mission
           </a>
         </nav>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex shrink-0 items-center gap-2">
           {isAuthenticated && displayName && (
             <p className="hidden text-right text-xs font-semibold uppercase tracking-wide text-apparel-teal lg:block">
               Welcome back, {displayName}
@@ -195,7 +195,7 @@ export default function Nav() {
           }`}
         />
         <div
-          className={`relative flex h-full w-full flex-col overflow-y-auto px-6 pb-8 pt-32 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`relative flex h-full w-full max-w-full flex-col overflow-y-auto px-6 pb-8 pt-32 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           }`}
           onClick={(event) => event.stopPropagation()}
@@ -246,7 +246,7 @@ export default function Nav() {
             <button
               type="button"
               onClick={handleSignOut}
-              className="inline-flex w-full items-center justify-center rounded-full border border-apparel-border bg-apparel-panel px-4 py-3 text-sm font-semibold uppercase tracking-wide text-apparel-cream"
+              className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-apparel-border bg-apparel-panel px-4 py-3 text-sm font-semibold uppercase tracking-wide text-apparel-cream"
             >
               Sign Out
             </button>

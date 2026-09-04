@@ -20,14 +20,15 @@ import RecoverUsername from './pages/RecoverUsername.jsx'
 import AdminProducts from './pages/AdminProducts.jsx'
 import AdminOrders from './pages/AdminOrders.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
+import AdminPrintful from './pages/AdminPrintful.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Wishlist from './pages/Wishlist.jsx'
 
 export default function App() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-clip">
       <Nav />
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-clip">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
@@ -61,14 +62,22 @@ export default function App() {
               </ProtectedRoute>
             )}
           />
-            <Route
-              path="/admin/orders"
-              element={(
-                <ProtectedRoute>
-                  <AdminOrders />
-                </ProtectedRoute>
-              )}
-            />
+          <Route
+            path="/admin/orders"
+            element={(
+              <ProtectedRoute>
+                <AdminOrders />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/admin/printful"
+            element={(
+              <ProtectedRoute>
+                <AdminPrintful />
+              </ProtectedRoute>
+            )}
+          />
           <Route
             path="/account"
             element={(

@@ -55,7 +55,7 @@ const sections = [
 
 export default function PrivacyPolicy() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:py-24">
+    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:py-24 overflow-x-clip">
       <SeoHead
         title="Privacy Policy — Kingdom Drip"
         description="Read how Kingdom Drip handles account, order, delivery and payment information for the online store."
@@ -81,14 +81,14 @@ export default function PrivacyPolicy() {
         {sections.map((section) => (
           <section key={section.title} className="border-t border-apparel-border pt-7">
             <h2 className="text-xl font-bold text-apparel-cream">{section.title}</h2>
-            <div className="mt-4 space-y-4 text-sm leading-7 text-apparel-muted">
+            <div className="mt-4 space-y-4 break-words text-sm leading-7 text-apparel-muted">
               {section.content.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
           </section>
         ))}
       </div>
 
-      <p className="mt-12 border-t border-apparel-border pt-6 text-sm text-apparel-muted">
+      <p className="mt-12 break-words border-t border-apparel-border pt-6 text-sm text-apparel-muted">
         <Link to="/terms" className="font-semibold text-apparel-teal hover:underline">Read our Terms &amp; Policies</Link>
       </p>
     </div>

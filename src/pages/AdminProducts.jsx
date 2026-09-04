@@ -71,6 +71,9 @@ export default function AdminProducts() {
   const [uploadStatus, setUploadStatus] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [form, setForm] = useState(emptyForm)
+  const requiredVariantCount = csvToArray(form.sizes).length * csvToArray(form.colors).length
+  const inventoryCount = inventoryRows(form).length
+  const missingVariantCount = Math.max(0, requiredVariantCount - inventoryCount)
 
   async function loadProducts() {
     if (!token) return
@@ -164,6 +167,10 @@ export default function AdminProducts() {
 
   async function onSubmit(e) {
     e.preventDefault()
+    if (form.active && missingVariantCount > 0) {
+      setError('Active products must include inventory for every size and colour combination before saving.')
+      return
+    }
     setSaving(true)
     setError('')
     setSuccess('')
@@ -226,6 +233,10 @@ export default function AdminProducts() {
           <h1 className="mt-2 font-display text-4xl tracking-wide sm:text-5xl">Admin Products</h1>
           <p className="mt-3 max-w-2xl text-apparel-muted">
             Keep your catalogue current, polished and ready for the next drop.
+          </p>
+          <p className="mt-2 max-w-2xl text-xs leading-relaxed text-apparel-muted">
+            For active products, every size and colour combination must have inventory before the product can be saved.
+            This keeps Printful fulfillment ready when you switch it on.
           </p>
         </div>
         <div className="flex w-full flex-wrap gap-6 border-t border-apparel-border pt-4 text-sm sm:mb-1 sm:w-auto sm:border-l sm:border-t-0 sm:pl-5 sm:pt-0">
@@ -318,8 +329,15 @@ export default function AdminProducts() {
                   <p className="text-xs font-bold uppercase tracking-widest text-apparel-muted">Inventory by variant</p>
                   <p className="mt-1 text-xs text-apparel-muted">Set available units for each size and colour combination.</p>
                 </div>
-                <span className="shrink-0 text-xs font-semibold text-apparel-teal">{inventoryRows(form).length} variants</span>
+                <span className={`shrink-0 text-xs font-semibold ${inventoryCount === requiredVariantCount ? 'text-apparel-teal' : 'text-apparel-pink'}`}>
+                  {inventoryCount}/{requiredVariantCount} variants
+                </span>
               </div>
+              {form.active && missingVariantCount > 0 && (
+                <p className="mb-3 rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-3 text-xs font-semibold text-apparel-pink">
+                  Add the remaining {missingVariantCount} size and colour combination{missingVariantCount === 1 ? '' : 's'} before publishing this product.
+                </p>
+              )}
               <div className="overflow-hidden rounded-xl border border-apparel-border">
                 <div className="hidden gap-3 bg-apparel-bg/70 px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-apparel-muted sm:grid sm:grid-cols-[1fr_1fr_6rem]">
                   <span>Size</span><span>Colour</span><span>Units</span>

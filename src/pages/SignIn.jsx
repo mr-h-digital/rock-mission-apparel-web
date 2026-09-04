@@ -44,14 +44,14 @@ export default function SignIn() {
   }
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-xl px-4 py-16 sm:px-6 overflow-x-clip">
       <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Sign In</h1>
       <p className="mt-3 text-apparel-muted">
         Welcome back. Sign in to manage your profile and future order history.
       </p>
 
       {!configured && (
-        <div className="mt-6 rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-4 text-sm text-apparel-pinkLight">
+        <div className="mt-6 break-words rounded-xl border border-apparel-pink/40 bg-apparel-pink/10 p-4 text-sm text-apparel-pinkLight">
           Auth is not connected to the store backend yet. Set{' '}
           <code className="rounded bg-apparel-bg px-1.5 py-0.5">VITE_API_URL</code> to enable sign in.
         </div>
